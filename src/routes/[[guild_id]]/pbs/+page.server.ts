@@ -6,14 +6,16 @@ import {
 	getUsersById,
 	resolveGuild
 } from '$lib/api/client';
+import { getDiscordNamesMap } from '$lib/server/discord';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const guildId = resolveGuild(params);
 
-	const [bosses, categories, guild] = await Promise.all([
+	const [bosses, categories, guild, discordNames] = await Promise.all([
 		getBosses(fetch),
 		getCategories(fetch),
-		getGuildTimes(fetch, guildId)
+		getGuildTimes(fetch, guildId),
+		getDiscordNamesMap(guildId)
 	]);
 
 	const categoryMap = new Map(categories.map((c) => [c.name, c]));
@@ -37,7 +39,11 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 					.filter((t) => t.run_id === pb.run_id)
 					.map((t) => {
 						const u = userMap.get(t.user_id);
-						return u ? { rsn: u.rsn, points: u.points } : { rsn: t.user_id };
+						return {
+							rsn: u ? u.rsn : t.user_id,
+							display: discordNames.get(t.user_id),
+							points: u?.points
+						};
 					})
 			: [];
 		const cat = categoryMap.get(b.category);

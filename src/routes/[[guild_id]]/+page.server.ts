@@ -6,19 +6,26 @@ import {
 	getBosses,
 	resolveGuild
 } from '$lib/api/client';
+import { getDiscordNamesMap } from '$lib/server/discord';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const guildId = resolveGuild(params);
 
-	const [leaderboard, guild, bosses] = await Promise.all([
+	const [leaderboard, guild, bosses, discordNames] = await Promise.all([
 		getLeaderboard(fetch, guildId),
 		getGuildTimes(fetch, guildId),
-		getBosses(fetch)
+		getBosses(fetch),
+		getDiscordNamesMap(guildId)
 	]);
 
 	const bossByName = new Map(bosses.map((b) => [b.name, b]));
 
-	const top5 = leaderboard.slice(0, 5);
+	const enrichedLeaderboard = leaderboard.map((u) => ({
+		...u,
+		discordName: discordNames.get(u.user_id) || null
+	}));
+
+	const top5 = enrichedLeaderboard.slice(0, 5);
 
 	// Build RSN lookup for any user that appears as a PB holder or top-5
 	const pbs = (guild.pbs ?? [])
@@ -51,7 +58,11 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 				.filter((t) => t.run_id === pb.run_id)
 				.map((t) => {
 					const u = userMap.get(t.user_id);
-					return u ? { rsn: u.rsn, points: u.points } : { rsn: t.user_id };
+					return {
+						rsn: u ? u.rsn : t.user_id,
+						display: discordNames.get(t.user_id),
+						points: u?.points
+					};
 				})
 		};
 	});
