@@ -36,6 +36,7 @@ async function call<T>(fetch: Fetch, path: string, init?: RequestInit): Promise<
 		...init,
 		headers: {
 			accept: 'application/json',
+			Authorization: `Basic ${Buffer.from(`${env.API_AUTH_USER ?? ''}:${env.API_AUTH_PASS ?? ''}`).toString('base64')}`,
 			...(init?.headers ?? {})
 		}
 	});
