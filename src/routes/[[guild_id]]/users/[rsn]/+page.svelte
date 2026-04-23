@@ -34,7 +34,7 @@
 		<div class="cluster" style="align-items: center; gap: var(--space-4);">
 			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3);">
 				{#if userIcon}
-					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 26px; height: 26px; image-rendering: pixelated;" />
+					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 32px; height: 32px; image-rendering: pixelated;" />
 				{/if}
 				<span style="line-height: 1;">{data.primaryRsn}</span>
 			</h1>
@@ -82,22 +82,24 @@
 		{/if}
 	</StatStrip>
 
-	<div class="grid-2">
-		<!-- PBs held -->
-		<div class="stack-sm">
-			<h2 class="section-heading">Guild PBs held</h2>
-			{#if data.pbs.length === 0}
-				<div class="empty-state">No clan PBs held.</div>
-			{:else}
-				<PbTable 
-					rows={data.pbs} 
-					{guildId} 
-					contextualBossName={true} 
-					bossWrap="multi-line" 
-				/>
-			{/if}
-		</div>
+	<!-- PBs held (Full Width) -->
+	<div class="stack-sm">
+		<h2 class="section-heading">Guild PBs held</h2>
+		{#if data.pbs.length === 0}
+			<div class="empty-state">No clan PBs held.</div>
+		{:else}
+			<PbTable 
+				rows={data.pbs} 
+				{guildId} 
+				contextualBossName={true} 
+				bossWrap="single-line" 
+			/>
+		{/if}
+	</div>
 
+	<hr class="hairline" />
+
+	<div class="grid-2">
 		<!-- Events & CAs -->
 		<div class="stack">
 			<div class="stack-sm">

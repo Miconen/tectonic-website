@@ -44,9 +44,9 @@
 		<thead>
 			<tr>
 				<th style="padding-left: var(--space-4);">Boss</th>
-				<th class="num">Time</th>
+				<th class="num" style={!showDate && !showHolders ? 'padding-right: var(--space-4);' : ''}>Time</th>
 				{#if showHolders}
-					<th class="desktop-only">Team</th>
+					<th class="desktop-only" style={!showDate ? 'padding-right: var(--space-4);' : ''}>Team</th>
 				{/if}
 				{#if showDate}
 					<th class="desktop-only" style="padding-right: var(--space-4);">Date</th>
@@ -87,12 +87,12 @@
 						</div>
 					</td>
 					
-					<td class="num nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px);">
+					<td class="num nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); {!showDate && !showHolders ? 'padding-right: var(--space-4);' : ''}">
 						<TimeDisplay ticks={pb.time} />
 					</td>
 					
 					{#if showHolders}
-						<td class="desktop-only" style="vertical-align: top; padding-top: var(--space-2);">
+						<td class="desktop-only" style="vertical-align: top; padding-top: var(--space-2); {!showDate ? 'padding-right: var(--space-4);' : ''}">
 							{#if pb.holders.length > 0}
 								<div class="cluster cluster-sm">
 									<span class="muted tiny">w/</span>
