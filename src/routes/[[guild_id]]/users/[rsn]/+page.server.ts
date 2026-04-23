@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const bossByName = new Map(bosses.map((b) => [b.name, b]));
 
 	// Attempt to get Discord name
-	const discordName = await getDiscordName(guildId, user.user_id, fetch);
+	const discordName = await getDiscordName(guildId, user.user_id);
 
 	// Determine PBs this user holds/contributed to by joining with guild times
 	const userRuns = new Set(

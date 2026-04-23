@@ -37,7 +37,7 @@
 		<div class="cluster" style="align-items: center; gap: var(--space-4);">
 			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3);">
 				{#if userIcon}
-					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 48px; height: 48px; image-rendering: pixelated;" />
+					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 36px; height: 36px; image-rendering: pixelated;" />
 				{/if}
 				<span style="line-height: 1;">{data.discordName ?? data.primaryRsn}</span>
 			</h1>
@@ -74,15 +74,11 @@
 	<StatStrip>
 		<StatItem label="Points" value={formatPoints(data.user.points)} color="var(--color-accent)" />
 		<StatItem label="PBs held" value={data.pbs.length} />
-		{#if bingoWins > 0}
-			<StatItem label="Bingo Wins" value={bingoWins} color="var(--color-gold)" />
-		{/if}
-		{#if eventWins > 0 || eventSeconds > 0 || eventThirds > 0}
-			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
-			{#if eventWins > 0}<StatItem label="Event #1s" value={eventWins} color="var(--color-gold)" />{/if}
-			{#if eventSeconds > 0}<StatItem label="Event #2s" value={eventSeconds} color="var(--color-silver)" />{/if}
-			{#if eventThirds > 0}<StatItem label="Event #3s" value={eventThirds} color="var(--color-bronze)" />{/if}
-		{/if}
+		<StatItem label="Bingo Wins" value={bingoWins} color={bingoWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
+		<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
+		<StatItem label="Event #1s" value={eventWins} color={eventWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
+		<StatItem label="Event #2s" value={eventSeconds} color={eventSeconds > 0 ? "var(--color-silver)" : "var(--color-text-muted)"} />
+		<StatItem label="Event #3s" value={eventThirds} color={eventThirds > 0 ? "var(--color-bronze)" : "var(--color-text-muted)"} />
 	</StatStrip>
 
 	<!-- PBs held (Full Width) -->
