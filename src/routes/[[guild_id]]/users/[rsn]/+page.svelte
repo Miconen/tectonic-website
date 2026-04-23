@@ -32,14 +32,14 @@
 			<a class="small muted" href={guildPath(guildId, '/leaderboard')}>← Leaderboard</a>
 		</nav>
 		<div class="cluster" style="align-items: center; gap: var(--space-4);">
-			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-2);">
+			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3);">
 				{#if userIcon}
-					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 26px; height: 26px; image-rendering: pixelated; margin-bottom: 4px;" />
+					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 26px; height: 26px; image-rendering: pixelated;" />
 				{/if}
-				{data.primaryRsn}
+				<span style="line-height: 1;">{data.primaryRsn}</span>
 			</h1>
 			{#if data.user.rank != null}
-				<span class={rankClass(data.user.rank)} style="font-size: 1.5rem;">#{data.user.rank}</span>
+				<span class={rankClass(data.user.rank)} style="font-size: 1.5rem; line-height: 1;">#{data.user.rank}</span>
 			{/if}
 			{#if (data.user.achievements ?? []).length > 0}
 				<div class="cluster cluster-sm" style="margin-left: var(--space-2);">
