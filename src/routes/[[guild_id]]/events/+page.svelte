@@ -28,9 +28,8 @@
 					<table class="table table-collapse-mobile">
 						<thead>
 							<tr>
-								<th style="width: 50%; padding-left: var(--space-4);">Event Name</th>
-								<th style="width: 20%;">Format</th>
-								<th class="num" style="width: 30%; padding-right: var(--space-4);">Top Cutoff</th>
+								<th style="padding-left: var(--space-4);">Event Name</th>
+								<th style="padding-right: var(--space-4);">Format</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -41,8 +40,7 @@
 											{e.name}
 										</a>
 									</td>
-									<td class="muted small desktop-only">Team</td>
-									<td class="num mono" style="padding-right: var(--space-4);">Top {e.position_cutoff}</td>
+									<td class="muted small desktop-only" style="padding-right: var(--space-4);">Team</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -58,9 +56,8 @@
 					<table class="table table-collapse-mobile">
 						<thead>
 							<tr>
-								<th style="width: 50%; padding-left: var(--space-4);">Event Name</th>
-								<th style="width: 20%;">Format</th>
-								<th class="num" style="width: 30%; padding-right: var(--space-4);">Top Cutoff</th>
+								<th style="padding-left: var(--space-4);">Event Name</th>
+								<th style="padding-right: var(--space-4);">Format</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -71,8 +68,7 @@
 											{e.name}
 										</a>
 									</td>
-									<td class="muted small desktop-only">{e.solo ? 'Solo' : 'Team'}</td>
-									<td class="num mono" style="padding-right: var(--space-4);">Top {e.position_cutoff}</td>
+									<td class="muted small desktop-only" style="padding-right: var(--space-4);">{e.solo ? 'Solo' : 'Team'}</td>
 								</tr>
 							{/each}
 						</tbody>

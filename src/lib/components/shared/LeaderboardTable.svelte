@@ -12,7 +12,7 @@
 		 */
 		rankOffset?: number;
 		/**
-		 * If true, shows "Known aliases" column (desktop only).
+		 * If true, shows "RSNs" column (desktop only).
 		 */
 		showAlts?: boolean;
 	}
@@ -27,7 +27,7 @@
 				<th style="width: 4rem; padding-left: var(--space-4);">Rank</th>
 				<th>Player</th>
 				{#if showAlts}
-					<th class="desktop-only">Known aliases</th>
+					<th class="desktop-only">RSNs</th>
 				{/if}
 				<th class="num" style="padding-right: var(--space-4);">Points</th>
 			</tr>
@@ -37,7 +37,7 @@
 				{@const rank = i + 1 + rankOffset}
 				{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
 				{@const display = u.discordName ?? primary}
-				{@const alts = (u.rsns ?? []).map(r => r.rsn).filter(r => r !== display)}
+				{@const allRsns = (u.rsns ?? []).map(r => r.rsn)}
 				{@const iconName = getIconForPoints(u.points)}
 				<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
 					<td class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
@@ -51,7 +51,7 @@
 					</td>
 					{#if showAlts}
 						<td class="muted small desktop-only">
-							{alts.join(', ') || '—'}
+							{allRsns.join(', ') || '—'}
 						</td>
 					{/if}
 					<td class="num mono" style="padding-right: var(--space-4); font-weight: 500;">
