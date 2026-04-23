@@ -64,6 +64,20 @@ async function call<T>(
 
 // ---------- guild-scoped ----------
 
+export function getEvents(fetch: Fetch, guildId: string) {
+	return call<import('./types').Event[] | null>(
+		fetch,
+		`/api/v1/guilds/${encodeURIComponent(guildId)}/events`
+	).then((r) => r ?? []);
+}
+
+export function getDetailedEvent(fetch: Fetch, guildId: string, eventId: string) {
+	return call<import('./types').DetailedEvent | null>(
+		fetch,
+		`/api/v1/guilds/${encodeURIComponent(guildId)}/events/${encodeURIComponent(eventId)}`
+	);
+}
+
 export function getLeaderboard(fetch: Fetch, guildId: string) {
   return call<LeaderboardUser[] | null>(
     fetch,

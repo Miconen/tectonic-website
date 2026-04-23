@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getUsersByRsn, getUsersById, getGuildTimes, getBosses, getGuildCombatAchievements, resolveGuild } from '$lib/api/client';
+import { getDiscordName } from '$lib/server/discord';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const guildId = resolveGuild(params);
@@ -19,6 +20,9 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	}
 
 	const bossByName = new Map(bosses.map((b) => [b.name, b]));
+
+	// Attempt to get Discord name
+	const discordName = await getDiscordName(guildId, user.user_id, fetch);
 
 	// Determine PBs this user holds/contributed to by joining with guild times
 	const userRuns = new Set(
@@ -69,6 +73,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	return {
 		user,
 		pbs,
+		discordName,
 		primaryRsn: user.rsns?.find((r) => r.rsn.toLowerCase() === rsn.toLowerCase())?.rsn ?? user.rsns?.[0]?.rsn ?? rsn,
 		guildCAs
 	};

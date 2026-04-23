@@ -8,7 +8,8 @@
 
 	const links = [
 		{ href: '/leaderboard', label: 'Leaderboard' },
-		{ href: '/pbs', label: 'Bosses & PBs' }
+		{ href: '/pbs', label: 'Bosses & PBs' },
+		{ href: '/events', label: 'Events' }
 	];
 
 	function isActive(href: string): boolean {

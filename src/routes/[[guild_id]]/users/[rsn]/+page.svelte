@@ -13,11 +13,14 @@
 	let claimedCAs = $derived((data.user.combat_achievements ?? []).length);
 	let unclaimedCAs = $derived((data.guildCAs ?? []).filter((ca) => !data.user.combat_achievements?.find((c) => c.name === ca.name)));
 	
-	let eventWins = $derived((data.user.events ?? []).filter(e => e.placement === 1).length);
-	let eventSeconds = $derived((data.user.events ?? []).filter(e => e.placement === 2).length);
-	let eventThirds = $derived((data.user.events ?? []).filter(e => e.placement === 3).length);
+	let events = $derived((data.user.events ?? []).filter((e) => !(e.name.toLowerCase().includes('bingo') && !e.solo)));
+	let bingos = $derived((data.user.events ?? []).filter((e) => e.name.toLowerCase().includes('bingo') && !e.solo));
+
+	let eventWins = $derived(events.filter(e => e.placement === 1).length);
+	let eventSeconds = $derived(events.filter(e => e.placement === 2).length);
+	let eventThirds = $derived(events.filter(e => e.placement === 3).length);
 	
-	let bingoWins = $derived((data.user.events ?? []).filter(e => e.placement === 1 && !e.solo && e.name.toLowerCase().includes('bingo')).length);
+	let bingoWins = $derived(bingos.filter(e => e.placement === 1).length);
 	
 	let userIcon = $derived(getIconForPoints(data.user.points));
 </script>
@@ -34,9 +37,9 @@
 		<div class="cluster" style="align-items: center; gap: var(--space-4);">
 			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3);">
 				{#if userIcon}
-					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 32px; height: 32px; image-rendering: pixelated;" />
+					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 48px; height: 48px; image-rendering: pixelated;" />
 				{/if}
-				<span style="line-height: 1;">{data.primaryRsn}</span>
+				<span style="line-height: 1;">{data.discordName ?? data.primaryRsn}</span>
 			</h1>
 			{#if data.user.rank != null}
 				<span class={rankClass(data.user.rank)} style="font-size: 1.5rem; line-height: 1;">#{data.user.rank}</span>
@@ -52,7 +55,7 @@
 		
 		{#if (data.user.rsns ?? []).length > 0}
 			<div class="cluster cluster-sm">
-				<span class="muted small">RSNs:</span>
+				<span class="muted small">All RSNs:</span>
 				{#each data.user.rsns as r (r.rsn)}
 					<a
 						class="chip chip-muted"
@@ -76,9 +79,9 @@
 		{/if}
 		{#if eventWins > 0 || eventSeconds > 0 || eventThirds > 0}
 			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
-			{#if eventWins > 0}<StatItem label="#1s" value={eventWins} color="var(--color-gold)" />{/if}
-			{#if eventSeconds > 0}<StatItem label="#2s" value={eventSeconds} color="var(--color-silver)" />{/if}
-			{#if eventThirds > 0}<StatItem label="#3s" value={eventThirds} color="var(--color-bronze)" />{/if}
+			{#if eventWins > 0}<StatItem label="Event #1s" value={eventWins} color="var(--color-gold)" />{/if}
+			{#if eventSeconds > 0}<StatItem label="Event #2s" value={eventSeconds} color="var(--color-silver)" />{/if}
+			{#if eventThirds > 0}<StatItem label="Event #3s" value={eventThirds} color="var(--color-bronze)" />{/if}
 		{/if}
 	</StatStrip>
 
@@ -99,16 +102,35 @@
 
 	<hr class="hairline" />
 
-	<!-- Events -->
+	<!-- Events & CAs -->
 	<div class="stack-sm">
+		{#if bingos.length > 0}
+			<h2 class="section-heading">Bingos</h2>
+			<div class="table-wrapper">
+				<table class="table">
+					<tbody>
+						{#each bingos as e (e.wom_id)}
+							<tr style={e.placement === 1 ? 'background: color-mix(in srgb, var(--color-gold) 10%, transparent);' : ''}>
+								<td style="padding-left: var(--space-4);">{e.name}</td>
+								<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
+									#{e.placement}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+			<hr class="hairline" style="margin-top: var(--space-3);" />
+		{/if}
+
 		<h2 class="section-heading">Events</h2>
-		{#if (data.user.events ?? []).length === 0}
+		{#if events.length === 0}
 			<div class="empty-state">None yet.</div>
 		{:else}
 			<div class="table-wrapper">
 				<table class="table">
 					<tbody>
-						{#each data.user.events as e (e.wom_id)}
+						{#each events as e (e.wom_id)}
 							<tr>
 								<td style="padding-left: var(--space-4);">{e.name}</td>
 								<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">

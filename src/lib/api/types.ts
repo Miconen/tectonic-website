@@ -165,6 +165,23 @@ export interface DetailedUser {
 	rank?: number;
 }
 
+export interface Event {
+	name: string;
+	wom_id: string;
+	guild_id: string;
+	position_cutoff: number;
+	solo: boolean;
+}
+
+export interface EventParticipation {
+	user_id: string;
+	placement: number;
+}
+
+export interface DetailedEvent {
+	participations: EventParticipation[];
+}
+
 // --- error ---
 export interface ErrorModel {
 	type?: string;
