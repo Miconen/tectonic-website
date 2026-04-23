@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass } from '$lib/format/points';
-	import { formatDate } from '$lib/format/time';
-	import { formatBossName } from '$lib/format/boss';
-	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
-	import UserChip from '$lib/components/UserChip.svelte';
+	import LeaderboardTable from '$lib/components/shared/LeaderboardTable.svelte';
+	import PbTable from '$lib/components/shared/PbTable.svelte';
+	import StatStrip from '$lib/components/shared/StatStrip.svelte';
+	import StatItem from '$lib/components/shared/StatItem.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -23,14 +22,14 @@
 			<p class="muted">OSRS Clan</p>
 		</div>
 		<div class="cluster">
-			<div class="stat-item text-right">
-				<span class="tiny muted">Members</span>
-				<span class="stat-val">{data.totalMembers}</span>
+			<div class="text-right">
+				<span class="tiny muted" style="display: block;">Members</span>
+				<span class="mono" style="font-size: 1.125rem; font-weight: 600;">{data.totalMembers}</span>
 			</div>
 			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: 0 var(--space-2);"></div>
-			<div class="stat-item text-right">
-				<span class="tiny muted">Recorded PBs</span>
-				<span class="stat-val">{data.latestPbs.length}</span>
+			<div class="text-right">
+				<span class="tiny muted" style="display: block;">Recorded PBs</span>
+				<span class="mono" style="font-size: 1.125rem; font-weight: 600;">{data.latestPbs.length}</span>
 			</div>
 		</div>
 	</div>
@@ -46,25 +45,7 @@
 				{#if data.top5.length === 0}
 					<div class="empty-state">No members yet.</div>
 				{:else}
-					<div class="table-wrapper">
-						<table class="table">
-							<tbody>
-								{#each data.top5 as u, i (u.user_id)}
-									{@const rank = i + 1}
-									{@const rsn = u.rsns?.[0]?.rsn ?? u.user_id}
-									<tr class="row-rank-{rank}">
-										<td class={rankClass(rank)} style="width: 2.5rem; padding-left: var(--space-4);">#{rank}</td>
-										<td>
-											<a href={guildPath(guildId, `/users/${encodeURIComponent(rsn)}`)} style="font-weight: 500;">
-												{rsn}
-											</a>
-										</td>
-										<td class="num mono" style="padding-right: var(--space-4);">{formatPoints(u.points)}</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
+					<LeaderboardTable users={data.top5} {guildId} />
 				{/if}
 			</div>
 		</div>
@@ -79,34 +60,12 @@
 				{#if data.latestPbs.length === 0}
 					<div class="empty-state">No PBs recorded yet.</div>
 				{:else}
-					<div class="table-wrapper">
-						<table class="table table-collapse-mobile">
-							<tbody>
-								{#each data.latestPbs as pb (pb.run_id)}
-									<tr>
-										<td style="padding-left: var(--space-4);">
-											<div class="stack-sm" style="margin-top: 0;">
-												<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
-													{pb.display_name}
-												</a>
-												<div class="cluster cluster-sm">
-													{#each pb.holders as rsn (rsn)}
-														<UserChip {rsn} />
-													{/each}
-												</div>
-											</div>
-										</td>
-										<td class="num desktop-only" style="padding-right: var(--space-4);">
-											<div class="stack-sm" style="margin-top: 0; align-items: flex-end;">
-												<TimeDisplay ticks={pb.time} />
-												<span class="muted tiny">{formatDate(pb.date)}</span>
-											</div>
-										</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
+					<PbTable 
+						rows={data.latestPbs} 
+						{guildId} 
+						contextualBossName={false} 
+						bossWrap="multi-line" 
+					/>
 				{/if}
 			</div>
 		</div>

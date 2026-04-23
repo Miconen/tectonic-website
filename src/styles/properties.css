@@ -63,6 +63,7 @@
 	--pico-muted-color: var(--color-text-muted);
 	--pico-card-background-color: var(--color-surface);
 	--pico-card-sectioning-background-color: var(--color-surface-2);
+	--pico-form-element-background-color: var(--color-surface);
 	--pico-border-color: var(--color-border);
 }
 
@@ -100,6 +101,7 @@
 	--pico-muted-color: var(--color-text-muted);
 	--pico-card-background-color: var(--color-surface);
 	--pico-card-sectioning-background-color: var(--color-surface-2);
+	--pico-form-element-background-color: var(--color-surface);
 	--pico-border-color: var(--color-border);
 }
 

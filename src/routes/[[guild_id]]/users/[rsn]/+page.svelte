@@ -2,10 +2,9 @@
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
 	import { formatPoints, rankClass } from '$lib/format/points';
-	import { formatDate } from '$lib/format/time';
-	import { formatBossName } from '$lib/format/boss';
-	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
-	import UserChip from '$lib/components/UserChip.svelte';
+	import PbTable from '$lib/components/shared/PbTable.svelte';
+	import StatStrip from '$lib/components/shared/StatStrip.svelte';
+	import StatItem from '$lib/components/shared/StatItem.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -15,7 +14,10 @@
 	let unclaimedCAs = $derived((data.guildCAs ?? []).filter((ca) => !data.user.combat_achievements?.find((c) => c.name === ca.name)));
 	
 	let eventWins = $derived((data.user.events ?? []).filter(e => e.placement === 1).length);
-	let eventTop3s = $derived((data.user.events ?? []).filter(e => e.placement > 0 && e.placement <= 3).length);
+	let eventSeconds = $derived((data.user.events ?? []).filter(e => e.placement === 2).length);
+	let eventThirds = $derived((data.user.events ?? []).filter(e => e.placement === 3).length);
+	
+	let bingoWins = $derived((data.user.events ?? []).filter(e => e.placement === 1 && !e.solo && e.name.toLowerCase().includes('bingo')).length);
 </script>
 
 <svelte:head>
@@ -59,24 +61,19 @@
 	</div>
 
 	<!-- Stat strip -->
-	<div class="stat-strip">
-		<div class="stat-item">
-			<span class="tiny muted">Points</span>
-			<span class="stat-val" style="color: var(--color-accent);">{formatPoints(data.user.points)}</span>
-		</div>
-		<div class="stat-item">
-			<span class="tiny muted">PBs held</span>
-			<span class="stat-val">{data.pbs.length}</span>
-		</div>
-		<div class="stat-item">
-			<span class="tiny muted">Event Wins</span>
-			<span class="stat-val">{eventWins}</span>
-		</div>
-		<div class="stat-item">
-			<span class="tiny muted">Event Top 3s</span>
-			<span class="stat-val">{eventTop3s}</span>
-		</div>
-	</div>
+	<StatStrip>
+		<StatItem label="Points" value={formatPoints(data.user.points)} color="var(--color-accent)" />
+		<StatItem label="PBs held" value={data.pbs.length} />
+		{#if bingoWins > 0}
+			<StatItem label="Bingo Wins" value={bingoWins} color="var(--color-gold)" />
+		{/if}
+		{#if eventWins > 0 || eventSeconds > 0 || eventThirds > 0}
+			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
+			{#if eventWins > 0}<StatItem label="#1s" value={eventWins} color="var(--color-gold)" />{/if}
+			{#if eventSeconds > 0}<StatItem label="#2s" value={eventSeconds} color="var(--color-silver)" />{/if}
+			{#if eventThirds > 0}<StatItem label="#3s" value={eventThirds} color="var(--color-bronze)" />{/if}
+		{/if}
+	</StatStrip>
 
 	<div class="grid-2">
 		<!-- PBs held -->
@@ -85,44 +82,12 @@
 			{#if data.pbs.length === 0}
 				<div class="empty-state">No clan PBs held.</div>
 			{:else}
-				<div class="table-wrapper">
-					<table class="table table-collapse-mobile">
-						<thead>
-							<tr>
-								<th style="padding-left: 0;">Boss</th>
-								<th class="num">Time</th>
-								<th class="desktop-only" style="padding-right: 0;">Team</th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each data.pbs as pb (pb.run_id)}
-								<tr>
-									<td style="padding-left: 0;">
-										<div class="stack-sm" style="margin-top: 0;">
-											<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
-												{formatBossName(pb.display_name, pb.category)}
-											</a>
-											<span class="muted tiny desktop-only">{formatDate(pb.date)}</span>
-										</div>
-									</td>
-									<td class="num nowrap"><TimeDisplay ticks={pb.time} /></td>
-									<td class="desktop-only" style="padding-right: 0;">
-										{#if pb.teammates.length > 0}
-											<div class="cluster cluster-sm">
-												<span class="muted small">w/</span>
-												{#each pb.teammates as rsn (rsn)}
-													<UserChip {rsn} />
-												{/each}
-											</div>
-										{:else}
-											<span class="badge">Solo</span>
-										{/if}
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<PbTable 
+					rows={data.pbs} 
+					{guildId} 
+					contextualBossName={true} 
+					bossWrap="multi-line" 
+				/>
 			{/if}
 		</div>
 
@@ -138,8 +103,10 @@
 							<tbody>
 								{#each data.user.events as e (e.wom_id)}
 									<tr>
-										<td style="padding-left: 0;">{e.name}</td>
-										<td class="num mono" style="padding-right: 0; color: var(--color-accent);">#{e.placement}</td>
+										<td style="padding-left: var(--space-4);">{e.name}</td>
+										<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
+											#{e.placement}
+										</td>
 									</tr>
 								{/each}
 							</tbody>

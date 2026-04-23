@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass } from '$lib/format/points';
+	import LeaderboardTable from '$lib/components/shared/LeaderboardTable.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -30,39 +29,7 @@
 	{#if filtered.length === 0}
 		<div class="empty-state">No members match your filter.</div>
 	{:else}
-		<div class="table-wrapper">
-			<table class="table table-collapse-mobile" style="font-size: 0.9375rem;">
-				<thead>
-					<tr>
-						<th style="width: 4rem; padding-left: var(--space-4);">Rank</th>
-						<th>Player</th>
-						<th class="desktop-only">Known aliases</th>
-						<th class="num" style="padding-right: var(--space-4);">Points</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each filtered as u, i (u.user_id)}
-						{@const originalIdx = data.leaderboard.indexOf(u)}
-						{@const rank = originalIdx + 1}
-						{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
-						{@const alts = (u.rsns ?? []).slice(1)}
-						<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
-							<td class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
-							<td>
-								<a href={guildPath(guildId, `/users/${encodeURIComponent(primary)}`)} style="font-weight: 600;">
-									{primary}
-								</a>
-							</td>
-							<td class="muted small desktop-only">
-								{alts.map((r) => r.rsn).join(', ') || '—'}
-							</td>
-							<td class="num mono" style="padding-right: var(--space-4); font-weight: 500;">
-								{formatPoints(u.points)}
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
+		<!-- Find the index offset if filtered, though typically we just show 1..N of the filtered list -->
+		<LeaderboardTable users={filtered} {guildId} showAlts={true} />
 	{/if}
 </section>
