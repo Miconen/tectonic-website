@@ -40,8 +40,8 @@
 				{@const allRsns = (u.rsns ?? []).map(r => r.rsn)}
 				{@const iconName = getIconForPoints(u.points)}
 				<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
-					<td class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
-					<td>
+					<td data-label="Rank" class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
+					<td data-label="Player">
 						<a href={guildPath(guildId, `/users/${encodeURIComponent(primary)}`)} style="font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-1);">
 							{#if iconName}
 								<img src="/icons/Clan_icon_-_{iconName}.png" alt="" style="width: 13px; height: 13px; image-rendering: pixelated;" />
@@ -50,11 +50,11 @@
 						</a>
 					</td>
 					{#if showAlts}
-						<td class="muted small desktop-only">
+						<td data-label="RSNs" class="muted small desktop-only">
 							{allRsns.join(', ') || '—'}
 						</td>
 					{/if}
-					<td class="num mono" style="padding-right: var(--space-4); font-weight: 500;">
+					<td data-label="Points" class="num mono" style="padding-right: var(--space-4); font-weight: 500;">
 						{formatPoints(u.points)}
 					</td>
 				</tr>

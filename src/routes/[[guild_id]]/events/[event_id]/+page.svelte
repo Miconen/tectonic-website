@@ -49,10 +49,10 @@
 					<tbody>
 						{#each data.participations as p (p.user_id)}
 							<tr class={p.placement <= 3 ? `row-rank-${p.placement}` : ''}>
-								<td class="num mono {rankClass(p.placement)}" style="padding-left: var(--space-4); text-align: left;">
+								<td data-label="Rank" class="num mono {rankClass(p.placement)}" style="padding-left: var(--space-4); text-align: left;">
 									#{p.placement}
 								</td>
-								<td>
+								<td data-label="Player">
 									<div class="cluster cluster-sm">
 										<UserChip rsn={p.rsn} display={p.display} points={p.points} />
 									</div>

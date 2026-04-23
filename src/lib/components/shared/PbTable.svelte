@@ -56,7 +56,7 @@
 		<tbody>
 			{#each rows as pb (pb.run_id)}
 				<tr>
-					<td style="padding-left: var(--space-4);">
+					<td data-label="Boss" style="padding-left: var(--space-4);">
 						<div class="stack-sm" style="margin-top: 0;">
 							<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
 								{contextualBossName ? formatBossName(pb.display_name, pb.category) : pb.display_name}
@@ -86,12 +86,12 @@
 						</div>
 					</td>
 					
-					<td class="num nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); {!showDate && !showHolders ? 'padding-right: var(--space-4);' : ''}">
+					<td data-label="Time" class="num nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); {!showDate && !showHolders ? 'padding-right: var(--space-4);' : ''}">
 						<TimeDisplay ticks={pb.time} />
 					</td>
 					
 					{#if showHolders}
-						<td class="desktop-only" style="vertical-align: top; padding-top: var(--space-2); {!showDate ? 'padding-right: var(--space-4);' : ''}">
+						<td data-label="Team" class="desktop-only" style="vertical-align: top; padding-top: var(--space-2); {!showDate ? 'padding-right: var(--space-4);' : ''}">
 							{#if pb.holders.length > 0}
 								<div class="cluster cluster-sm">
 									{#each pb.holders as holder (holder.rsn)}
@@ -107,7 +107,7 @@
 					{/if}
 					
 					{#if showDate}
-						<td class="muted small desktop-only nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); padding-right: var(--space-4);">
+						<td data-label="Date" class="muted small desktop-only nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); padding-right: var(--space-4);">
 							{formatDate(pb.date)}
 						</td>
 					{/if}

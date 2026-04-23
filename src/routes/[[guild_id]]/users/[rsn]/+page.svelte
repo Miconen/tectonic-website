@@ -108,12 +108,12 @@
 					<tbody>
 						{#each bingos as e (e.wom_id)}
 							<tr style={e.placement === 1 ? 'background: color-mix(in srgb, var(--color-gold) 10%, transparent);' : ''}>
-								<td style="padding-left: var(--space-4);">
-									<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} style="font-weight: 500">
+								<td data-label="Event Name" style="padding-left: var(--space-4);">
+									<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} class="link-dashed" style="font-weight: 500;">
 										{e.name}
 									</a>
 								</td>
-								<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
+								<td data-label="Placement" class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
 									#{e.placement}
 								</td>
 							</tr>
@@ -133,12 +133,12 @@
 					<tbody>
 						{#each events as e (e.wom_id)}
 							<tr>
-								<td style="padding-left: var(--space-4);">
-									<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} style="font-weight: 500">
+								<td data-label="Event Name" style="padding-left: var(--space-4);">
+									<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} class="link-dashed" style="font-weight: 500;">
 										{e.name}
 									</a>
 								</td>
-								<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
+								<td data-label="Placement" class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
 									#{e.placement}
 								</td>
 							</tr>

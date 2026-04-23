@@ -35,12 +35,12 @@
 						<tbody>
 							{#each bingos as e (e.wom_id)}
 								<tr>
-									<td style="padding-left: var(--space-4);">
+									<td data-label="Event Name" style="padding-left: var(--space-4);">
 										<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} style="font-weight: 500;">
 											{e.name}
 										</a>
 									</td>
-									<td class="muted small desktop-only" style="padding-right: var(--space-4);">Team</td>
+									<td data-label="Format" class="muted small desktop-only" style="padding-right: var(--space-4);">Team</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -63,12 +63,12 @@
 						<tbody>
 							{#each others as e (e.wom_id)}
 								<tr>
-									<td style="padding-left: var(--space-4);">
+									<td data-label="Event Name" style="padding-left: var(--space-4);">
 										<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} style="font-weight: 500;">
 											{e.name}
 										</a>
 									</td>
-									<td class="muted small desktop-only" style="padding-right: var(--space-4);">{e.solo ? 'Solo' : 'Team'}</td>
+									<td data-label="Format" class="muted small desktop-only" style="padding-right: var(--space-4);">{e.solo ? 'Solo' : 'Team'}</td>
 								</tr>
 							{/each}
 						</tbody>
