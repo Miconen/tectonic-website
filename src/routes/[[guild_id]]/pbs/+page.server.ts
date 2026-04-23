@@ -22,8 +22,8 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const userIds = new Set<string>();
 	for (const t of guild.teammates ?? []) userIds.add(t.user_id);
 	const users = userIds.size ? await getUsersById(fetch, guildId, [...userIds]) : [];
-	const rsnByUser = new Map<string, string>();
-	for (const u of users) rsnByUser.set(u.user_id, u.rsns?.[0]?.rsn ?? u.user_id);
+	const userMap = new Map<string, { rsn: string; points: number }>();
+	for (const u of users) userMap.set(u.user_id, { rsn: u.rsns?.[0]?.rsn ?? u.user_id, points: u.points });
 
 	// Map PBs
 	const pbByBoss = new Map<string, (typeof guild.pbs)[number]>();
@@ -35,7 +35,10 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 		const holders = pb
 			? (guild.teammates ?? [])
 					.filter((t) => t.run_id === pb.run_id)
-					.map((t) => rsnByUser.get(t.user_id) ?? t.user_id)
+					.map((t) => {
+						const u = userMap.get(t.user_id);
+						return u ? { rsn: u.rsn, points: u.points } : { rsn: t.user_id };
+					})
 			: [];
 		const cat = categoryMap.get(b.category);
 		return {

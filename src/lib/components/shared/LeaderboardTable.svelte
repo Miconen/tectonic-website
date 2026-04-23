@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass } from '$lib/format/points';
+	import { formatPoints, rankClass, getIconForPoints } from '$lib/format/points';
 	import type { LeaderboardUser } from '$lib/api/types';
 
 	interface Props {
@@ -37,10 +37,14 @@
 				{@const rank = i + 1 + rankOffset}
 				{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
 				{@const alts = (u.rsns ?? []).slice(1)}
+				{@const iconName = getIconForPoints(u.points)}
 				<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
 					<td class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
 					<td>
-						<a href={guildPath(guildId, `/users/${encodeURIComponent(primary)}`)} style="font-weight: 600;">
+						<a href={guildPath(guildId, `/users/${encodeURIComponent(primary)}`)} style="font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-1);">
+							{#if iconName}
+								<img src="/icons/Clan_icon_-_{iconName}.png" alt="" style="width: 13px; height: 13px; image-rendering: pixelated;" />
+							{/if}
 							{primary}
 						</a>
 					</td>

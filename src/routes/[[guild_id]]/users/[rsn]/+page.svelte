@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass } from '$lib/format/points';
+	import { formatPoints, rankClass, getIconForPoints } from '$lib/format/points';
 	import PbTable from '$lib/components/shared/PbTable.svelte';
 	import StatStrip from '$lib/components/shared/StatStrip.svelte';
 	import StatItem from '$lib/components/shared/StatItem.svelte';
@@ -18,6 +18,8 @@
 	let eventThirds = $derived((data.user.events ?? []).filter(e => e.placement === 3).length);
 	
 	let bingoWins = $derived((data.user.events ?? []).filter(e => e.placement === 1 && !e.solo && e.name.toLowerCase().includes('bingo')).length);
+	
+	let userIcon = $derived(getIconForPoints(data.user.points));
 </script>
 
 <svelte:head>
@@ -30,7 +32,12 @@
 			<a class="small muted" href={guildPath(guildId, '/leaderboard')}>← Leaderboard</a>
 		</nav>
 		<div class="cluster" style="align-items: center; gap: var(--space-4);">
-			<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.primaryRsn}</h1>
+			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-2);">
+				{#if userIcon}
+					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 26px; height: 26px; image-rendering: pixelated; margin-bottom: 4px;" />
+				{/if}
+				{data.primaryRsn}
+			</h1>
 			{#if data.user.rank != null}
 				<span class={rankClass(data.user.rank)} style="font-size: 1.5rem;">#{data.user.rank}</span>
 			{/if}

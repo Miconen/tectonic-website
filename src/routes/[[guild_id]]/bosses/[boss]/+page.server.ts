@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	const pb = (guild.pbs ?? []).find((p) => p.boss_name === bossName) ?? null;
 
-	let holders: string[] = [];
+	let holders: { rsn: string; points?: number }[] = [];
 	if (pb) {
 		const holderIds = (guild.teammates ?? [])
 			.filter((t) => t.run_id === pb.run_id)
@@ -29,9 +29,12 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 		const users = holderIds.length
 			? await getUsersById(fetch, guildId, holderIds)
 			: [];
-		const rsnByUser = new Map<string, string>();
-		for (const u of users) rsnByUser.set(u.user_id, u.rsns?.[0]?.rsn ?? u.user_id);
-		holders = holderIds.map((id) => rsnByUser.get(id) ?? id);
+		const userMap = new Map<string, { rsn: string; points: number }>();
+		for (const u of users) userMap.set(u.user_id, { rsn: u.rsns?.[0]?.rsn ?? u.user_id, points: u.points });
+		holders = holderIds.map((id) => {
+			const u = userMap.get(id);
+			return u ? { rsn: u.rsn, points: u.points } : { rsn: id };
+		});
 	}
 
 	setHeaders({ 'cache-control': 'public, max-age=60' });

@@ -133,8 +133,8 @@
 							<td class="desktop-only">
 								{#if row.holders.length > 0}
 									<div class="cluster cluster-sm">
-										{#each row.holders as rsn (rsn)}
-											<UserChip {rsn} />
+										{#each row.holders as holder (holder.rsn)}
+											<UserChip rsn={holder.rsn} points={holder.points} />
 										{/each}
 									</div>
 								{:else if row.time != null}
@@ -182,8 +182,8 @@
 								<td class="desktop-only">
 									{#if row.holders.length > 0}
 										<div class="cluster cluster-sm">
-											{#each row.holders as rsn (rsn)}
-												<UserChip {rsn} />
+											{#each row.holders as holder (holder.rsn)}
+												<UserChip rsn={holder.rsn} points={holder.points} />
 											{/each}
 										</div>
 									{:else if row.time != null}

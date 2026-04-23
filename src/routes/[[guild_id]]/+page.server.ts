@@ -35,9 +35,9 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	// Resolve user ids -> primary RSN for chip rendering
 	const users = teammateIds.size > 0 ? await getUsersById(fetch, guildId, [...teammateIds]) : [];
-	const rsnByUser = new Map<string, string>();
+	const userMap = new Map<string, { rsn: string; points: number }>();
 	for (const u of users) {
-		rsnByUser.set(u.user_id, u.rsns?.[0]?.rsn ?? u.user_id);
+		userMap.set(u.user_id, { rsn: u.rsns?.[0]?.rsn ?? u.user_id, points: u.points });
 	}
 
 	const latestPbs = pbs.map((pb) => {
@@ -49,7 +49,10 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 			solo: b?.solo ?? true,
 			holders: (guild.teammates ?? [])
 				.filter((t) => t.run_id === pb.run_id)
-				.map((t) => rsnByUser.get(t.user_id) ?? t.user_id)
+				.map((t) => {
+					const u = userMap.get(t.user_id);
+					return u ? { rsn: u.rsn, points: u.points } : { rsn: t.user_id };
+				})
 		};
 	});
 

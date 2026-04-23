@@ -13,7 +13,7 @@
 		solo: boolean;
 		time: number | null;
 		date: string | null;
-		holders: string[];
+		holders: { rsn: string; points?: number }[];
 	}
 
 	interface Props {
@@ -71,8 +71,8 @@
 										{#if pb.holders.length > 0}
 											<div class="cluster cluster-sm">
 												<span class="muted tiny">w/</span>
-												{#each pb.holders as rsn (rsn)}
-													<UserChip {rsn} />
+												{#each pb.holders as holder (holder.rsn)}
+													<UserChip rsn={holder.rsn} points={holder.points} />
 												{/each}
 											</div>
 										{:else}
@@ -96,8 +96,8 @@
 							{#if pb.holders.length > 0}
 								<div class="cluster cluster-sm">
 									<span class="muted tiny">w/</span>
-									{#each pb.holders as rsn (rsn)}
-										<UserChip {rsn} />
+									{#each pb.holders as holder (holder.rsn)}
+										<UserChip rsn={holder.rsn} points={holder.points} />
 									{/each}
 								</div>
 							{:else if pb.time != null}
