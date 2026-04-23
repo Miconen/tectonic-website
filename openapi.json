@@ -1,0 +1,10 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "Tectonic API",
+		"version": "1.0.0",
+		"description": "Replace this file with your API's real openapi.json, then run `npm run types:api` to regenerate src/lib/api/types.gen.ts."
+	},
+	"paths": {},
+	"components": { "schemas": {} }
+}

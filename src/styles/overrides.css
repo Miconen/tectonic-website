@@ -1,0 +1,397 @@
+/* ============================================================
+   overrides.css — component classes and Pico tweaks.
+   All colors/spacing/typography MUST come from properties.css
+   via var(--token). Do not hardcode values here.
+   ============================================================ */
+
+/* ---------- base ---------- */
+body {
+	font-family: var(--font-body);
+	background: var(--color-bg);
+	color: var(--color-text);
+	min-height: 100vh;
+	margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-display);
+	color: var(--color-text);
+	letter-spacing: 0.01em;
+}
+
+a {
+	color: var(--color-accent);
+	text-decoration: none;
+}
+a:hover {
+	color: var(--color-accent-strong);
+	text-decoration: underline;
+}
+
+/* ---------- layout primitives ---------- */
+.container {
+	max-width: 72rem;
+	margin-inline: auto;
+	padding: var(--space-3);
+}
+
+.stack > * + * {
+	margin-top: var(--space-3);
+}
+.stack-sm > * + * {
+	margin-top: var(--space-2);
+}
+.stack-lg > * + * {
+	margin-top: var(--space-4);
+}
+
+.cluster {
+	display: flex;
+	gap: var(--space-2);
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.grid-auto {
+	display: grid;
+	gap: var(--space-3);
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+
+.row-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--space-3);
+}
+
+/* ---------- typography utilities ---------- */
+.muted {
+	color: var(--color-text-muted);
+}
+.mono {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+}
+.display {
+	font-family: var(--font-display);
+}
+.small {
+	font-size: 0.875rem;
+}
+.tiny {
+	font-size: 0.75rem;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+.truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ---------- header / nav ---------- */
+.site-header {
+	background: var(--color-surface);
+	border-bottom: 1px solid var(--color-border);
+	padding: var(--space-2) var(--space-3);
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	backdrop-filter: saturate(140%);
+}
+.site-header-inner {
+	max-width: 72rem;
+	margin-inline: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+}
+.site-header .brand {
+	font-family: var(--font-display);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--color-text);
+}
+.site-header nav {
+	display: flex;
+	gap: var(--space-3);
+	flex: 1;
+}
+.site-header nav a {
+	color: var(--color-text-muted);
+	padding: var(--space-1) var(--space-2);
+	border-radius: var(--radius-sm);
+}
+.site-header nav a.active,
+.site-header nav a:hover {
+	color: var(--color-text);
+	background: var(--color-surface-2);
+	text-decoration: none;
+}
+
+.site-footer {
+	border-top: 1px solid var(--color-border);
+	padding: var(--space-4) var(--space-3);
+	color: var(--color-text-muted);
+	font-size: 0.875rem;
+	text-align: center;
+}
+
+/* ---------- card ---------- */
+.card {
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	padding: var(--space-3);
+	box-shadow: var(--shadow-1);
+}
+.card-header {
+	font-family: var(--font-display);
+	font-size: 1.125rem;
+	margin-bottom: var(--space-2);
+	color: var(--color-text);
+}
+
+/* ---------- table ---------- */
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+.table th,
+.table td {
+	padding: var(--space-2) var(--space-3);
+	text-align: left;
+	border-bottom: 1px solid var(--color-border);
+}
+.table th {
+	font-family: var(--font-display);
+	font-weight: 600;
+	color: var(--color-accent);
+	font-size: 0.875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+.table tbody tr {
+	transition: background 120ms ease;
+}
+.table tbody tr:hover {
+	background: var(--color-surface-2);
+}
+.table .num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+/* ---------- badge / chip / rank ---------- */
+.badge {
+	display: inline-block;
+	padding: 0 var(--space-2);
+	border-radius: 999px;
+	background: var(--color-surface-2);
+	color: var(--color-text);
+	font-size: 0.75rem;
+	line-height: 1.5rem;
+	border: 1px solid var(--color-border);
+}
+.badge-accent {
+	background: var(--color-accent);
+	color: var(--color-accent-contrast);
+	border-color: var(--color-accent);
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: 0 var(--space-2);
+	height: 1.5rem;
+	border-radius: var(--radius-sm);
+	background: var(--color-surface-2);
+	border: 1px solid var(--color-border);
+	color: var(--color-text);
+	font-size: 0.8125rem;
+}
+.chip:hover {
+	background: var(--color-surface);
+	text-decoration: none;
+}
+
+.rank {
+	display: inline-block;
+	font-family: var(--font-mono);
+	font-weight: 700;
+	color: var(--color-text-muted);
+}
+.rank-1 {
+	color: var(--color-gold);
+}
+.rank-2 {
+	color: var(--color-silver);
+}
+.rank-3 {
+	color: var(--color-bronze);
+}
+
+/* ---------- tile (bosses grid) ---------- */
+.tile {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	padding: var(--space-3);
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	color: var(--color-text);
+	text-decoration: none;
+	transition:
+		transform 120ms ease,
+		border-color 120ms ease;
+}
+.tile:hover {
+	transform: translateY(-1px);
+	border-color: var(--color-accent);
+	text-decoration: none;
+}
+.tile-title {
+	font-family: var(--font-display);
+	font-size: 1rem;
+	color: var(--color-text);
+}
+.tile-pb {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	font-size: 1.25rem;
+	color: var(--color-accent);
+}
+.tile-pb.empty {
+	color: var(--color-text-muted);
+}
+
+/* ---------- category header ---------- */
+.category-header {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	margin: var(--space-4) 0 var(--space-2);
+	padding-bottom: var(--space-2);
+	border-bottom: 1px solid var(--color-border);
+}
+.category-header img {
+	height: 2rem;
+	width: 2rem;
+	object-fit: contain;
+}
+.category-header h2 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+/* ---------- achievement grid ---------- */
+.achievement-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+	gap: var(--space-3);
+}
+.achievement {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-1);
+	padding: var(--space-2);
+	text-align: center;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	font-size: 0.75rem;
+}
+.achievement img {
+	width: 3rem;
+	height: 3rem;
+	object-fit: contain;
+}
+
+/* ---------- profile header ---------- */
+.profile-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--space-3);
+	padding: var(--space-4) 0 var(--space-3);
+}
+.profile-header h1 {
+	margin: 0;
+	font-size: 2rem;
+}
+.profile-points {
+	font-family: var(--font-mono);
+	font-size: 1.5rem;
+	color: var(--color-accent);
+	font-variant-numeric: tabular-nums;
+}
+.profile-rank {
+	font-family: var(--font-mono);
+	font-size: 1.5rem;
+	color: var(--color-text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+/* ---------- theme switcher ---------- */
+.theme-switcher {
+	margin-left: auto;
+}
+.theme-switcher select {
+	background: var(--color-surface-2);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	padding: var(--space-1) var(--space-2);
+	font-size: 0.875rem;
+	font-family: inherit;
+	cursor: pointer;
+}
+
+/* ---------- forms ---------- */
+input[type='search'],
+input[type='text'] {
+	background: var(--color-surface-2);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	padding: var(--space-2);
+	font: inherit;
+	width: 100%;
+	max-width: 20rem;
+}
+input[type='search']:focus,
+input[type='text']:focus {
+	outline: 2px solid var(--color-accent);
+	outline-offset: -1px;
+}
+
+/* ---------- misc ---------- */
+.empty-state {
+	padding: var(--space-5) var(--space-3);
+	text-align: center;
+	color: var(--color-text-muted);
+}
+.error-box {
+	border: 1px solid var(--color-danger);
+	background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+	color: var(--color-text);
+	padding: var(--space-3);
+	border-radius: var(--radius);
+}
+hr {
+	border: none;
+	border-top: 1px solid var(--color-border);
+	margin: var(--space-3) 0;
+}
