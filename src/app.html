@@ -9,10 +9,11 @@
 		<script>
 			(function () {
 				try {
-					var stored = localStorage.getItem('theme');
-					if (stored && stored !== 'system') {
-						document.documentElement.dataset.theme = stored;
+					var stored = localStorage.getItem('theme') || 'system';
+					if (stored === 'system') {
+						stored = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 					}
+					document.documentElement.dataset.theme = stored;
 				} catch (_) {}
 			})();
 		</script>

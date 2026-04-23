@@ -4,8 +4,12 @@
 	type Theme = 'system' | 'dark' | 'light';
 
 	let theme: Theme = $state('system');
+	let mediaQuery: MediaQueryList;
 
 	onMount(() => {
+		mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		mediaQuery.addEventListener('change', onMediaChange);
+
 		const stored = (localStorage.getItem('theme') as Theme | null) ?? 'system';
 		// If someone had 'parchment' saved from before, default to dark
 		if (stored !== 'system' && stored !== 'dark' && stored !== 'light') {
@@ -15,11 +19,18 @@
 			theme = stored;
 			apply(stored);
 		}
+
+		return () => mediaQuery.removeEventListener('change', onMediaChange);
 	});
+
+	function onMediaChange() {
+		if (theme === 'system') apply('system');
+	}
 
 	function apply(t: Theme) {
 		if (t === 'system') {
-			delete document.documentElement.dataset.theme;
+			const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 		} else {
 			document.documentElement.dataset.theme = t;
 		}

@@ -87,7 +87,7 @@
 										<td style="padding-left: var(--space-4);">
 											<div class="stack-sm" style="margin-top: 0;">
 												<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
-													{formatBossName(pb.display_name, pb.category, pb.solo)}
+													{pb.display_name}
 												</a>
 												<div class="cluster cluster-sm">
 													{#each pb.holders as rsn (rsn)}

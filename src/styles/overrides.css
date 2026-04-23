@@ -87,6 +87,9 @@ a:hover {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+.nowrap {
+	white-space: nowrap;
+}
 .hairline {
 	border: none;
 	border-top: 1px solid var(--color-border);
@@ -330,12 +333,15 @@ a:hover {
 	border-radius: var(--radius);
 	padding: 2px;
 	margin: 0;
+	height: 32px;
+	align-items: center;
 }
 .segment-btn {
 	background: transparent;
 	border: none;
 	color: var(--color-text-muted);
-	padding: 0.25rem 0.5rem;
+	padding: 0 0.5rem;
+	height: 100%;
 	border-radius: calc(var(--radius) - 2px);
 	font-size: 0.875rem;
 	cursor: pointer;

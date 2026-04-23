@@ -66,7 +66,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	return {
 		user,
 		pbs,
-		primaryRsn: user.rsns?.[0]?.rsn ?? rsn,
-		maxCombatAchievements: guildCAs.length
+		primaryRsn: user.rsns?.find((r) => r.rsn.toLowerCase() === rsn.toLowerCase())?.rsn ?? user.rsns?.[0]?.rsn ?? rsn,
+		guildCAs
 	};
 };

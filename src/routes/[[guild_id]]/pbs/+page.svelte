@@ -123,7 +123,7 @@
 						<tr>
 							<td style="padding-left: var(--space-4);">
 								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
-									{formatBossName(row.display_name, row.category, row.solo)}
+									{row.display_name}
 								</a>
 							</td>
 							<td class="muted small desktop-only">{row.category}</td>
@@ -171,11 +171,11 @@
 						</tr>
 						{#each rows as row (row.boss_name)}
 							<tr>
-								<td style="padding-left: var(--space-4);">
-									<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
-										{formatBossName(row.display_name, row.category, row.solo)}
-									</a>
-								</td>
+							<td style="padding-left: var(--space-4);">
+								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
+									{row.display_name}
+								</a>
+							</td>
 								<td class="num">
 									<TimeDisplay ticks={row.time} />
 								</td>
