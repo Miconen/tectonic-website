@@ -11,6 +11,8 @@ async function fetchFullRoster(guildId: string, token: string): Promise<Map<stri
 	const roster = new Map<string, string>();
 	let after = '0';
 	
+	console.log(`[Discord API] Attempting bulk fetch for guild ${guildId}...`);
+	
 	try {
 		while (true) {
 			const res = await fetch(`https://discord.com/api/v10/guilds/${guildId}/members?limit=1000&after=${after}`, {
@@ -20,12 +22,18 @@ async function fetchFullRoster(guildId: string, token: string): Promise<Map<stri
 			});
 
 			if (!res.ok) {
-				console.warn(`[Discord API] Bulk fetch failed with ${res.status}.`);
+				const errText = await res.text();
+				console.error(`[Discord API] Bulk fetch failed with ${res.status}: ${errText}`);
+				// Force cache to expire immediately so we can retry on next load while debugging
+				rosterCacheExpiry = 0; 
 				break;
 			}
 
 			const members = await res.json();
-			if (members.length === 0) break;
+			if (members.length === 0) {
+				console.log(`[Discord API] Bulk fetch completed. Found 0 members.`);
+				break;
+			}
 
 			for (const member of members) {
 				const name = member.nick || member.user?.global_name || member.user?.username;
@@ -34,11 +42,15 @@ async function fetchFullRoster(guildId: string, token: string): Promise<Map<stri
 				}
 			}
 			
-			if (members.length < 1000) break;
+			if (members.length < 1000) {
+				console.log(`[Discord API] Bulk fetch completed. Cached ${roster.size} names.`);
+				break;
+			}
 			after = members[members.length - 1].user.id;
 		}
 	} catch (e) {
 		console.error(`[Discord API] Error during bulk roster fetch:`, e);
+		rosterCacheExpiry = 0;
 	}
 	
 	return roster;

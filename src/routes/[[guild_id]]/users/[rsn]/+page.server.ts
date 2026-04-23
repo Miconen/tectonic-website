@@ -1,17 +1,18 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getUsersByRsn, getUsersById, getGuildTimes, getBosses, getGuildCombatAchievements, resolveGuild } from '$lib/api/client';
-import { getDiscordName } from '$lib/server/discord';
+import { getDiscordNamesMap } from '$lib/server/discord';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const guildId = resolveGuild(params);
 	const rsn = decodeURIComponent(params.rsn);
 
-	const [users, guild, bosses, guildCAs] = await Promise.all([
+	const [users, guild, bosses, guildCAs, discordNames] = await Promise.all([
 		getUsersByRsn(fetch, guildId, [rsn]),
 		getGuildTimes(fetch, guildId),
 		getBosses(fetch),
-		getGuildCombatAchievements(fetch, guildId)
+		getGuildCombatAchievements(fetch, guildId),
+		getDiscordNamesMap(guildId)
 	]);
 
 	const user = users[0];
@@ -21,8 +22,8 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	const bossByName = new Map(bosses.map((b) => [b.name, b]));
 
-	// Attempt to get Discord name
-	const discordName = await getDiscordName(guildId, user.user_id);
+	// Attempt to get Discord name from cache
+	const discordName = discordNames.get(user.user_id) || null;
 
 	// Determine PBs this user holds/contributed to by joining with guild times
 	const userRuns = new Set(
@@ -63,7 +64,11 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 					.filter((t) => t.run_id === pb.run_id && t.user_id !== user.user_id)
 					.map((t) => {
 						const u = userMap.get(t.user_id);
-						return u ? { rsn: u.rsn, points: u.points } : { rsn: t.user_id };
+						return {
+							rsn: u ? u.rsn : t.user_id,
+							display: discordNames.get(t.user_id) || undefined,
+							points: u?.points
+						};
 					})
 			};
 		});

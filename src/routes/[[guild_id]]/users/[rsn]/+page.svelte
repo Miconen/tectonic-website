@@ -11,16 +11,17 @@
 	let guildId = $derived($page.params.guild_id as string | undefined);
 	
 	let claimedCAs = $derived((data.user.combat_achievements ?? []).length);
-	let unclaimedCAs = $derived((data.guildCAs ?? []).filter((ca) => !data.user.combat_achievements?.find((c) => c.name === ca.name)));
+	// Fallback to explicit any array to avoid implicit any errors on complex filter arrays
+	let unclaimedCAs = $derived((data.guildCAs ?? []).filter((ca: any) => !data.user.combat_achievements?.find((c: any) => c.name === ca.name)));
 	
-	let events = $derived((data.user.events ?? []).filter((e) => !(e.name.toLowerCase().includes('bingo') && !e.solo)));
-	let bingos = $derived((data.user.events ?? []).filter((e) => e.name.toLowerCase().includes('bingo') && !e.solo));
+	let events = $derived((data.user.events ?? []).filter((e: any) => !(e.name.toLowerCase().includes('bingo') && !e.solo)));
+	let bingos = $derived((data.user.events ?? []).filter((e: any) => e.name.toLowerCase().includes('bingo') && !e.solo));
 
-	let eventWins = $derived(events.filter(e => e.placement === 1).length);
-	let eventSeconds = $derived(events.filter(e => e.placement === 2).length);
-	let eventThirds = $derived(events.filter(e => e.placement === 3).length);
+	let eventWins = $derived(events.filter((e: any) => e.placement === 1).length);
+	let eventSeconds = $derived(events.filter((e: any) => e.placement === 2).length);
+	let eventThirds = $derived(events.filter((e: any) => e.placement === 3).length);
 	
-	let bingoWins = $derived(bingos.filter(e => e.placement === 1).length);
+	let bingoWins = $derived(bingos.filter((e: any) => e.placement === 1).length);
 	
 	let userIcon = $derived(getIconForPoints(data.user.points));
 </script>
@@ -37,7 +38,7 @@
 		<div class="cluster" style="align-items: center; gap: var(--space-4);">
 			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3);">
 				{#if userIcon}
-					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 36px; height: 36px; image-rendering: pixelated;" />
+					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 32px; height: 32px; image-rendering: pixelated;" />
 				{/if}
 				<span style="line-height: 1;">{data.discordName ?? data.primaryRsn}</span>
 			</h1>
@@ -98,7 +99,7 @@
 
 	<hr class="hairline" />
 
-	<!-- Events & CAs -->
+	<!-- Events -->
 	<div class="stack-sm">
 		{#if bingos.length > 0}
 			<h2 class="section-heading">Bingos</h2>
