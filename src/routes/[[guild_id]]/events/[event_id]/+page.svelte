@@ -18,16 +18,15 @@
 		<nav aria-label="breadcrumb">
 			<a class="small muted" href={guildPath(guildId, '/events')}>← All Events</a>
 		</nav>
-		<div class="row-between" style="align-items: baseline;">
+		<div class="row-between" style="align-items: flex-start;">
 			<div class="stack-sm" style="gap: var(--space-2); margin-top: 0;">
 				<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.event.name}</h1>
 				<a href="https://wiseoldman.net/competitions/{data.event.wom_id}" target="_blank" rel="noreferrer noopener" class="muted small">
 					View on Wise Old Man ↗
 				</a>
 			</div>
-			<div class="cluster cluster-sm">
+			<div class="cluster cluster-sm" style="margin-top: 8px;">
 				<span class="badge">{data.event.solo ? 'Solo' : 'Team'}</span>
-				<span class="badge">Top {data.event.position_cutoff}</span>
 			</div>
 		</div>
 	</div>

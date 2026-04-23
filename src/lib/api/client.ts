@@ -38,13 +38,18 @@ async function call<T>(
   path: string,
   init?: RequestInit,
 ): Promise<T> {
+  const headers: Record<string, string> = {
+    accept: "application/json",
+    ...((init?.headers as Record<string, string>) ?? {}),
+  };
+
+  if (env.API_TOKEN) {
+    headers.Authorization = env.API_TOKEN;
+  }
+
   const res = await fetch(`${baseUrl()}${path}`, {
     ...init,
-    headers: {
-      accept: "application/json",
-      Authorization: env.API_TOKEN ?? "",
-      ...(init?.headers ?? {}),
-    },
+    headers,
   });
 
   if (!res.ok) {

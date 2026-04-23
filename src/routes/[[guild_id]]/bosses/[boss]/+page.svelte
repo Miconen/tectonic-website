@@ -24,9 +24,11 @@
 		<nav aria-label="breadcrumb">
 			<a class="small muted" href={guildPath(guildId, '/pbs')}>← Bosses & PBs</a>
 		</nav>
-		<div class="row-between" style="align-items: baseline;">
-			<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.boss.display_name}</h1>
-			<div class="cluster cluster-sm">
+		<div class="row-between" style="align-items: flex-start;">
+			<div class="stack-sm" style="gap: var(--space-2); margin-top: 0;">
+				<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.boss.display_name}</h1>
+			</div>
+			<div class="cluster cluster-sm" style="margin-top: 8px;">
 				<span class="badge">{data.boss.category}</span>
 				<span class="badge">{data.boss.solo ? 'Solo' : 'Team'}</span>
 			</div>
