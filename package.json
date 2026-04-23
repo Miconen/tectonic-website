@@ -26,6 +26,8 @@
     "vite": "^6.0.0"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@picocss/pico": "^2.0.6"
   }
 }

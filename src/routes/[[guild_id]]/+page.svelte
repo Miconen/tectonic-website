@@ -12,79 +12,102 @@
 </script>
 
 <svelte:head>
-	<title>Tectonic — Home</title>
+	<title>Tectonic</title>
 </svelte:head>
 
 <section class="stack-lg">
 	<div class="row-between">
 		<div>
 			<h1 class="display">Tectonic</h1>
-			<p class="muted">{data.totalMembers} members tracked</p>
+			<p class="muted">OSRS Clan</p>
+		</div>
+		<div class="cluster">
+			<div class="stat-item text-right">
+				<span class="tiny muted">Members</span>
+				<span class="stat-val">{data.totalMembers}</span>
+			</div>
+			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: 0 var(--space-2);"></div>
+			<div class="stat-item text-right">
+				<span class="tiny muted">Recorded PBs</span>
+				<span class="stat-val">{data.latestPbs.length}</span>
+			</div>
 		</div>
 	</div>
 
-	<div class="grid-auto">
-		<div class="card">
+	<div class="grid-2">
+		<!-- Top 5 -->
+		<div class="stack-sm">
 			<div class="row-between">
-				<div class="card-header">Top 5</div>
+				<div class="section-heading" style="margin: 0">Top 5</div>
 				<a href={guildPath(guildId, '/leaderboard')} class="small">Full leaderboard →</a>
 			</div>
-			{#if data.top5.length === 0}
-				<div class="empty-state">No members yet.</div>
-			{:else}
-				<table class="table">
-					<tbody>
-						{#each data.top5 as u, i (u.user_id)}
-							{@const rank = i + 1}
-							{@const rsn = u.rsns?.[0]?.rsn ?? u.user_id}
-							<tr>
-								<td class={rankClass(rank)} style="width: 2.5rem">#{rank}</td>
-								<td>
-									<a href={guildPath(guildId, `/users/${encodeURIComponent(rsn)}`)}>
-										{rsn}
-									</a>
-								</td>
-								<td class="num mono">{formatPoints(u.points)}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			{/if}
+			<div class="card" style="padding: 0;">
+				{#if data.top5.length === 0}
+					<div class="empty-state">No members yet.</div>
+				{:else}
+					<div class="table-wrapper">
+						<table class="table">
+							<tbody>
+								{#each data.top5 as u, i (u.user_id)}
+									{@const rank = i + 1}
+									{@const rsn = u.rsns?.[0]?.rsn ?? u.user_id}
+									<tr class="row-rank-{rank}">
+										<td class={rankClass(rank)} style="width: 2.5rem; padding-left: var(--space-4);">#{rank}</td>
+										<td>
+											<a href={guildPath(guildId, `/users/${encodeURIComponent(rsn)}`)} style="font-weight: 500;">
+												{rsn}
+											</a>
+										</td>
+										<td class="num mono" style="padding-right: var(--space-4);">{formatPoints(u.points)}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				{/if}
+			</div>
 		</div>
 
-		<div class="card">
+		<!-- Latest PBs -->
+		<div class="stack-sm">
 			<div class="row-between">
-				<div class="card-header">Latest PBs</div>
+				<div class="section-heading" style="margin: 0">Latest PBs</div>
 				<a href={guildPath(guildId, '/pbs')} class="small">All PBs →</a>
 			</div>
-			{#if data.latestPbs.length === 0}
-				<div class="empty-state">No PBs recorded yet.</div>
-			{:else}
-				<table class="table">
-					<tbody>
-						{#each data.latestPbs as pb (pb.run_id)}
-							<tr>
-								<td>
-									<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)}>
-										{pb.boss_name}
-									</a>
-								</td>
-								<td class="num"><TimeDisplay ticks={pb.time} /></td>
-								<td class="muted small">{formatDate(pb.date)}</td>
-							</tr>
-							<tr>
-								<td colspan="3">
-									<div class="cluster">
-										{#each pb.holders as rsn (rsn)}
-											<UserChip {rsn} />
-										{/each}
-									</div>
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			{/if}
+			<div class="card" style="padding: 0;">
+				{#if data.latestPbs.length === 0}
+					<div class="empty-state">No PBs recorded yet.</div>
+				{:else}
+					<div class="table-wrapper">
+						<table class="table table-collapse-mobile">
+							<tbody>
+								{#each data.latestPbs as pb (pb.run_id)}
+									<tr>
+										<td style="padding-left: var(--space-4);">
+											<div class="stack-sm" style="margin-top: 0;">
+												<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
+													{pb.boss_name}
+												</a>
+												<div class="cluster cluster-sm">
+													{#each pb.holders as rsn (rsn)}
+														<UserChip {rsn} />
+													{/each}
+												</div>
+											</div>
+										</td>
+										<td class="num desktop-only" style="padding-right: var(--space-4);">
+											<div class="stack-sm" style="margin-top: 0; align-items: flex-end;">
+												<TimeDisplay ticks={pb.time} />
+												<span class="muted tiny">{formatDate(pb.date)}</span>
+											</div>
+										</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				{/if}
+			</div>
 		</div>
 	</div>
 </section>

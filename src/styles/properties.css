@@ -2,66 +2,57 @@
    properties.css — all design tokens for every theme.
    This is the file you paste to an AI when asking for
    visual changes. Every other stylesheet reads from here.
-   ============================================================
-
-   How themes work:
-     - Default (no data-theme) = "dark", with a prefers-color-scheme
-       fallback to "light" when the user has OS-level light preference.
-     - [data-theme="dark" | "light" | "parchment"] explicitly overrides.
-     - Add a theme by duplicating a block and changing tokens.
    ============================================================ */
 
 /* ---------- DARK (default) ---------- */
 :root,
 :root[data-theme='dark'] {
 	/* surfaces */
-	--color-bg: #0f1115;
-	--color-surface: #171a21;
-	--color-surface-2: #1f232c;
-	--color-border: #2a2f3a;
+	--color-bg: #0a0a0c;
+	--color-surface: #0f1014;
+	--color-surface-2: #14161c;
+	--color-border: rgba(255, 255, 255, 0.06);
 
 	/* text */
-	--color-text: #e6e6e6;
-	--color-text-muted: #9aa0ab;
-	--color-text-inverse: #0f1115;
+	--color-text: #e8e8ea;
+	--color-text-muted: #8a8a92;
+	--color-text-inverse: #0a0a0c;
 
 	/* accent */
-	--color-accent: #c9a86a;
-	--color-accent-strong: #e2bd74;
-	--color-accent-contrast: #0f1115;
+	--color-accent: #dc2626;
+	--color-accent-strong: #b91c1c;
+	--color-accent-contrast: #ffffff;
 
 	/* semantic */
-	--color-success: #6bcf7f;
-	--color-danger: #e06c6c;
-	--color-warning: #e0b36c;
+	--color-success: #10b981;
+	--color-danger: #ef4444;
+	--color-warning: #f5b33b;
 
 	/* rank medals */
-	--color-gold: #e2bd74;
-	--color-silver: #c0c6cf;
-	--color-bronze: #c89060;
+	--color-gold: #f5b33b;
+	--color-silver: #a1a1aa;
+	--color-bronze: #b45309;
 
 	/* typography */
-	--font-body:
-		ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-	--font-display: 'Cinzel', Georgia, serif;
-	--font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+	--font-body: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+	--font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', monospace;
 
 	/* spacing scale */
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
-	--space-3: 1rem;
-	--space-4: 1.5rem;
-	--space-5: 2rem;
-	--space-6: 3rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
 
 	/* radii */
 	--radius-sm: 4px;
-	--radius: 8px;
-	--radius-lg: 14px;
+	--radius: 6px;
+	--radius-lg: 10px;
 
 	/* shadows */
-	--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
-	--shadow-2: 0 4px 14px rgba(0, 0, 0, 0.35);
+	--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--shadow-2: 0 4px 12px rgba(0, 0, 0, 0.5);
 
 	/* pico integration */
 	--pico-background-color: var(--color-bg);
@@ -77,73 +68,29 @@
 
 /* ---------- LIGHT ---------- */
 :root[data-theme='light'] {
-	--color-bg: #f7f5f0;
+	--color-bg: #fafafa;
 	--color-surface: #ffffff;
-	--color-surface-2: #efece5;
-	--color-border: #dcd7cb;
+	--color-surface-2: #f4f4f5;
+	--color-border: rgba(0, 0, 0, 0.06);
 
-	--color-text: #1a1a1a;
-	--color-text-muted: #5b6270;
+	--color-text: #18181b;
+	--color-text-muted: #71717a;
 	--color-text-inverse: #ffffff;
 
-	--color-accent: #8a5a1a;
-	--color-accent-strong: #6f4713;
+	--color-accent: #dc2626;
+	--color-accent-strong: #b91c1c;
 	--color-accent-contrast: #ffffff;
 
-	--color-success: #2e7d4f;
-	--color-danger: #b23b3b;
-	--color-warning: #a06b00;
+	--color-success: #059669;
+	--color-danger: #dc2626;
+	--color-warning: #d97706;
 
-	--color-gold: #b38a2a;
-	--color-silver: #8b8f98;
-	--color-bronze: #8b5a33;
+	--color-gold: #d97706;
+	--color-silver: #71717a;
+	--color-bronze: #92400e;
 
-	--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06);
-	--shadow-2: 0 4px 14px rgba(0, 0, 0, 0.1);
-
-	--pico-background-color: var(--color-bg);
-	--pico-color: var(--color-text);
-	--pico-primary: var(--color-accent);
-	--pico-primary-hover: var(--color-accent-strong);
-	--pico-primary-background: var(--color-accent);
-	--pico-muted-color: var(--color-text-muted);
-	--pico-card-background-color: var(--color-surface);
-	--pico-card-sectioning-background-color: var(--color-surface-2);
-	--pico-border-color: var(--color-border);
-}
-
-/* ---------- PARCHMENT (OSRS-flavored) ---------- */
-:root[data-theme='parchment'] {
-	--color-bg: #ecd9b0;
-	--color-surface: #f5e6bf;
-	--color-surface-2: #e0c892;
-	--color-border: #9c7a3e;
-
-	--color-text: #3b2a12;
-	--color-text-muted: #6b5530;
-	--color-text-inverse: #f5e6bf;
-
-	--color-accent: #7a2a1a;
-	--color-accent-strong: #5a1f14;
-	--color-accent-contrast: #f5e6bf;
-
-	--color-success: #4a6b1e;
-	--color-danger: #7a2a1a;
-	--color-warning: #a06b00;
-
-	--color-gold: #b08a2a;
-	--color-silver: #8b7a58;
-	--color-bronze: #8b5a33;
-
-	--font-body: 'Cinzel', Georgia, 'Times New Roman', serif;
-	--font-display: 'Cinzel', Georgia, serif;
-
-	--radius-sm: 2px;
-	--radius: 4px;
-	--radius-lg: 6px;
-
-	--shadow-1: 0 1px 0 rgba(59, 42, 18, 0.3);
-	--shadow-2: 0 2px 0 rgba(59, 42, 18, 0.4);
+	--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.05);
+	--shadow-2: 0 4px 12px rgba(0, 0, 0, 0.08);
 
 	--pico-background-color: var(--color-bg);
 	--pico-color: var(--color-text);
@@ -156,27 +103,24 @@
 	--pico-border-color: var(--color-border);
 }
 
-/* ---------- SYSTEM preference fallback ----------
-   Applied only when no explicit data-theme is set AND the OS
-   prefers light. The FOUC bootstrap in app.html only sets
-   data-theme for explicit user choices, so "System" = no attr. */
+/* ---------- SYSTEM preference fallback ---------- */
 @media (prefers-color-scheme: light) {
 	:root:not([data-theme]) {
-		--color-bg: #f7f5f0;
+		--color-bg: #fafafa;
 		--color-surface: #ffffff;
-		--color-surface-2: #efece5;
-		--color-border: #dcd7cb;
-		--color-text: #1a1a1a;
-		--color-text-muted: #5b6270;
+		--color-surface-2: #f4f4f5;
+		--color-border: rgba(0, 0, 0, 0.06);
+		--color-text: #18181b;
+		--color-text-muted: #71717a;
 		--color-text-inverse: #ffffff;
-		--color-accent: #8a5a1a;
-		--color-accent-strong: #6f4713;
+		--color-accent: #dc2626;
+		--color-accent-strong: #b91c1c;
 		--color-accent-contrast: #ffffff;
-		--color-gold: #b38a2a;
-		--color-silver: #8b8f98;
-		--color-bronze: #8b5a33;
-		--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06);
-		--shadow-2: 0 4px 14px rgba(0, 0, 0, 0.1);
+		--color-gold: #d97706;
+		--color-silver: #71717a;
+		--color-bronze: #92400e;
+		--shadow-1: 0 1px 2px rgba(0, 0, 0, 0.05);
+		--shadow-2: 0 4px 12px rgba(0, 0, 0, 0.08);
 
 		--pico-background-color: var(--color-bg);
 		--pico-color: var(--color-text);

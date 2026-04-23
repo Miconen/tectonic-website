@@ -18,25 +18,30 @@
 	<title>{data.boss.display_name} — Tectonic</title>
 </svelte:head>
 
-<section class="stack-lg">
+<section class="stack-lg" style="max-width: 48rem; margin-inline: auto;">
 	<div class="stack-sm">
-		<a class="small muted" href={guildPath(guildId, '/bosses')}>← All bosses</a>
-		<div class="profile-header">
-			<h1 class="display">{data.boss.display_name}</h1>
-			<span class="badge">{data.boss.category}</span>
-			<span class="badge">{data.boss.solo ? 'Solo' : 'Team'}</span>
+		<a class="small muted" href={guildPath(guildId, '/pbs')}>← All bosses</a>
+		<div class="row-between" style="align-items: baseline;">
+			<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.boss.display_name}</h1>
+			<div class="cluster cluster-sm">
+				<span class="badge">{data.boss.category}</span>
+				<span class="badge">{data.boss.solo ? 'Solo' : 'Team'}</span>
+			</div>
 		</div>
 	</div>
 
-	<div class="card">
-		<div class="card-header">Current clan PB</div>
+	<hr class="hairline" />
+
+	<div class="stack-sm">
+		<h2 class="section-heading">Current clan PB</h2>
 		{#if data.pb}
-			<div class="stack-sm">
-				<div style="font-size: 2rem;">
+			<div class="stack" style="margin-top: var(--space-2);">
+				<div class="num" style="font-size: 3rem; font-weight: 800; color: var(--color-accent); line-height: 1; text-align: left;">
 					<TimeDisplay ticks={data.pb.time} />
 				</div>
-				<div class="muted small">Set {formatDate(data.pb.date)}</div>
 				<div class="cluster">
+					<span class="muted small">Set on {formatDate(data.pb.date)}</span>
+					<div style="width: 1px; height: 1rem; background: var(--color-border); margin: 0 var(--space-2);"></div>
 					<span class="muted small">Holders:</span>
 					{#each data.holders as rsn (rsn)}
 						<UserChip {rsn} />
@@ -51,8 +56,9 @@
 	{#if HISTORY_ENABLED}
 		<!-- v2: run history slot. Wire up to a future
 		     GET /guilds/{id}/bosses/{boss}/times endpoint. -->
-		<div class="card">
-			<div class="card-header">Run history</div>
+		<hr class="hairline" />
+		<div class="stack-sm">
+			<h2 class="section-heading">Run history</h2>
 			<div class="empty-state">Not yet implemented.</div>
 		</div>
 	{/if}
