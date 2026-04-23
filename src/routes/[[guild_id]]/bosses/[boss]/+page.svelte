@@ -19,7 +19,7 @@
 	<title>{data.boss.display_name} — Tectonic</title>
 </svelte:head>
 
-<section class="stack-lg" style="max-width: 48rem; margin-inline: auto;">
+<section class="stack-lg">
 	<div class="stack-sm">
 		<nav aria-label="breadcrumb">
 			<a class="small muted" href={guildPath(guildId, '/pbs')}>← Bosses & PBs</a>

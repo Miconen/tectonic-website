@@ -30,7 +30,7 @@
 	<title>{data.primaryRsn} — Tectonic</title>
 </svelte:head>
 
-<section class="stack-lg" style="max-width: 64rem; margin-inline: auto;">
+<section class="stack-lg">
 	<div class="stack-sm">
 		<nav aria-label="breadcrumb">
 			<a class="small muted" href={guildPath(guildId, '/leaderboard')}>← Leaderboard</a>
