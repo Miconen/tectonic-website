@@ -37,7 +37,7 @@
 							{#each bingos as e (e.wom_id)}
 								<tr>
 									<td style="padding-left: var(--space-4);">
-										<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} class="link-dashed" style="font-weight: 500;">
+										<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} style="font-weight: 500;">
 											{e.name}
 										</a>
 									</td>
@@ -75,7 +75,7 @@
 							{#each others as e (e.wom_id)}
 								<tr>
 									<td style="padding-left: var(--space-4);">
-										<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} class="link-dashed" style="font-weight: 500;">
+										<a href={guildPath(guildId, `/events/${encodeURIComponent(e.wom_id)}`)} style="font-weight: 500;">
 											{e.name}
 										</a>
 									</td>

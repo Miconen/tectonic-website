@@ -21,7 +21,7 @@
 		<div class="row-between" style="align-items: baseline;">
 			<div class="stack-sm" style="gap: var(--space-2); margin-top: 0;">
 				<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.event.name}</h1>
-				<a href="https://wiseoldman.net/competitions/{data.event.wom_id}" target="_blank" rel="noreferrer noopener" class="muted small link-dashed">
+				<a href="https://wiseoldman.net/competitions/{data.event.wom_id}" target="_blank" rel="noreferrer noopener" class="muted small">
 					View on Wise Old Man ↗
 				</a>
 			</div>

@@ -96,18 +96,6 @@ a:hover {
 	margin: 0;
 }
 
-/* ---------- links ---------- */
-.link-dashed {
-	color: var(--color-text);
-	text-decoration: underline dashed var(--color-text-muted);
-	text-underline-offset: 4px;
-	transition: all 120ms ease;
-}
-.link-dashed:hover {
-	color: var(--color-accent);
-	text-decoration-color: var(--color-accent);
-}
-
 /* ---------- header / nav ---------- */
 .site-header {
 	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
