@@ -11,20 +11,20 @@ export function rankClass(rank: number | null | undefined): string {
 }
 
 const roleValues = [
-	{ min: 5000, icon: 'wrath' },
-	{ min: 3750, icon: 'soul' },
-	{ min: 2750, icon: 'blood' },
-	{ min: 2000, icon: 'death' },
-	{ min: 1500, icon: 'astral' },
-	{ min: 1250, icon: 'zenyte' },
-	{ min: 1000, icon: 'onyx' },
-	{ min: 800, icon: 'dragonstone' },
-	{ min: 600, icon: 'diamond' },
-	{ min: 400, icon: 'ruby' },
-	{ min: 200, icon: 'emerald' },
-	{ min: 100, icon: 'sapphire' },
-	{ min: 50, icon: 'red_topaz' },
-	{ min: 0, icon: 'jade' }
+	{ min: 5000, icon: 'Wrath' },
+	{ min: 3750, icon: 'Soul' },
+	{ min: 2750, icon: 'Blood' },
+	{ min: 2000, icon: 'Death' },
+	{ min: 1500, icon: 'Astral' },
+	{ min: 1250, icon: 'Zenyte' },
+	{ min: 1000, icon: 'Onyx' },
+	{ min: 800, icon: 'Dragonstone' },
+	{ min: 600, icon: 'Diamond' },
+	{ min: 400, icon: 'Ruby' },
+	{ min: 200, icon: 'Emerald' },
+	{ min: 100, icon: 'Sapphire' },
+	{ min: 50, icon: 'Red_Topaz' },
+	{ min: 0, icon: 'Jade' }
 ];
 
 export function getIconForPoints(points: number | null | undefined): string | null {
