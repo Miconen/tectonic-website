@@ -3,6 +3,7 @@
 	import { guildPath } from '$lib/api/paths';
 	import { formatPoints, rankClass } from '$lib/format/points';
 	import { formatDate } from '$lib/format/time';
+	import { formatBossName } from '$lib/format/boss';
 	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
 	import type { PageData } from './$types';
@@ -86,7 +87,7 @@
 										<td style="padding-left: var(--space-4);">
 											<div class="stack-sm" style="margin-top: 0;">
 												<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
-													{pb.boss_name}
+													{formatBossName(pb.display_name, pb.category, pb.solo)}
 												</a>
 												<div class="cluster cluster-sm">
 													{#each pb.holders as rsn (rsn)}

@@ -3,16 +3,20 @@ import {
 	getGuildTimes,
 	getLeaderboard,
 	getUsersById,
+	getBosses,
 	resolveGuild
 } from '$lib/api/client';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const guildId = resolveGuild(params);
 
-	const [leaderboard, guild] = await Promise.all([
+	const [leaderboard, guild, bosses] = await Promise.all([
 		getLeaderboard(fetch, guildId),
-		getGuildTimes(fetch, guildId)
+		getGuildTimes(fetch, guildId),
+		getBosses(fetch)
 	]);
+
+	const bossByName = new Map(bosses.map((b) => [b.name, b]));
 
 	const top5 = leaderboard.slice(0, 5);
 
@@ -36,12 +40,18 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 		rsnByUser.set(u.user_id, u.rsns?.[0]?.rsn ?? u.user_id);
 	}
 
-	const latestPbs = pbs.map((pb) => ({
-		...pb,
-		holders: (guild.teammates ?? [])
-			.filter((t) => t.run_id === pb.run_id)
-			.map((t) => rsnByUser.get(t.user_id) ?? t.user_id)
-	}));
+	const latestPbs = pbs.map((pb) => {
+		const b = bossByName.get(pb.boss_name);
+		return {
+			...pb,
+			display_name: b?.display_name ?? pb.boss_name,
+			category: b?.category ?? '',
+			solo: b?.solo ?? true,
+			holders: (guild.teammates ?? [])
+				.filter((t) => t.run_id === pb.run_id)
+				.map((t) => rsnByUser.get(t.user_id) ?? t.user_id)
+		};
+	});
 
 	setHeaders({ 'cache-control': 'public, max-age=30' });
 

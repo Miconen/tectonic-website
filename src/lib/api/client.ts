@@ -102,6 +102,13 @@ export async function getUsersById(
 	return r ?? [];
 }
 
+export function getGuildCombatAchievements(fetch: Fetch, guildId: string) {
+	return call<import('./types').GetGuildCombatAchievementsRow[] | null>(
+		fetch,
+		`/api/v1/guilds/${encodeURIComponent(guildId)}/combat-achievements`
+	).then((r) => r ?? []);
+}
+
 // ---------- global ----------
 
 export function getBosses(fetch: Fetch) {

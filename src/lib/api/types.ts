@@ -95,6 +95,13 @@ export interface GuildCategoryEntry {
 	message_id: string;
 }
 
+export interface GetGuildCombatAchievementsRow {
+	name: string;
+	point_source: string;
+	point_source_display_name: string;
+	points: number;
+}
+
 export interface DetailedGuild {
 	guild_id: string;
 	pb_channel_id: string | null;

@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
+	import { formatBossName } from '$lib/format/boss';
 	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
 	import type { PageData } from './$types';
@@ -20,9 +21,11 @@
 
 <section class="stack-lg" style="max-width: 48rem; margin-inline: auto;">
 	<div class="stack-sm">
-		<a class="small muted" href={guildPath(guildId, '/pbs')}>← All bosses</a>
+		<nav aria-label="breadcrumb">
+			<a class="small muted" href={guildPath(guildId, '/pbs')}>← Bosses & PBs</a>
+		</nav>
 		<div class="row-between" style="align-items: baseline;">
-			<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.boss.display_name}</h1>
+			<h1 class="display" style="font-size: 2.5rem; margin: 0;">{formatBossName(data.boss.display_name, data.boss.category, data.boss.solo)}</h1>
 			<div class="cluster cluster-sm">
 				<span class="badge">{data.boss.category}</span>
 				<span class="badge">{data.boss.solo ? 'Solo' : 'Team'}</span>

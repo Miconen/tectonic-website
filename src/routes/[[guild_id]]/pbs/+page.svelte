@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
+	import { formatBossName } from '$lib/format/boss';
 	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
 	import type { PageData } from './$types';
@@ -122,13 +123,12 @@
 						<tr>
 							<td style="padding-left: var(--space-4);">
 								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
-									{row.display_name}
+									{formatBossName(row.display_name, row.category, row.solo)}
 								</a>
 							</td>
 							<td class="muted small desktop-only">{row.category}</td>
 							<td class="num">
 								<TimeDisplay ticks={row.time} />
-								<span class="muted tiny" style="display: block; margin-top: 2px;">{row.solo ? 'SOLO' : 'TEAM'}</span>
 							</td>
 							<td class="desktop-only">
 								{#if row.holders.length > 0}
@@ -137,6 +137,12 @@
 											<UserChip {rsn} />
 										{/each}
 									</div>
+								{:else if row.time != null}
+									<span class="badge">Solo</span>
+								{:else if row.time != null}
+									<span class="badge">Solo</span>
+								{:else if row.time != null}
+									<span class="badge">Solo</span>
 								{:else}
 									<span class="muted small">—</span>
 								{/if}
@@ -146,16 +152,19 @@
 					{/each}
 				</tbody>
 			{:else}
-				{#each grouped as [catName, rows]}
+				{#each grouped as [catName, rows], index}
 					{@const stats = groupStats(rows)}
-					<tbody style="border-top: 1rem solid transparent;">
+					<tbody>
+						{#if index > 0}
+							<tr><td colspan="5" style="height: 2rem; padding: 0; border: none;"></td></tr>
+						{/if}
 						<tr style="background: transparent;">
-							<td colspan="5" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border);">
+							<td colspan="5" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
 								<div class="cluster" style="gap: var(--space-3);">
 									{#if rows[0].category_thumbnail}
-										<img src={rows[0].category_thumbnail} alt="" style="width: 1.5rem; height: 1.5rem; object-fit: contain;" />
+										<img src={rows[0].category_thumbnail} alt="" style="width: 2rem; height: 2rem; object-fit: contain;" />
 									{/if}
-									<span style="font-weight: 600; font-size: 1rem; color: var(--color-text);">{catName}</span>
+									<span style="font-weight: 600; font-size: 1.125rem; color: var(--color-text);">{catName}</span>
 									<span class="badge" style="margin-left: auto;">{stats.withPb}/{stats.total} PBs</span>
 								</div>
 							</td>
@@ -164,12 +173,11 @@
 							<tr>
 								<td style="padding-left: var(--space-4);">
 									<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
-										{row.display_name}
+										{formatBossName(row.display_name, row.category, row.solo)}
 									</a>
 								</td>
 								<td class="num">
 									<TimeDisplay ticks={row.time} />
-									<span class="muted tiny" style="display: block; margin-top: 2px;">{row.solo ? 'SOLO' : 'TEAM'}</span>
 								</td>
 								<td class="desktop-only">
 									{#if row.holders.length > 0}
@@ -178,6 +186,8 @@
 												<UserChip {rsn} />
 											{/each}
 										</div>
+									{:else if row.time != null}
+										<span class="badge">Solo</span>
 									{:else}
 										<span class="muted small">—</span>
 									{/if}
