@@ -1,4 +1,6 @@
 <script lang="ts">
+	import '@fontsource-variable/inter';
+	import '@fontsource-variable/jetbrains-mono';
 	import '../app.css';
 	import { onNavigate } from '$app/navigation';
 	import { navigating } from '$app/stores';
