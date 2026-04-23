@@ -40,7 +40,7 @@ async function call<T>(
     ...init,
     headers: {
       accept: "application/json",
-      Authorization: env.API_AUTH ?? "",
+      Authorization: env.API_TOKEN ?? "",
       ...(init?.headers ?? {}),
     },
   });
