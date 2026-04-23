@@ -28,7 +28,9 @@ function baseUrl(): string {
   if (!u) {
     throw error(500, "API_BASE_URL is not configured");
   }
-  return u.replace(/\/$/, "");
+  // Safety fallback: if no scheme is provided, assume https
+  const withScheme = u.startsWith('http://') || u.startsWith('https://') ? u : `https://${u}`;
+  return withScheme.replace(/\/$/, "");
 }
 
 async function call<T>(

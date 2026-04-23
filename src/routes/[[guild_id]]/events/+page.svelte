@@ -30,7 +30,7 @@
 							<tr>
 								<th style="width: 50%; padding-left: var(--space-4);">Event Name</th>
 								<th style="width: 20%;">Format</th>
-								<th class="num" style="width: 30%; padding-right: var(--space-4);">Winner</th>
+								<th class="num" style="width: 30%; padding-right: var(--space-4);">Top Cutoff</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -42,15 +42,7 @@
 										</a>
 									</td>
 									<td class="muted small desktop-only">Team</td>
-									<td class="num" style="padding-right: var(--space-4);">
-										{#if e.winner}
-											<div class="cluster cluster-sm" style="justify-content: flex-end;">
-												<UserChip rsn={e.winner.rsn} display={e.winner.display} points={e.winner.points} />
-											</div>
-										{:else}
-											<span class="muted small">—</span>
-										{/if}
-									</td>
+									<td class="num mono" style="padding-right: var(--space-4);">Top {e.position_cutoff}</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -68,7 +60,7 @@
 							<tr>
 								<th style="width: 50%; padding-left: var(--space-4);">Event Name</th>
 								<th style="width: 20%;">Format</th>
-								<th class="num" style="width: 30%; padding-right: var(--space-4);">Winner</th>
+								<th class="num" style="width: 30%; padding-right: var(--space-4);">Top Cutoff</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -80,15 +72,7 @@
 										</a>
 									</td>
 									<td class="muted small desktop-only">{e.solo ? 'Solo' : 'Team'}</td>
-									<td class="num" style="padding-right: var(--space-4);">
-										{#if e.winner}
-											<div class="cluster cluster-sm" style="justify-content: flex-end;">
-												<UserChip rsn={e.winner.rsn} display={e.winner.display} points={e.winner.points} />
-											</div>
-										{:else}
-											<span class="muted small">—</span>
-										{/if}
-									</td>
+									<td class="num mono" style="padding-right: var(--space-4);">Top {e.position_cutoff}</td>
 								</tr>
 							{/each}
 						</tbody>
