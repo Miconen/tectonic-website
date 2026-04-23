@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
+	import GlobalSearch from './GlobalSearch.svelte';
 	import { guildPath } from '$lib/api/paths';
 
 	let guildId = $derived($page.params.guild_id as string | undefined);
@@ -30,6 +31,7 @@
 				</a>
 			{/each}
 		</nav>
+		<GlobalSearch />
 		<ThemeSwitcher />
 	</div>
 </header>
