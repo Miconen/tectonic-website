@@ -1,14 +1,16 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getEvents, getDetailedEvent, getUsersById, resolveGuild } from '$lib/api/client';
+import { getDiscordNamesMap } from '$lib/server/discord';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const guildId = resolveGuild(params);
 	const eventId = decodeURIComponent(params.event_id);
 
-	const [events, detailed] = await Promise.all([
+	const [events, detailed, discordNames] = await Promise.all([
 		getEvents(fetch, guildId),
-		getDetailedEvent(fetch, guildId, eventId)
+		getDetailedEvent(fetch, guildId, eventId),
+		getDiscordNamesMap(guildId)
 	]);
 
 	const eventMeta = events.find(e => e.wom_id === eventId);
@@ -33,6 +35,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 				placement: p.placement,
 				user_id: p.user_id,
 				rsn: u?.rsn ?? p.user_id,
+				display: discordNames.get(p.user_id) || undefined,
 				points: u?.points ?? 0
 			};
 		});

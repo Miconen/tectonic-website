@@ -36,7 +36,8 @@
 			{#each users as u, i (u.user_id)}
 				{@const rank = i + 1 + rankOffset}
 				{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
-				{@const alts = (u.rsns ?? []).slice(1)}
+				{@const display = u.discordName ?? primary}
+				{@const alts = (u.rsns ?? []).map(r => r.rsn).filter(r => r !== display)}
 				{@const iconName = getIconForPoints(u.points)}
 				<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
 					<td class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
@@ -45,12 +46,12 @@
 							{#if iconName}
 								<img src="/icons/Clan_icon_-_{iconName}.png" alt="" style="width: 13px; height: 13px; image-rendering: pixelated;" />
 							{/if}
-							{primary}
+							{display}
 						</a>
 					</td>
 					{#if showAlts}
 						<td class="muted small desktop-only">
-							{alts.map((r) => r.rsn).join(', ') || '—'}
+							{alts.join(', ') || '—'}
 						</td>
 					{/if}
 					<td class="num mono" style="padding-right: var(--space-4); font-weight: 500;">

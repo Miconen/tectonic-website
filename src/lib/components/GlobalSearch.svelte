@@ -7,7 +7,7 @@
 	let guildId = $derived($page.params.guild_id as string | undefined);
 
 	let query = $state('');
-	let results = $state<{ rank: number; primaryRsn: string; points: number }[]>([]);
+	let results = $state<{ rank: number; primaryRsn: string; urlRsn: string; points: number }[]>([]);
 	let isSearching = $state(false);
 	let isOpen = $state(false);
 	let mobileExpanded = $state(false);
@@ -104,9 +104,9 @@
 				<div class="dropdown-msg muted small">No players found.</div>
 			{:else}
 				<ul class="result-list">
-					{#each results as u (u.primaryRsn)}
+					{#each results as u (u.urlRsn)}
 						<li>
-							<a href={guildPath(guildId, `/users/${encodeURIComponent(u.primaryRsn)}`)} class="result-item">
+							<a href={guildPath(guildId, `/users/${encodeURIComponent(u.urlRsn)}`)} class="result-item">
 								<div class="result-main">
 									<span class={rankClass(u.rank)} style="margin-right: var(--space-2); font-size: 0.75rem;">#{u.rank}</span>
 									<span style="font-weight: 500;">{u.primaryRsn}</span>
@@ -165,6 +165,7 @@
 		height: 2rem;
 		margin-bottom: 0;
 		border-radius: var(--radius);
+		background-image: none !important; /* Disable Pico.css default injected search icon */
 	}
 	input[type="search"]::-webkit-search-decoration,
 	input[type="search"]::-webkit-search-cancel-button,

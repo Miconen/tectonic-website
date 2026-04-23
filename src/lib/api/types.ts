@@ -53,6 +53,7 @@ export interface LeaderboardUser {
 	guild_id: string;
 	points: number;
 	rsns: UserRsn[];
+	discordName?: string | null;
 }
 
 export interface GuildPb {

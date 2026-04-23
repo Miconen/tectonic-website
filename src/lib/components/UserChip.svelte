@@ -5,9 +5,10 @@
 
 	interface Props {
 		rsn: string;
+		display?: string;
 		points?: number;
 	}
-	let { rsn, points }: Props = $props();
+	let { rsn, display, points }: Props = $props();
 
 	let guildId = $derived($page.params.guild_id as string | undefined);
 	let iconName = $derived(points != null ? getIconForPoints(points) : null);
@@ -17,7 +18,7 @@
 	{#if iconName}
 		<img src="/icons/Clan_icon_-_{iconName}.png" alt="" class="user-icon" />
 	{/if}
-	{rsn}
+	{display ?? rsn}
 </a>
 
 <style>

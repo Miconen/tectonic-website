@@ -28,6 +28,7 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
-    "@picocss/pico": "^2.0.6"
+    "@picocss/pico": "^2.0.6",
+    "glob": "^13.0.6"
   }
 }

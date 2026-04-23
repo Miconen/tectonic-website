@@ -50,7 +50,7 @@
 								</td>
 								<td>
 									<div class="cluster cluster-sm">
-										<UserChip rsn={p.rsn} points={p.points} />
+										<UserChip rsn={p.rsn} display={p.display} points={p.points} />
 									</div>
 								</td>
 							</tr>

@@ -47,7 +47,7 @@
 					<div style="width: 1px; height: 1rem; background: var(--color-border); margin: 0 var(--space-2);"></div>
 					<span class="muted small">Holders:</span>
 					{#each data.holders as holder (holder.rsn)}
-						<UserChip rsn={holder.rsn} points={holder.points} />
+						<UserChip rsn={holder.rsn} display={holder.display} points={holder.points} />
 					{/each}
 				</div>
 			</div>
