@@ -45,7 +45,7 @@
 				{#if data.top5.length === 0}
 					<div class="empty-state">No members yet.</div>
 				{:else}
-					<LeaderboardTable users={data.top5} {guildId} />
+					<LeaderboardTable users={data.top5} {guildId} showAlts={true} />
 				{/if}
 			</div>
 		</div>
