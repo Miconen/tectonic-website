@@ -6,45 +6,69 @@
 
 	let guildId = $derived($page.params.guild_id as string | undefined);
 
+	type SearchItem = { rank: number; primaryRsn: string; urlRsn: string; points: number; searchTerms: string };
+
 	let query = $state('');
-	let results = $state<{ rank: number; primaryRsn: string; urlRsn: string; points: number }[]>([]);
-	let isSearching = $state(false);
+	let fullRoster = $state<SearchItem[] | null>(null);
+	let isFetching = $state(false);
+	
 	let isOpen = $state(false);
 	let mobileExpanded = $state(false);
 
-	let timer: ReturnType<typeof setTimeout>;
+	let results = $derived.by(() => {
+		const q = query.trim().toLowerCase();
+		if (!q || !fullRoster) return [];
+		
+		const matches = [];
+		for (const u of fullRoster) {
+			if (u.searchTerms.includes(q)) {
+				matches.push(u);
+				if (matches.length >= 6) break;
+			}
+		}
+		return matches;
+	});
+
+	async function loadRoster() {
+		if (fullRoster || isFetching) return;
+		isFetching = true;
+		try {
+			const res = await fetch(guildPath(guildId, '/api/search'));
+			if (res.ok) {
+				const data = await res.json();
+				fullRoster = data.results;
+			}
+		} catch (e) {
+			console.error("Search index failed to load:", e);
+		} finally {
+			isFetching = false;
+		}
+	}
 
 	function handleInput() {
-		clearTimeout(timer);
 		if (!query.trim()) {
-			results = [];
 			isOpen = false;
 			return;
 		}
-
-		isSearching = true;
 		isOpen = true;
+		loadRoster(); // Safely triggers background load if not already cached
+	}
 
-		timer = setTimeout(async () => {
-			try {
-				const res = await fetch(guildPath(guildId, `/api/search?q=${encodeURIComponent(query)}`));
-				if (res.ok) {
-					const data = await res.json();
-					results = data.results;
-				}
-			} catch (e) {
-				console.error(e);
-			} finally {
-				isSearching = false;
-			}
-		}, 200);
+	function handleFocus() {
+		loadRoster(); // Prefetch when they click the input
+		if (query.trim()) isOpen = true;
+	}
+
+	function closeSearch() {
+		isOpen = false;
+		mobileExpanded = false;
+		query = '';
 	}
 
 	function handleOutsideClick(e: MouseEvent) {
 		const target = e.target as HTMLElement;
 		if (!target.closest('.global-search')) {
-			isOpen = false;
-			mobileExpanded = false;
+			closeSearch();
 		}
 	}
 
@@ -59,11 +83,9 @@
 	});
 
 	$effect(() => {
-		// Close dropdown when navigating away
+		// Close and reset dropdown when navigating away
 		if ($page.url) {
-			isOpen = false;
-			mobileExpanded = false;
-			query = '';
+			closeSearch();
 		}
 	});
 </script>
@@ -85,11 +107,11 @@
 			placeholder="Search player..."
 			bind:value={query}
 			oninput={handleInput}
-			onfocus={() => { if (query.trim()) isOpen = true; }}
+			onfocus={handleFocus}
 			autocomplete="off"
 		/>
 		{#if mobileExpanded}
-			<button class="close-mobile desktop-hidden" onclick={() => { mobileExpanded = false; isOpen = false; query = ''; }}>
+			<button class="close-mobile desktop-hidden" onclick={closeSearch}>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 			</button>
 		{/if}
@@ -97,8 +119,8 @@
 
 	{#if isOpen}
 		<div class="search-dropdown">
-			{#if isSearching && results.length === 0}
-				<div class="dropdown-msg muted small">Searching...</div>
+			{#if !fullRoster}
+				<div class="dropdown-msg muted small">Loading...</div>
 			{:else if results.length === 0}
 				<div class="dropdown-msg muted small">No players found.</div>
 			{:else}
@@ -125,6 +147,7 @@
 		position: relative;
 		display: flex;
 		align-items: center;
+		margin-left: auto;
 	}
 
 	.search-toggle {

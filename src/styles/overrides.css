@@ -96,6 +96,18 @@ a:hover {
 	margin: 0;
 }
 
+/* ---------- links ---------- */
+.link-dashed {
+	color: var(--color-text);
+	text-decoration: underline dashed var(--color-text-muted);
+	text-underline-offset: 4px;
+	transition: all 120ms ease;
+}
+.link-dashed:hover {
+	color: var(--color-accent);
+	text-decoration-color: var(--color-accent);
+}
+
 /* ---------- header / nav ---------- */
 .site-header {
 	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
@@ -122,11 +134,11 @@ a:hover {
 	letter-spacing: -0.02em;
 	font-size: 1rem;
 	color: var(--color-text);
+	margin-right: var(--space-2);
 }
 .site-header nav {
 	display: flex;
 	gap: var(--space-4);
-	flex: 1;
 	height: 3rem;
 }
 .site-header nav a {
