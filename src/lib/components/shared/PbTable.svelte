@@ -70,7 +70,6 @@
 									{#if showHolders}
 										{#if pb.holders.length > 0}
 											<div class="cluster cluster-sm">
-												<span class="muted tiny">w/</span>
 												{#each pb.holders as holder (holder.rsn)}
 													<UserChip rsn={holder.rsn} points={holder.points} />
 												{/each}
@@ -95,7 +94,6 @@
 						<td class="desktop-only" style="vertical-align: top; padding-top: var(--space-2); {!showDate ? 'padding-right: var(--space-4);' : ''}">
 							{#if pb.holders.length > 0}
 								<div class="cluster cluster-sm">
-									<span class="muted tiny">w/</span>
 									{#each pb.holders as holder (holder.rsn)}
 										<UserChip rsn={holder.rsn} points={holder.points} />
 									{/each}

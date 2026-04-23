@@ -34,7 +34,7 @@
 		</div>
 	</div>
 
-	<div class="grid-2">
+	<div class="stack-lg" style="margin-top: var(--space-6);">
 		<!-- Top 5 -->
 		<div class="stack-sm">
 			<div class="row-between">
@@ -64,7 +64,7 @@
 						rows={data.latestPbs} 
 						{guildId} 
 						contextualBossName={false} 
-						bossWrap="multi-line" 
+						bossWrap="single-line" 
 					/>
 				{/if}
 			</div>

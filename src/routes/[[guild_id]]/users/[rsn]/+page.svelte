@@ -99,61 +99,58 @@
 
 	<hr class="hairline" />
 
-	<div class="grid-2">
-		<!-- Events & CAs -->
-		<div class="stack">
-			<div class="stack-sm">
-				<h2 class="section-heading">Events</h2>
-				{#if (data.user.events ?? []).length === 0}
-					<div class="empty-state">None yet.</div>
-				{:else}
-					<div class="table-wrapper">
-						<table class="table">
-							<tbody>
-								{#each data.user.events as e (e.wom_id)}
-									<tr>
-										<td style="padding-left: var(--space-4);">{e.name}</td>
-										<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
-											#{e.placement}
-										</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
+	<!-- Events -->
+	<div class="stack-sm">
+		<h2 class="section-heading">Events</h2>
+		{#if (data.user.events ?? []).length === 0}
+			<div class="empty-state">None yet.</div>
+		{:else}
+			<div class="table-wrapper">
+				<table class="table">
+					<tbody>
+						{#each data.user.events as e (e.wom_id)}
+							<tr>
+								<td style="padding-left: var(--space-4);">{e.name}</td>
+								<td class="num mono {rankClass(e.placement)}" style="padding-right: var(--space-4); font-weight: 600;">
+									#{e.placement}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		{/if}
+	</div>
+
+	<hr class="hairline" />
+
+	<!-- CAs -->
+	<div class="stack-sm">
+		<details>
+			<summary class="section-heading" style="cursor: pointer; user-select: none; margin-bottom: 0;">
+				Claimed tasks: {claimedCAs} / {data.guildCAs.length}
+			</summary>
+			<div class="stack-sm" style="margin-top: var(--space-3);">
+				{#if claimedCAs > 0}
+					<div class="cluster cluster-sm">
+						<span class="muted tiny" style="width: 100%;">Claimed</span>
+						{#each data.user.combat_achievements as ca (ca.name)}
+							<span class="badge" style="background: var(--color-accent); color: var(--color-accent-contrast); border-color: var(--color-accent);">{ca.name}</span>
+						{/each}
 					</div>
 				{/if}
-			</div>
-
-			<hr class="hairline" />
-
-			<div class="stack-sm">
-				<details>
-					<summary class="section-heading" style="cursor: pointer; user-select: none; margin-bottom: 0;">
-						Claimed tasks: {claimedCAs} / {data.guildCAs.length}
-					</summary>
-					<div class="stack-sm" style="margin-top: var(--space-3);">
-						{#if claimedCAs > 0}
-							<div class="cluster cluster-sm">
-								<span class="muted tiny" style="width: 100%;">Claimed</span>
-								{#each data.user.combat_achievements as ca (ca.name)}
-									<span class="badge" style="background: var(--color-accent); color: var(--color-accent-contrast); border-color: var(--color-accent);">{ca.name}</span>
-								{/each}
-							</div>
-						{/if}
-						{#if unclaimedCAs.length > 0}
-							<div class="cluster cluster-sm" style="margin-top: var(--space-2);">
-								<span class="muted tiny" style="width: 100%;">Unclaimed</span>
-								{#each unclaimedCAs as ca (ca.name)}
-									<span class="badge">{ca.name}</span>
-								{/each}
-							</div>
-						{/if}
-						{#if claimedCAs === 0 && unclaimedCAs.length === 0}
-							<div class="muted small">No tasks available.</div>
-						{/if}
+				{#if unclaimedCAs.length > 0}
+					<div class="cluster cluster-sm" style="margin-top: var(--space-2);">
+						<span class="muted tiny" style="width: 100%;">Unclaimed</span>
+						{#each unclaimedCAs as ca (ca.name)}
+							<span class="badge">{ca.name}</span>
+						{/each}
 					</div>
-				</details>
+				{/if}
+				{#if claimedCAs === 0 && unclaimedCAs.length === 0}
+					<div class="muted small">No tasks available.</div>
+				{/if}
 			</div>
-		</div>
+		</details>
 	</div>
 </section>
