@@ -107,9 +107,11 @@
 		<table class="table table-collapse-mobile">
 			<thead>
 				<tr>
-					<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
 					{#if viewMode === 'flat'}
-						<th class="desktop-only" style="cursor: pointer;" onclick={() => setSort('category')}>Category</th>
+						<th class="desktop-only" style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('category')}>Category</th>
+						<th style="cursor: pointer;" onclick={() => setSort('boss')}>Boss</th>
+					{:else}
+						<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
 					{/if}
 					<th class="num" style="cursor: pointer;" onclick={() => setSort('time')}>Time</th>
 					<th class="desktop-only">Holders</th>
@@ -121,16 +123,16 @@
 				<tbody>
 					{#each sorted as row (row.boss_name)}
 						<tr>
-							<td style="padding-left: var(--space-4);">
+							<td data-label="Category" class="muted small desktop-only" style="padding-left: var(--space-4);">{row.category}</td>
+							<td data-label="Boss">
 								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
 									{row.display_name}
 								</a>
 							</td>
-							<td class="muted small desktop-only">{row.category}</td>
-							<td class="num">
+							<td data-label="Time" class="num">
 								<TimeDisplay ticks={row.time} />
 							</td>
-							<td class="desktop-only">
+							<td data-label="Team" class="desktop-only">
 								{#if row.holders.length > 0}
 									<div class="cluster cluster-sm">
 										{#each row.holders as holder (holder.rsn)}
@@ -139,15 +141,11 @@
 									</div>
 								{:else if row.time != null}
 									<span class="badge">Solo</span>
-								{:else if row.time != null}
-									<span class="badge">Solo</span>
-								{:else if row.time != null}
-									<span class="badge">Solo</span>
 								{:else}
 									<span class="muted small">—</span>
 								{/if}
 							</td>
-							<td class="muted small desktop-only" style="padding-right: var(--space-4);">{formatDate(row.date)}</td>
+							<td data-label="Date" class="muted small desktop-only" style="padding-right: var(--space-4);">{formatDate(row.date)}</td>
 						</tr>
 					{/each}
 				</tbody>
