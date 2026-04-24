@@ -28,8 +28,8 @@
 					<table class="table table-collapse-mobile">
 						<thead>
 							<tr>
-								<th style="padding-left: var(--space-4);">Event Name</th>
-								<th style="padding-right: var(--space-4);">Format</th>
+								<th style="width: 75%; padding-left: var(--space-4);">Event Name</th>
+								<th style="width: 25%; padding-right: var(--space-4);">Format</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -56,8 +56,8 @@
 					<table class="table table-collapse-mobile">
 						<thead>
 							<tr>
-								<th style="padding-left: var(--space-4);">Event Name</th>
-								<th style="padding-right: var(--space-4);">Format</th>
+								<th style="width: 75%; padding-left: var(--space-4);">Event Name</th>
+								<th style="width: 25%; padding-right: var(--space-4);">Format</th>
 							</tr>
 						</thead>
 						<tbody>
