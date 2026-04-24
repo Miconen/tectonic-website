@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { getUsersByRsn, getUsersById, getGuildTimes, getBosses, getGuildCombatAchievements, resolveGuild } from '$lib/api/client';
+import { getUsersByRsn, getUsersById, getGuild, getBosses, getGuildCombatAchievements, resolveGuild } from '$lib/api/client';
 import { getDiscordNamesMap } from '$lib/server/discord';
 
 export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	const [users, guild, bosses, guildCAs, discordNames] = await Promise.all([
 		getUsersByRsn(fetch, guildId, [rsn]),
-		getGuildTimes(fetch, guildId),
+		getGuild(fetch, guildId),
 		getBosses(fetch),
 		getGuildCombatAchievements(fetch, guildId),
 		getDiscordNamesMap(guildId)

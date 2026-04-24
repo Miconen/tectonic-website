@@ -112,6 +112,8 @@ export interface DetailedGuild {
 	categories: GuildCategory[];
 	guild_bosses: GuildBossEntry[];
 	guild_categories: GuildCategoryEntry[];
+	time_count: number;
+	user_count: number;
 }
 
 export interface UserAchievement {

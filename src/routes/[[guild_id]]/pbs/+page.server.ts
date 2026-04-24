@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types';
 import {
 	getBosses,
 	getCategories,
-	getGuildTimes,
+	getGuild,
 	getUsersById,
 	resolveGuild
 } from '$lib/api/client';
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const [bosses, categories, guild, discordNames] = await Promise.all([
 		getBosses(fetch),
 		getCategories(fetch),
-		getGuildTimes(fetch, guildId),
+		getGuild(fetch, guildId),
 		getDiscordNamesMap(guildId)
 	]);
 

@@ -92,10 +92,10 @@ export function getLeaderboard(fetch: Fetch, guildId: string) {
   ).then((r) => r ?? []);
 }
 
-export function getGuildTimes(fetch: Fetch, guildId: string) {
+export function getGuild(fetch: Fetch, guildId: string, detailed: boolean = true) {
   return call<DetailedGuild>(
     fetch,
-    `/api/v1/guilds/${encodeURIComponent(guildId)}/times`,
+    `/api/v1/guilds/${encodeURIComponent(guildId)}${detailed ? "?detailed=true" : ""}`,
   );
 }
 

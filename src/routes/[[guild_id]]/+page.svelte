@@ -28,8 +28,8 @@
 			</div>
 			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: 0 var(--space-2);"></div>
 			<div class="text-right">
-				<span class="tiny muted" style="display: block;">Recorded PBs</span>
-				<span class="mono" style="font-size: 1.125rem; font-weight: 600;">{data.latestPbs.length}</span>
+				<span class="tiny muted" style="display: block;">Recorded Times</span>
+				<span class="mono" style="font-size: 1.125rem; font-weight: 600;">{data.totalTimes}</span>
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import {
-	getGuildTimes,
+	getGuild,
 	getLeaderboard,
 	getUsersById,
 	getBosses,
@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	const [leaderboard, guild, bosses, discordNames] = await Promise.all([
 		getLeaderboard(fetch, guildId),
-		getGuildTimes(fetch, guildId),
+		getGuild(fetch, guildId),
 		getBosses(fetch),
 		getDiscordNamesMap(guildId)
 	]);
@@ -72,6 +72,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	return {
 		top5,
 		latestPbs,
-		totalMembers: leaderboard.length
+		totalMembers: guild.user_count ?? leaderboard.length,
+		totalTimes: guild.time_count ?? 0
 	};
 };
