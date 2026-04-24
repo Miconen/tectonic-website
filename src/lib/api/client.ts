@@ -85,10 +85,10 @@ export function getDetailedEvent(fetch: Fetch, guildId: string, eventId: string)
 	);
 }
 
-export function getLeaderboard(fetch: Fetch, guildId: string) {
+export function getLeaderboard(fetch: Fetch, guildId: string, limit: number = 1000) {
   return call<LeaderboardUser[] | null>(
     fetch,
-    `/api/v1/guilds/${encodeURIComponent(guildId)}/leaderboard`,
+    `/api/v1/guilds/${encodeURIComponent(guildId)}/leaderboard?limit=${limit}`,
   ).then((r) => r ?? []);
 }
 

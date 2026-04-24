@@ -8,16 +8,56 @@
 		guildId: string | undefined;
 		/**
 		 * Offset added to index to calculate rank.
-		 * Useful if passing a sliced array (though usually we pass the full list or start at 0).
+		 * Useful if passing a sliced array manually (though usually handled by pagination).
 		 */
 		rankOffset?: number;
 		/**
 		 * If true, shows "RSNs" column (desktop only).
 		 */
 		showAlts?: boolean;
+		/**
+		 * If true, disables client-side pagination (useful for Top 5 widgets).
+		 */
+		disablePagination?: boolean;
+		/**
+		 * Number of rows per page when pagination is enabled.
+		 */
+		pageSize?: number;
 	}
 
-	let { users, guildId, rankOffset = 0, showAlts = false }: Props = $props();
+	let { 
+		users, 
+		guildId, 
+		rankOffset = 0, 
+		showAlts = false, 
+		disablePagination = false, 
+		pageSize = 50 
+	}: Props = $props();
+
+	let currentPage = $state(1);
+
+	// Reset to page 1 if the input user array changes (e.g., during filtering)
+	$effect(() => {
+		if (users) {
+			currentPage = 1;
+		}
+	});
+
+	let totalPages = $derived(disablePagination ? 1 : Math.ceil(users.length / pageSize));
+	
+	let visibleUsers = $derived.by(() => {
+		if (disablePagination) return users;
+		const start = (currentPage - 1) * pageSize;
+		return users.slice(start, start + pageSize);
+	});
+
+	function prevPage() {
+		if (currentPage > 1) currentPage--;
+	}
+
+	function nextPage() {
+		if (currentPage < totalPages) currentPage++;
+	}
 </script>
 
 <div class="table-wrapper">
@@ -33,8 +73,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each users as u, i (u.user_id)}
-				{@const rank = i + 1 + rankOffset}
+			{#each visibleUsers as u, i (u.user_id)}
+				{@const rank = disablePagination ? (i + 1 + rankOffset) : ((currentPage - 1) * pageSize + i + 1 + rankOffset)}
 				{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
 				{@const display = u.discordName ?? primary}
 				{@const allRsns = (u.rsns ?? []).map(r => r.rsn)}
@@ -61,4 +101,38 @@
 			{/each}
 		</tbody>
 	</table>
+
+	{#if !disablePagination && totalPages > 1}
+		<div class="pagination">
+			<button class="chip" onclick={prevPage} disabled={currentPage === 1}>
+				Previous
+			</button>
+			<span class="muted small mono">
+				Page {currentPage} of {totalPages}
+			</span>
+			<button class="chip" onclick={nextPage} disabled={currentPage === totalPages}>
+				Next
+			</button>
+		</div>
+	{/if}
 </div>
+
+<style>
+	.pagination {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: var(--space-3) var(--space-4);
+		border-top: 1px solid var(--color-border);
+		background: color-mix(in srgb, var(--color-surface) 50%, transparent);
+	}
+	.pagination button {
+		cursor: pointer;
+		border: none;
+	}
+	.pagination button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+</style>
