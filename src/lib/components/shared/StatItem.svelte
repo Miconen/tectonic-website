@@ -1,15 +1,25 @@
 <script lang="ts">
 	interface Props {
 		label: string;
-		value: string | number;
+		value?: string | number;
 		color?: string;
+		icon?: string | null;
+		children?: import('svelte').Snippet;
 	}
-	let { label, value, color }: Props = $props();
+	let { label, value, color, icon, children }: Props = $props();
 </script>
 
 <div class="stat-item">
 	<span class="tiny muted">{label}</span>
-	<span class="stat-val" style="color: {color ?? 'var(--color-text)'};">{value}</span>
+	<div class="stat-val cluster cluster-sm" style="color: {color ?? 'var(--color-text)'};">
+		{#if icon}
+			<img src="/icons/Clan_icon_-_{icon}.png" alt="" style="width: 18px; height: 18px; image-rendering: pixelated;" />
+		{/if}
+		{#if value !== undefined}
+			{value}
+		{/if}
+		{@render children?.()}
+	</div>
 </div>
 
 <style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass, getIconForPoints } from '$lib/format/points';
+	import { formatPoints, rankClass } from '$lib/format/points';
 	import PbTable from '$lib/components/shared/PbTable.svelte';
 	import StatStrip from '$lib/components/shared/StatStrip.svelte';
 	import StatItem from '$lib/components/shared/StatItem.svelte';
@@ -23,7 +23,7 @@
 	
 	let bingoWins = $derived(bingos.filter((e: any) => e.placement === 1).length);
 	
-	let userIcon = $derived(getIconForPoints(data.user.points));
+	let userTier = $derived(data.user.tier);
 </script>
 
 <svelte:head>
@@ -35,16 +35,13 @@
 		<nav aria-label="breadcrumb">
 			<a class="small muted" href={guildPath(guildId, '/leaderboard')}>← Leaderboard</a>
 		</nav>
-		<div class="cluster" style="align-items: center; gap: var(--space-4);">
-			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3);">
-				{#if userIcon}
-					<img src="/icons/Clan_icon_-_{userIcon}.png" alt="" style="width: 32px; height: 32px; image-rendering: pixelated;" />
+		<div class="cluster" style="align-items: baseline; gap: var(--space-4);">
+			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap;">
+				{#if data.user.rank != null}
+					<span class={rankClass(data.user.rank)} style="line-height: 1;">#{data.user.rank}</span>
 				{/if}
 				<span style="line-height: 1;">{data.discordName ?? data.primaryRsn}</span>
 			</h1>
-			{#if data.user.rank != null}
-				<span class={rankClass(data.user.rank)} style="font-size: 1.5rem; line-height: 1;">#{data.user.rank}</span>
-			{/if}
 			{#if (data.user.achievements ?? []).length > 0}
 				<div class="cluster cluster-sm" style="margin-left: var(--space-2);">
 					{#each data.user.achievements as a (a.name)}
@@ -73,8 +70,11 @@
 
 	<!-- Stat strip -->
 	<StatStrip>
+		{#if userTier}
+			<StatItem label="Rank" value={userTier.name} icon={userTier.icon} color="var(--color-text)" />
+		{/if}
 		<StatItem label="Points" value={formatPoints(data.user.points)} color="var(--color-accent)" />
-		<StatItem label="PBs held" value={data.pbs.length} />
+		<StatItem label="Records held" value={data.pbs.length} />
 		<StatItem label="Bingo Wins" value={bingoWins} color={bingoWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
 		<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
 		<StatItem label="Event #1s" value={eventWins} color={eventWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
@@ -84,15 +84,16 @@
 
 	<!-- PBs held (Full Width) -->
 	<div class="stack-sm">
-		<h2 class="section-heading">Guild PBs held</h2>
+		<h2 class="section-heading">Guild Records held</h2>
 		{#if data.pbs.length === 0}
-			<div class="empty-state">No clan PBs held.</div>
+			<div class="empty-state">No clan records held.</div>
 		{:else}
 			<PbTable 
 				rows={data.pbs} 
 				{guildId} 
 				contextualBossName={true} 
 				bossWrap="single-line" 
+				showPosition={true}
 			/>
 		{/if}
 	</div>

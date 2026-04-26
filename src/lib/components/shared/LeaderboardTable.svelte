@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass, getIconForPoints } from '$lib/format/points';
-	import type { LeaderboardUser } from '$lib/api/types';
+	import { formatPoints, rankClass, getTierForPoints } from '$lib/format/points';
+	import type { LeaderboardUser, GuildRankResponse } from '$lib/api/types';
 
 	interface Props {
 		users: LeaderboardUser[];
@@ -35,6 +36,7 @@
 	}: Props = $props();
 
 	let currentPage = $state(1);
+	let ranks = $derived(($page.data.ranks as GuildRankResponse[]) || []);
 
 	// Reset to page 1 if the input user array changes (e.g., during filtering)
 	$effect(() => {
@@ -78,7 +80,7 @@
 				{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
 				{@const display = u.discordName ?? primary}
 				{@const allRsns = (u.rsns ?? []).map(r => r.rsn)}
-				{@const iconName = getIconForPoints(u.points)}
+				{@const iconName = getTierForPoints(u.points, ranks)?.icon}
 				<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
 					<td data-label="Rank" class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
 					<td data-label="Player">
