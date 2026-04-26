@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { guildPath } from '$lib/api/paths';
-	import { formatBossName } from '$lib/format/boss';
+	import { formatBossNameParts } from '$lib/format/boss';
 	import { formatDate } from '$lib/format/time';
 	import ValueDisplay from '$lib/components/ValueDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
@@ -76,7 +76,15 @@
 					<td data-label="Boss" style={showPosition ? 'padding-left: var(--space-2);' : 'padding-left: var(--space-4);'}>
 						<div class="stack-sm" style="margin-top: 0;">
 							<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} class:desktop-hidden={!showBossName} style="font-weight: 500;">
-								{contextualBossName ? formatBossName(pb.display_name, pb.category) : pb.display_name}
+								{#if contextualBossName}
+									{@const parts = formatBossNameParts(pb.display_name, pb.category)}
+									{#if parts.categoryText}
+										<span class="muted">{parts.categoryText}</span>
+									{/if}
+									{parts.bossText}
+								{:else}
+									{pb.display_name}
+								{/if}
 							</a>
 							{#if !showBossName}
 								<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
