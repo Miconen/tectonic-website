@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass } from '$lib/format/points';
+	import { formatPoints, rankClass, formatRankText } from '$lib/format/points';
 	import PbTable from '$lib/components/shared/PbTable.svelte';
 	import StatStrip from '$lib/components/shared/StatStrip.svelte';
 	import StatItem from '$lib/components/shared/StatItem.svelte';
@@ -71,7 +71,7 @@
 	<!-- Stat strip -->
 	<StatStrip>
 		{#if userTier}
-			<StatItem label="Rank" value={userTier.name} icon={userTier.icon} color="var(--color-text)" />
+			<StatItem label="Rank" value={formatRankText(userTier.name)} icon={userTier.icon} color="var(--color-text)" />
 		{/if}
 		<StatItem label="Points" value={formatPoints(data.user.points)} color="var(--color-accent)" />
 		<StatItem label="Records held" value={data.pbs.length} />

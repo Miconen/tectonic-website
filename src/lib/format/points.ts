@@ -18,3 +18,28 @@ export function getTierForPoints(points: number | null | undefined, ranks: Guild
 	return sorted.find(r => points >= r.min_points) || null;
 }
 
+/**
+ * Transforms "red_topaz" -> "Red Topaz"
+ */
+export function formatRankText(name: string | null | undefined): string {
+	if (!name) return '';
+	return name
+		.replace(/[^a-zA-Z0-9]/g, ' ')
+		.split(' ')
+		.filter(Boolean)
+		.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(' ');
+}
+
+/**
+ * Transforms "red_topaz" -> "Red_Topaz" for exact filename matching
+ */
+export function formatRankIcon(name: string | null | undefined): string {
+	if (!name) return '';
+	return name
+		.split(/[-_]/)
+		.filter(Boolean)
+		.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join('_');
+}
+

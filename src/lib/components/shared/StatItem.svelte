@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { formatRankIcon } from '$lib/format/points';
+
 	interface Props {
 		label: string;
 		value?: string | number;
@@ -13,7 +15,7 @@
 	<span class="tiny muted">{label}</span>
 	<div class="stat-val cluster cluster-sm" style="color: {color ?? 'var(--color-text)'};">
 		{#if icon}
-			<img src="/icons/Clan_icon_-_{icon}.png" alt="" style="width: 18px; height: 18px; image-rendering: pixelated;" />
+			<img src="/icons/Clan_icon_-_{formatRankIcon(icon)}.png" alt="" style="width: 18px; height: 18px; image-rendering: pixelated;" />
 		{/if}
 		{#if value !== undefined}
 			{value}

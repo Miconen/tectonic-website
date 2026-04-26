@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { getTierForPoints } from '$lib/format/points';
+	import { getTierForPoints, formatRankIcon } from '$lib/format/points';
 	import type { GuildRankResponse } from '$lib/api/types';
 
 	interface Props {
@@ -13,7 +13,7 @@
 
 	let guildId = $derived($page.params.guild_id as string | undefined);
 	let ranks = $derived(($page.data.ranks as GuildRankResponse[]) || []);
-	let iconName = $derived(getTierForPoints(points, ranks)?.icon);
+	let iconName = $derived(formatRankIcon(getTierForPoints(points, ranks)?.icon));
 </script>
 
 <a class="chip" href={guildPath(guildId, `/users/${encodeURIComponent(rsn)}`)}>
