@@ -32,6 +32,8 @@
 		showPosition?: boolean;
 		/** How wrapping should behave for the boss column */
 		bossWrap?: 'single-line' | 'multi-line';
+		/** Always show boss name on every row instead of grouping with an indent */
+		repeatBossName?: boolean;
 	}
 
 	let {
@@ -41,7 +43,8 @@
 		showDate = true,
 		showHolders = true,
 		showPosition = false,
-		bossWrap = 'single-line'
+		bossWrap = 'single-line',
+		repeatBossName = false
 	}: Props = $props();
 </script>
 
@@ -66,7 +69,7 @@
 		</thead>
 		<tbody>
 			{#each rows as pb, i (pb.record_id + '_' + i)}
-				{@const showBossName = i === 0 || rows[i-1].boss_name !== pb.boss_name}
+				{@const showBossName = repeatBossName || i === 0 || rows[i-1].boss_name !== pb.boss_name}
 				<tr class={showPosition && pb.position <= 3 ? `row-rank-${pb.position}` : ''}>
 					{#if showPosition}
 						<td data-label="Rank" class="num mono {pb.position <= 3 ? rankClass(pb.position) : 'muted'}" style="padding-left: var(--space-4); text-align: left;">

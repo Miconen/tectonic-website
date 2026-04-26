@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass, formatRankText } from '$lib/format/points';
+	import { formatPoints, rankClass, formatRankText, getTierForPoints, getRankIconUrl } from '$lib/format/points';
+	import type { GuildRankResponse } from '$lib/api/types';
 	import PbTable from '$lib/components/shared/PbTable.svelte';
 	import StatStrip from '$lib/components/shared/StatStrip.svelte';
 	import StatItem from '$lib/components/shared/StatItem.svelte';
@@ -23,7 +24,13 @@
 	
 	let bingoWins = $derived(bingos.filter((e: any) => e.placement === 1).length);
 	
+	let recordFirsts = $derived(data.pbs.filter((p: any) => p.position === 1).length);
+	let recordSeconds = $derived(data.pbs.filter((p: any) => p.position === 2).length);
+	let recordThirds = $derived(data.pbs.filter((p: any) => p.position === 3).length);
+
 	let userTier = $derived(data.user.tier);
+	let ranks = $derived(($page.data.ranks as GuildRankResponse[]) || []);
+	let userIcon = $derived(getRankIconUrl(getTierForPoints(data.user.points, ranks)?.icon));
 </script>
 
 <svelte:head>
@@ -74,9 +81,14 @@
 			<StatItem label="Rank" value={formatRankText(userTier.name)} icon={userTier.icon} color="var(--color-text)" />
 		{/if}
 		<StatItem label="Points" value={formatPoints(data.user.points)} color="var(--color-accent)" />
-		<StatItem label="Records held" value={data.pbs.length} />
-		<StatItem label="Bingo Wins" value={bingoWins} color={bingoWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
+		{#if recordFirsts > 0 || recordSeconds > 0 || recordThirds > 0}
+			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
+			{#if recordFirsts > 0}<StatItem label="Record #1s" value={recordFirsts} color="var(--color-gold)" />{/if}
+			{#if recordSeconds > 0}<StatItem label="Record #2s" value={recordSeconds} color="var(--color-silver)" />{/if}
+			{#if recordThirds > 0}<StatItem label="Record #3s" value={recordThirds} color="var(--color-bronze)" />{/if}
+		{/if}
 		<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
+		<StatItem label="Bingo Wins" value={bingoWins} color={bingoWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
 		<StatItem label="Event #1s" value={eventWins} color={eventWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
 		<StatItem label="Event #2s" value={eventSeconds} color={eventSeconds > 0 ? "var(--color-silver)" : "var(--color-text-muted)"} />
 		<StatItem label="Event #3s" value={eventThirds} color={eventThirds > 0 ? "var(--color-bronze)" : "var(--color-text-muted)"} />
@@ -94,6 +106,7 @@
 				contextualBossName={true} 
 				bossWrap="single-line" 
 				showPosition={true}
+				repeatBossName={true}
 			/>
 		{/if}
 	</div>
