@@ -134,6 +134,13 @@ export function getGuildCombatAchievements(fetch: Fetch, guildId: string) {
   ).then((r) => r ?? []);
 }
 
+export function getGuildRanks(fetch: Fetch, guildId: string) {
+  return call<import("./types").GuildRankResponse[] | null>(
+    fetch,
+    `/api/v1/guilds/${encodeURIComponent(guildId)}/ranks`,
+  ).then((r) => r ?? []);
+}
+
 // ---------- global ----------
 
 export function getBosses(fetch: Fetch) {

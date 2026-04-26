@@ -10,7 +10,8 @@
 	const links = [
 		{ href: '/leaderboard', label: 'Leaderboard' },
 		{ href: '/pbs', label: 'Bosses & PBs' },
-		{ href: '/events', label: 'Events' }
+		{ href: '/events', label: 'Events' },
+		{ href: '/ranks', label: 'Guild Info' }
 	];
 
 	function isActive(href: string): boolean {

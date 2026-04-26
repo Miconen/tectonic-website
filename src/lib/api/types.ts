@@ -105,6 +105,14 @@ export interface GetGuildCombatAchievementsRow {
 	points: number;
 }
 
+export interface GuildRankResponse {
+	display_order: number;
+	icon: string;
+	min_points: number;
+	name: string;
+	role_id: string;
+}
+
 export interface DetailedGuild {
 	guild_id: string;
 	pb_channel_id: string | null;

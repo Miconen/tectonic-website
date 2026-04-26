@@ -231,6 +231,111 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/guilds/{guild_id}/ranks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get guild rank tiers */
+        get: operations["get-guild-ranks"];
+        put?: never;
+        /** Create a guild rank tier */
+        post: operations["create-guild-rank"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guilds/{guild_id}/ranks/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update a guild rank tier */
+        put: operations["update-guild-rank"];
+        post?: never;
+        /** Delete a guild rank tier */
+        delete: operations["delete-guild-rank"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guilds/{guild_id}/records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all guild records */
+        get: operations["get-guild-records"];
+        put?: never;
+        /** Add a new record to guild */
+        post: operations["create-record"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guilds/{guild_id}/records/id/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove a record from guild */
+        delete: operations["remove-record"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guilds/{guild_id}/records/{boss}/clear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Clear all records for a boss */
+        delete: operations["clear-boss-records"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guilds/{guild_id}/records/{boss}/revert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Revert top record (delete #1, next best becomes #1) */
+        delete: operations["revert-top-record"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/guilds/{guild_id}/teams/boss/{boss}": {
         parameters: {
             query?: never;
@@ -240,16 +345,16 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Add a new teammate to time by boss */
+        /** Add a new teammate to record by boss */
         post: operations["add-teammate-by-boss"];
-        /** Remove a teammate from time by boss */
+        /** Remove a teammate from record by boss */
         delete: operations["remove-teammate-by-boss"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/v1/guilds/{guild_id}/teams/id/{run_id}": {
+    "/api/v1/guilds/{guild_id}/teams/id/{record_id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -258,79 +363,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Add a new teammate to time by run ID */
-        post: operations["add-teammate-by-run-id"];
-        /** Remove a teammate from time by run ID */
-        delete: operations["remove-teammate-by-run-id"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/guilds/{guild_id}/times": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get all guild times */
-        get: operations["get-guild-times"];
-        put?: never;
-        /** Add a new best time to guild */
-        post: operations["create-time"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/guilds/{guild_id}/times/id/{time_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Remove time from guild's best times */
-        delete: operations["remove-time"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/guilds/{guild_id}/times/{boss}/clear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Clear best PB time */
-        delete: operations["clear-clan-pb"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/guilds/{guild_id}/times/{boss}/revert": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Revert best PB time to second last */
-        delete: operations["revert-clan-pb"];
+        /** Add a new teammate to record by record ID */
+        post: operations["add-teammate-by-record-id"];
+        /** Remove a teammate from record by record ID */
+        delete: operations["remove-teammate-by-record-id"];
         options?: never;
         head?: never;
         patch?: never;
@@ -577,6 +613,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/guilds/{guild_id}/users/{user_id}/records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get user records */
+        get: operations["get-user-records"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/guilds/{guild_id}/users/{user_id}/rsns": {
         parameters: {
             query?: never;
@@ -606,23 +659,6 @@ export interface paths {
         post?: never;
         /** Remove RSN from guild and user */
         delete: operations["remove-rsn"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/guilds/{guild_id}/users/{user_id}/times": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get user times */
-        get: operations["get-user-times"];
-        put?: never;
-        post?: never;
-        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -679,6 +715,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/value-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all value types */
+        get: operations["get-value-types"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -695,6 +748,7 @@ export interface components {
             display_name: string;
             name: string;
             solo: boolean;
+            value_type: string;
         };
         Category: {
             name: string;
@@ -738,6 +792,21 @@ export interface components {
             name: string;
             point_source: string;
         };
+        CreateGuildRankBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CreateGuildRankBody.json
+             */
+            readonly $schema?: string;
+            /** Format: int64 */
+            display_order: number;
+            icon?: string;
+            /** Format: int64 */
+            min_points: number;
+            name: string;
+            role_id?: string;
+        };
         CreateRsnBody: {
             /**
              * Format: uri
@@ -780,22 +849,6 @@ export interface components {
             readonly $schema?: string;
             participations: components["schemas"]["EventParticipation"][] | null;
         };
-        DetailedGuild: {
-            /**
-             * Format: uri
-             * @description A URL to the JSON Schema for this object.
-             * @example https://example.com/schemas/DetailedGuild.json
-             */
-            readonly $schema?: string;
-            bosses: components["schemas"]["GuildBoss"][] | null;
-            categories: components["schemas"]["GuildCategory"][] | null;
-            guild_bosses: components["schemas"]["GuildBossEntry"][] | null;
-            guild_categories: components["schemas"]["GuildCategoryEntry"][] | null;
-            guild_id: string;
-            pb_channel_id: string | null;
-            pbs: components["schemas"]["GuildPb"][] | null;
-            teammates: components["schemas"]["GuildTeammate"][] | null;
-        };
         DetailedUser: {
             achievements: components["schemas"]["UserAchievement"][] | null;
             combat_achievements: components["schemas"]["UserCombatAchievement"][] | null;
@@ -803,8 +856,11 @@ export interface components {
             guild_id: string;
             /** Format: int64 */
             points: number;
+            /** Format: int64 */
+            rank: number;
+            records: components["schemas"]["UserRecord"][] | null;
             rsns: components["schemas"]["UserRsn"][] | null;
-            times: components["schemas"]["UserTime"][] | null;
+            tier?: components["schemas"]["UserTier"];
             user_id: string;
         };
         ErrorDetail: {
@@ -896,31 +952,17 @@ export interface components {
             solo: boolean;
             user_id: string;
         };
-        Guild: {
-            /**
-             * Format: uri
-             * @description A URL to the JSON Schema for this object.
-             * @example https://example.com/schemas/Guild.json
-             */
-            readonly $schema?: string;
-            guild_id: string;
-            mod_channel_id: components["schemas"]["Text"];
-            /** Format: int32 */
-            multiplier: number;
-            pb_channel_id: components["schemas"]["Text"];
-        };
         GuildBoss: {
             category: string;
             display_name: string;
             name: string;
             solo: boolean;
+            value_type: string;
         };
         GuildBossEntry: {
             boss: string;
             category: string;
             guild_id: string;
-            /** Format: int32 */
-            pb_id: number | null;
         };
         GuildCategory: {
             name: string;
@@ -937,19 +979,55 @@ export interface components {
             category: string;
             message_id: string;
         };
-        GuildPb: {
+        GuildRankResponse: {
+            /** Format: int32 */
+            display_order: number;
+            icon?: string;
+            /** Format: int32 */
+            min_points: number;
+            name: string;
+            role_id?: string;
+        };
+        GuildRecord: {
             boss_name: string;
             date: string;
             guild_id: string;
+            /** Format: int64 */
+            position: number;
             /** Format: int32 */
-            run_id: number;
+            record_id: number;
             /** Format: int32 */
-            time: number;
+            value: number;
+        };
+        GuildResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/GuildResponse.json
+             */
+            readonly $schema?: string;
+            bosses?: components["schemas"]["GuildBoss"][] | null;
+            categories?: components["schemas"]["GuildCategory"][] | null;
+            guild_bosses?: components["schemas"]["GuildBossEntry"][] | null;
+            guild_categories?: components["schemas"]["GuildCategoryEntry"][] | null;
+            guild_id: string;
+            mod_channel_id: string | null;
+            /** Format: double */
+            multiplier: number;
+            pb_channel_id: string | null;
+            /** Format: int32 */
+            position_count: number;
+            /** Format: int64 */
+            record_count: number;
+            records?: components["schemas"]["GuildRecord"][] | null;
+            teammates?: components["schemas"]["GuildTeammate"][] | null;
+            /** Format: int64 */
+            user_count: number;
         };
         GuildTeammate: {
             guild_id: string;
             /** Format: int32 */
-            run_id: number;
+            record_id: number;
             user_id: string;
         };
         InputEvent: {
@@ -974,6 +1052,18 @@ export interface components {
             readonly $schema?: string;
             guild_id: string;
         };
+        InputRecord: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/InputRecord.json
+             */
+            readonly $schema?: string;
+            boss_name: string;
+            user_ids: string[] | null;
+            /** Format: int64 */
+            value: number;
+        };
         InputTeammate: {
             /**
              * Format: uri
@@ -983,18 +1073,6 @@ export interface components {
             readonly $schema?: string;
             guild_id: string;
             user_id: string;
-        };
-        InputTime: {
-            /**
-             * Format: uri
-             * @description A URL to the JSON Schema for this object.
-             * @example https://example.com/schemas/InputTime.json
-             */
-            readonly $schema?: string;
-            boss_name: string;
-            /** Format: int64 */
-            time: number;
-            user_ids: string[] | null;
         };
         LeaderboardUser: {
             guild_id: string;
@@ -1016,28 +1094,30 @@ export interface components {
             category_messages: components["schemas"]["GuildCategoryMessage"][] | null;
             channel_id: string;
         };
-        Text: {
-            String: string;
-            Valid: boolean;
-        };
-        TimeResponse: {
+        RecordResponse: {
             /**
              * Format: uri
              * @description A URL to the JSON Schema for this object.
-             * @example https://example.com/schemas/TimeResponse.json
+             * @example https://example.com/schemas/RecordResponse.json
              */
             readonly $schema?: string;
             boss_name: string;
             /** Format: int64 */
-            run_id: number;
+            position?: number;
             /** Format: int64 */
-            time: number;
+            record_id: number;
             /** Format: int64 */
-            time_old: number;
+            value: number;
+            /** Format: int64 */
+            value_old: number;
         };
-        TimeTeammates: {
+        RecordTeammate: {
             guild_id: string;
             user_id: string;
+        };
+        Text: {
+            String: string;
+            Valid: boolean;
         };
         UpdateEventInputBody: {
             /**
@@ -1061,6 +1141,22 @@ export interface components {
             /** Format: double */
             multiplier?: number;
             pb_update?: components["schemas"]["PbUpdate"];
+            /** Format: int64 */
+            position_count?: number;
+        };
+        UpdateGuildRankBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/UpdateGuildRankBody.json
+             */
+            readonly $schema?: string;
+            /** Format: int64 */
+            display_order?: number;
+            icon?: string;
+            /** Format: int64 */
+            min_points?: number;
+            role_id?: string;
         };
         UpdatePointsByEventRow: {
             /** Format: int32 */
@@ -1098,22 +1194,36 @@ export interface components {
             solo: boolean;
             wom_id: string;
         };
-        UserRsn: {
-            rsn: string;
-            wom_id: string;
-        };
-        UserTime: {
+        UserRecord: {
             boss_name: string;
             category: string;
             /** Format: date-time */
             date: string;
             display_name: string;
             /** Format: int32 */
-            run_id: number;
+            record_id: number;
             solo: boolean;
-            team: components["schemas"]["TimeTeammates"][] | null;
+            team: components["schemas"]["RecordTeammate"][] | null;
             /** Format: int32 */
-            time: number;
+            value: number;
+            value_type: string;
+        };
+        UserRsn: {
+            rsn: string;
+            wom_id: string;
+        };
+        UserTier: {
+            /** Format: int32 */
+            display_order: number;
+            icon?: string;
+            /** Format: int32 */
+            min_points: number;
+            name: string;
+            role_id?: string;
+        };
+        ValueType: {
+            higher_is_better: boolean;
+            name: string;
         };
     };
     responses: never;
@@ -1244,7 +1354,10 @@ export interface operations {
     };
     "get-guild": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Fetch detailed guild information */
+                detailed?: boolean;
+            };
             header?: never;
             path: {
                 /** @description Guild Snowflake ID */
@@ -1260,7 +1373,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Guild"];
+                    "application/json": components["schemas"]["GuildResponse"];
                 };
             };
             /** @description Error */
@@ -1644,7 +1757,10 @@ export interface operations {
     };
     "get-leaderboard": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Maximum number of users to return */
+                limit?: number;
+            };
             header?: never;
             path: {
                 /** @description Guild Snowflake ID */
@@ -1740,6 +1856,304 @@ export interface operations {
             };
         };
     };
+    "get-guild-ranks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuildRankResponse"][] | null;
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "create-guild-rank": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateGuildRankBody"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "update-guild-rank": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+                /** @description Rank name */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateGuildRankBody"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "delete-guild-rank": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+                /** @description Rank name */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "get-guild-records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuildResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "create-record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InputRecord"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RecordResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "remove-record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+                /** @description Record ID */
+                record_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "clear-boss-records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+                /** @description Boss name */
+                boss: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "revert-top-record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+                /** @description Boss name */
+                boss: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
     "add-teammate-by-boss": {
         parameters: {
             query?: never;
@@ -1812,15 +2226,15 @@ export interface operations {
             };
         };
     };
-    "add-teammate-by-run-id": {
+    "add-teammate-by-record-id": {
         parameters: {
             query?: never;
             header?: never;
             path: {
                 /** @description Guild Snowflake ID */
                 guild_id: string;
-                /** @description Run ID */
-                run_id: number;
+                /** @description Record ID */
+                record_id: number;
             };
             cookie?: never;
         };
@@ -1848,15 +2262,15 @@ export interface operations {
             };
         };
     };
-    "remove-teammate-by-run-id": {
+    "remove-teammate-by-record-id": {
         parameters: {
             query?: never;
             header?: never;
             path: {
                 /** @description Guild Snowflake ID */
                 guild_id: string;
-                /** @description Run ID */
-                run_id: number;
+                /** @description Record ID */
+                record_id: number;
             };
             cookie?: never;
         };
@@ -1865,170 +2279,6 @@ export interface operations {
                 "application/json": components["schemas"]["InputTeammate"];
             };
         };
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ErrorModel"];
-                };
-            };
-        };
-    };
-    "get-guild-times": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Guild Snowflake ID */
-                guild_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DetailedGuild"];
-                };
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ErrorModel"];
-                };
-            };
-        };
-    };
-    "create-time": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Guild Snowflake ID */
-                guild_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["InputTime"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TimeResponse"];
-                };
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ErrorModel"];
-                };
-            };
-        };
-    };
-    "remove-time": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Guild Snowflake ID */
-                guild_id: string;
-                /** @description Time/Run ID */
-                time_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ErrorModel"];
-                };
-            };
-        };
-    };
-    "clear-clan-pb": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Guild Snowflake ID */
-                guild_id: string;
-                /** @description Boss name */
-                boss: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ErrorModel"];
-                };
-            };
-        };
-    };
-    "revert-clan-pb": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Guild Snowflake ID */
-                guild_id: string;
-                /** @description Boss name */
-                boss: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
         responses: {
             /** @description No Content */
             204: {
@@ -2626,6 +2876,40 @@ export interface operations {
             };
         };
     };
+    "get-user-records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Guild Snowflake ID */
+                guild_id: string;
+                /** @description User Snowflake ID */
+                user_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserRecord"][] | null;
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
     "create-rsn": {
         parameters: {
             query?: never;
@@ -2684,40 +2968,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ErrorModel"];
-                };
-            };
-        };
-    };
-    "get-user-times": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Guild Snowflake ID */
-                guild_id: string;
-                /** @description User Snowflake ID */
-                user_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserTime"][] | null;
-                };
             };
             /** @description Error */
             default: {
@@ -2823,6 +3073,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "get-value-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValueType"][] | null;
                 };
             };
             /** @description Error */
