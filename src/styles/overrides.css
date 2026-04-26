@@ -226,7 +226,11 @@ a:hover {
 .row-rank-3 { box-shadow: inset 2px 0 0 var(--color-bronze); }
 
 /* Mobile table collapse logic */
+@media (min-width: 640px) {
+	.desktop-hidden { display: none !important; }
+}
 @media (max-width: 639px) {
+	.mobile-hidden { display: none !important; }
 	.table-collapse-mobile thead { display: none; }
 	.table-collapse-mobile tbody tr {
 		display: flex;

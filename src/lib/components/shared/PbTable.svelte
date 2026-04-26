@@ -66,6 +66,7 @@
 		</thead>
 		<tbody>
 			{#each rows as pb, i (pb.record_id + '_' + i)}
+				{@const showBossName = i === 0 || rows[i-1].boss_name !== pb.boss_name}
 				<tr class={showPosition && pb.position <= 3 ? `row-rank-${pb.position}` : ''}>
 					{#if showPosition}
 						<td data-label="Rank" class="num mono {pb.position <= 3 ? rankClass(pb.position) : 'muted'}" style="padding-left: var(--space-4); text-align: left;">
@@ -74,9 +75,12 @@
 					{/if}
 					<td data-label="Boss" style={showPosition ? 'padding-left: var(--space-2);' : 'padding-left: var(--space-4);'}>
 						<div class="stack-sm" style="margin-top: 0;">
-							<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} style="font-weight: 500;">
+							<a href={guildPath(guildId, `/bosses/${encodeURIComponent(pb.boss_name)}`)} class:desktop-hidden={!showBossName} style="font-weight: 500;">
 								{contextualBossName ? formatBossName(pb.display_name, pb.category) : pb.display_name}
 							</a>
+							{#if !showBossName}
+								<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
+							{/if}
 							<!-- On mobile, Date and Holders stack below the boss if multi-line is enabled -->
 							{#if bossWrap === 'multi-line'}
 								<div class="desktop-only" style="display: none;">

@@ -3,6 +3,7 @@
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
 	import { formatBossName } from '$lib/format/boss';
+	import { rankClass } from '$lib/format/points';
 	import ValueDisplay from '$lib/components/ValueDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
 	import type { PageData } from './$types';
@@ -107,11 +108,12 @@
 		<table class="table table-collapse-mobile">
 			<thead>
 				<tr>
+					<th style="width: 4rem; padding-left: var(--space-4);">Rank</th>
 					{#if viewMode === 'flat'}
-						<th class="desktop-only" style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('category')}>Category</th>
+						<th class="desktop-only" style="cursor: pointer; padding-left: var(--space-2);" onclick={() => setSort('category')}>Category</th>
 						<th style="cursor: pointer;" onclick={() => setSort('boss')}>Boss</th>
 					{:else}
-						<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
+						<th style="cursor: pointer; padding-left: var(--space-2);" onclick={() => setSort('boss')}>Boss</th>
 					{/if}
 					<th class="num" style="cursor: pointer;" onclick={() => setSort('value')}>Value</th>
 					<th class="desktop-only">Holders</th>
@@ -122,12 +124,19 @@
 			{#if viewMode === 'flat'}
 				<tbody>
 					{#each sorted as row, i (row.record_id + '_' + i)}
-						<tr>
-							<td data-label="Category" class="muted small desktop-only" style="padding-left: var(--space-4);">{row.category}</td>
+						{@const showBossName = i === 0 || (sortKey !== 'boss' && sortKey !== 'category') || sorted[i-1].boss_name !== row.boss_name}
+						<tr class={row.position <= 3 ? `row-rank-${row.position}` : ''}>
+							<td data-label="Rank" class="num mono {rankClass(row.position)}" style="padding-left: var(--space-4); text-align: left;">
+								#{row.position}
+							</td>
+							<td data-label="Category" class="muted small desktop-only" style="padding-left: var(--space-2);">{row.category}</td>
 							<td data-label="Boss">
-								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
+								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} class:desktop-hidden={!showBossName} style="font-weight: 500;">
 									{row.display_name}
 								</a>
+								{#if !showBossName}
+									<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
+								{/if}
 							</td>
 							<td data-label="Value" class="num">
 								<ValueDisplay value={row.value} type={row.value_type} showBadge={true} />
@@ -154,10 +163,10 @@
 					{@const stats = groupStats(rows)}
 					<tbody>
 						{#if index > 0}
-							<tr><td colspan="5" style="height: 2rem; padding: 0; border: none;"></td></tr>
+							<tr><td colspan="6" style="height: 2rem; padding: 0; border: none;"></td></tr>
 						{/if}
 						<tr style="background: transparent;">
-							<td colspan="5" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
+							<td colspan="6" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
 								<div class="cluster" style="gap: var(--space-3);">
 									{#if rows[0].category_thumbnail}
 										<img src={rows[0].category_thumbnail} alt="" style="width: 2rem; height: 2rem; object-fit: contain;" />
@@ -168,15 +177,22 @@
 							</td>
 						</tr>
 						{#each rows as row, i (row.record_id + '_' + i)}
-							<tr>
-							<td style="padding-left: var(--space-4);">
-								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">
-									{row.display_name}
-								</a>
+							{@const showBossName = i === 0 || rows[i-1].boss_name !== row.boss_name}
+							<tr class={row.position <= 3 ? `row-rank-${row.position}` : ''}>
+							<td data-label="Rank" class="num mono {rankClass(row.position)}" style="padding-left: var(--space-4); text-align: left;">
+								#{row.position}
 							</td>
-								<td data-label="Value" class="num">
-									<ValueDisplay value={row.value} type={row.value_type} showBadge={true} />
-								</td>
+							<td data-label="Boss" style="padding-left: var(--space-2);">
+								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} class:desktop-hidden={!showBossName} style="font-weight: 500;">
+									{formatBossName(row.display_name, row.category)}
+								</a>
+								{#if !showBossName}
+									<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
+								{/if}
+							</td>
+							<td data-label="Value" class="num">
+								<ValueDisplay value={row.value} type={row.value_type} showBadge={true} />
+							</td>
 							<td class="desktop-only">
 								{#if row.holders.length > 0}
 									<div class="cluster cluster-sm">
@@ -185,12 +201,12 @@
 										{/each}
 									</div>
 								{:else if row.value != null}
-										<span class="badge">Solo</span>
-									{:else}
-										<span class="muted small">—</span>
-									{/if}
-								</td>
-								<td class="muted small desktop-only" style="padding-right: var(--space-4);">{formatDate(row.date)}</td>
+									<span class="badge">Solo</span>
+								{:else}
+									<span class="muted small">—</span>
+								{/if}
+							</td>
+							<td class="muted small desktop-only" style="padding-right: var(--space-4);">{formatDate(row.date)}</td>
 							</tr>
 						{/each}
 					</tbody>
