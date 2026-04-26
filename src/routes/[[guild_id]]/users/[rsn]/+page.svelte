@@ -35,10 +35,10 @@
 		<nav aria-label="breadcrumb">
 			<a class="small muted" href={guildPath(guildId, '/leaderboard')}>← Leaderboard</a>
 		</nav>
-		<div class="cluster" style="align-items: baseline; gap: var(--space-4);">
-			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap;">
+		<div class="cluster" style="align-items: center; gap: var(--space-4);">
+			<h1 class="display" style="font-size: 2.5rem; margin: 0; display: inline-flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
 				{#if data.user.rank != null}
-					<span class={rankClass(data.user.rank)} style="line-height: 1;">#{data.user.rank}</span>
+					<span class={rankClass(data.user.rank)} style="font-size: 1.25rem; line-height: 1;">#{data.user.rank}</span>
 				{/if}
 				<span style="line-height: 1;">{data.discordName ?? data.primaryRsn}</span>
 			</h1>
