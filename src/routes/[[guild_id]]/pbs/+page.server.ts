@@ -28,37 +28,63 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	for (const u of users) userMap.set(u.user_id, { rsn: u.rsns?.[0]?.rsn ?? u.user_id, points: u.points });
 
 	// Map PBs
-	const pbByBoss = new Map<string, (typeof guild.records)[number]>();
-	for (const pb of guild.records ?? []) pbByBoss.set(pb.boss_name, pb);
+	const recordsByBoss = new Map<string, (typeof guild.records)[number][]>();
+	for (const pb of guild.records ?? []) {
+		const arr = recordsByBoss.get(pb.boss_name) ?? [];
+		arr.push(pb);
+		recordsByBoss.set(pb.boss_name, arr);
+	}
 
 	// Build rows (one for every boss, even if no PB)
-	const rows = bosses.map((b) => {
-		const pb = pbByBoss.get(b.name);
-		const holders = pb
-			? (guild.teammates ?? [])
-					.filter((t) => t.record_id === pb.record_id)
-					.map((t) => {
-						const u = userMap.get(t.user_id);
-						return {
-							rsn: u ? u.rsn : t.user_id,
-							display: discordNames.get(t.user_id),
-							points: u?.points
-						};
-					})
-			: [];
+	const rows: any[] = [];
+	for (const b of bosses) {
+		const bossRecords = recordsByBoss.get(b.name) || [];
 		const cat = categoryMap.get(b.category);
-		return {
-			boss_name: b.name,
-			display_name: b.display_name,
-			category: b.category,
-			category_order: cat?.order ?? 999,
-			category_thumbnail: cat?.thumbnail ?? null,
-			solo: b.solo,
-			value: pb?.value ?? null,
-			date: pb?.date ?? null,
-			holders
-		};
-	});
+
+		if (bossRecords.length === 0) {
+			rows.push({
+				record_id: -1 * Math.random(),
+				boss_name: b.name,
+				display_name: b.display_name,
+				category: b.category,
+				category_order: cat?.order ?? 999,
+				category_thumbnail: cat?.thumbnail ?? null,
+				solo: b.solo,
+				value_type: b.value_type,
+				value: null,
+				position: 0,
+				date: null,
+				holders: []
+			});
+		} else {
+			for (const pb of bossRecords) {
+				const holders = (guild.teammates ?? [])
+						.filter((t) => t.record_id === pb.record_id)
+						.map((t) => {
+							const u = userMap.get(t.user_id);
+							return {
+								rsn: u ? u.rsn : t.user_id,
+								display: discordNames.get(t.user_id),
+								points: u?.points
+							};
+						});
+				rows.push({
+					record_id: pb.record_id,
+					boss_name: b.name,
+					display_name: b.display_name,
+					category: b.category,
+					category_order: cat?.order ?? 999,
+					category_thumbnail: cat?.thumbnail ?? null,
+					solo: b.solo,
+					value_type: b.value_type,
+					value: pb.value,
+					position: pb.position,
+					date: pb.date,
+					holders
+				});
+			}
+		}
+	}
 
 	setHeaders({ 'cache-control': 'public, max-age=60' });
 

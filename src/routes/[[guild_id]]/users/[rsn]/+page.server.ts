@@ -60,7 +60,8 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 				display_name: b?.display_name ?? pb.boss_name,
 				category: b?.category ?? '',
 				solo: b?.solo ?? true,
-			holders: (guild.teammates ?? [])
+				value_type: b?.value_type ?? 'time',
+				holders: (guild.teammates ?? [])
 				.filter((t) => t.record_id === pb.record_id && t.user_id !== user.user_id)
 					.map((t) => {
 						const u = userMap.get(t.user_id);

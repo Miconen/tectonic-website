@@ -54,6 +54,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 			display_name: b?.display_name ?? record.boss_name,
 			category: b?.category ?? '',
 			solo: b?.solo ?? true,
+			value_type: b?.value_type ?? 'time',
 			holders: (guild.teammates ?? [])
 				.filter((t) => t.record_id === record.record_id)
 				.map((t) => {

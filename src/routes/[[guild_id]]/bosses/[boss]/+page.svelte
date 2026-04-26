@@ -3,16 +3,13 @@
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
 	import { formatBossName } from '$lib/format/boss';
-	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
+	import { rankClass } from '$lib/format/points';
+	import ValueDisplay from '$lib/components/ValueDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	let guildId = $derived($page.params.guild_id as string | undefined);
-
-	// v2 placeholder: run history requires a new API endpoint. Keep the slot
-	// wired up so adding it later is a one-line change.
-	const HISTORY_ENABLED = false;
 </script>
 
 <svelte:head>
@@ -37,34 +34,48 @@
 
 	<hr class="hairline" />
 
-	<div class="stack-sm">
-		<h2 class="section-heading">Current clan PB</h2>
-		{#if data.pb}
-			<div class="stack" style="margin-top: var(--space-2);">
-				<div class="num" style="font-size: 3rem; font-weight: 800; color: var(--color-accent); line-height: 1; text-align: left;">
-					<TimeDisplay ticks={data.pb.value} />
-				</div>
-				<div class="cluster">
-					<span class="muted small">Set on {formatDate(data.pb.date)}</span>
-					<div style="width: 1px; height: 1rem; background: var(--color-border); margin: 0 var(--space-2);"></div>
-					<span class="muted small">Holders:</span>
-					{#each data.holders as holder (holder.rsn)}
-						<UserChip rsn={holder.rsn} display={holder.display} points={holder.points} />
-					{/each}
-				</div>
-			</div>
+	<div class="card" style="padding: 0;">
+		{#if data.records.length === 0}
+			<div class="empty-state">No records for this boss yet.</div>
 		{:else}
-			<div class="empty-state">No PB recorded for this boss yet.</div>
+			<div class="table-wrapper">
+				<table class="table table-collapse-mobile" style="margin-bottom: 0;">
+					<thead>
+						<tr>
+							<th style="width: 4rem; padding-left: var(--space-4);">Rank</th>
+							<th class="num">Value</th>
+							<th class="desktop-only">Team</th>
+							<th class="desktop-only" style="padding-right: var(--space-4);">Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each data.records as r (r.record_id)}
+							<tr class={r.position <= 3 ? `row-rank-${r.position}` : ''}>
+								<td data-label="Rank" class="num mono {rankClass(r.position)}" style="padding-left: var(--space-4); text-align: left;">
+									#{r.position}
+								</td>
+								<td data-label="Value" class="num">
+									<ValueDisplay value={r.value} type={data.boss.value_type} />
+								</td>
+								<td data-label="Team" class="desktop-only">
+									{#if r.team.length > 0}
+										<div class="cluster cluster-sm">
+											{#each r.team as h}
+												<UserChip rsn={h.rsn} display={h.display} points={h.points} />
+											{/each}
+										</div>
+									{:else}
+										<span class="badge">Solo</span>
+									{/if}
+								</td>
+								<td data-label="Date" class="muted small desktop-only" style="padding-right: var(--space-4);">
+									{formatDate(r.date)}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
 		{/if}
 	</div>
-
-	{#if HISTORY_ENABLED}
-		<!-- v2: run history slot. Wire up to a future
-		     GET /guilds/{id}/bosses/{boss}/times endpoint. -->
-		<hr class="hairline" />
-		<div class="stack-sm">
-			<h2 class="section-heading">Run history</h2>
-			<div class="empty-state">Not yet implemented.</div>
-		</div>
-	{/if}
 </section>

@@ -3,7 +3,7 @@
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
 	import { formatBossName } from '$lib/format/boss';
-	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
+	import ValueDisplay from '$lib/components/ValueDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
 	import type { PageData } from './$types';
 
@@ -113,7 +113,7 @@
 					{:else}
 						<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
 					{/if}
-					<th class="num" style="cursor: pointer;" onclick={() => setSort('value')}>Time</th>
+					<th class="num" style="cursor: pointer;" onclick={() => setSort('value')}>Value</th>
 					<th class="desktop-only">Holders</th>
 					<th class="desktop-only" style="cursor: pointer; padding-right: var(--space-4);" onclick={() => setSort('date')}>Date</th>
 				</tr>
@@ -129,8 +129,8 @@
 									{row.display_name}
 								</a>
 							</td>
-							<td data-label="Time" class="num">
-								<TimeDisplay ticks={row.value} />
+							<td data-label="Value" class="num">
+								<ValueDisplay value={row.value} type={row.value_type} />
 							</td>
 							<td data-label="Team" class="desktop-only">
 								{#if row.holders.length > 0}
@@ -174,9 +174,9 @@
 									{row.display_name}
 								</a>
 							</td>
-							<td class="num">
-								<TimeDisplay ticks={row.value} />
-							</td>
+								<td data-label="Value" class="num">
+									<ValueDisplay value={row.value} type={row.value_type} />
+								</td>
 							<td class="desktop-only">
 								{#if row.holders.length > 0}
 									<div class="cluster cluster-sm">
