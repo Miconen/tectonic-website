@@ -12,7 +12,7 @@
 
 	let viewMode: 'grouped' | 'flat' = $state('grouped');
 
-	type SortKey = 'boss' | 'category' | 'time' | 'date';
+	type SortKey = 'boss' | 'category' | 'value' | 'date';
 	let sortKey: SortKey = $state('category');
 	let sortAsc: boolean = $state(true);
 
@@ -36,13 +36,13 @@
 				case 'category':
 					cmp = a.category_order - b.category_order || a.display_name.localeCompare(b.display_name);
 					break;
-				case 'time':
-					// null times go to bottom
-					if (a.time == null && b.time == null) cmp = 0;
-					else if (a.time == null) cmp = sortAsc ? 1 : -1;
-					else if (b.time == null) cmp = sortAsc ? -1 : 1;
-					else cmp = a.time - b.time;
-					break;
+			case 'value':
+				// null values go to bottom
+				if (a.value == null && b.value == null) cmp = 0;
+				else if (a.value == null) cmp = sortAsc ? 1 : -1;
+				else if (b.value == null) cmp = sortAsc ? -1 : 1;
+				else cmp = a.value - b.value;
+				break;
 				case 'date':
 					if (a.date == null && b.date == null) cmp = 0;
 					else if (a.date == null) cmp = sortAsc ? 1 : -1;
@@ -75,7 +75,7 @@
 
 	function groupStats(rows: typeof data.rows) {
 		const total = rows.length;
-		const withPb = rows.filter((r) => r.time != null).length;
+		const withPb = rows.filter((r) => r.value != null).length;
 		return { total, withPb };
 	}
 </script>
@@ -113,7 +113,7 @@
 					{:else}
 						<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
 					{/if}
-					<th class="num" style="cursor: pointer;" onclick={() => setSort('time')}>Time</th>
+					<th class="num" style="cursor: pointer;" onclick={() => setSort('value')}>Time</th>
 					<th class="desktop-only">Holders</th>
 					<th class="desktop-only" style="cursor: pointer; padding-right: var(--space-4);" onclick={() => setSort('date')}>Date</th>
 				</tr>
@@ -130,7 +130,7 @@
 								</a>
 							</td>
 							<td data-label="Time" class="num">
-								<TimeDisplay ticks={row.time} />
+								<TimeDisplay ticks={row.value} />
 							</td>
 							<td data-label="Team" class="desktop-only">
 								{#if row.holders.length > 0}
@@ -139,7 +139,7 @@
 											<UserChip rsn={holder.rsn} display={holder.display} points={holder.points} />
 										{/each}
 									</div>
-								{:else if row.time != null}
+								{:else if row.value != null}
 									<span class="badge">Solo</span>
 								{:else}
 									<span class="muted small">—</span>
@@ -174,17 +174,17 @@
 									{row.display_name}
 								</a>
 							</td>
-								<td class="num">
-									<TimeDisplay ticks={row.time} />
-								</td>
-								<td class="desktop-only">
-									{#if row.holders.length > 0}
-										<div class="cluster cluster-sm">
-											{#each row.holders as holder (holder.rsn)}
-												<UserChip rsn={holder.rsn} display={holder.display} points={holder.points} />
-											{/each}
-										</div>
-									{:else if row.time != null}
+							<td class="num">
+								<TimeDisplay ticks={row.value} />
+							</td>
+							<td class="desktop-only">
+								{#if row.holders.length > 0}
+									<div class="cluster cluster-sm">
+										{#each row.holders as holder (holder.rsn)}
+											<UserChip rsn={holder.rsn} display={holder.display} points={holder.points} />
+										{/each}
+									</div>
+								{:else if row.value != null}
 										<span class="badge">Solo</span>
 									{:else}
 										<span class="muted small">—</span>

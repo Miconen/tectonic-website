@@ -34,6 +34,7 @@ export interface Boss {
 	display_name: string;
 	category: string;
 	solo: boolean;
+	value_type: string;
 }
 
 /** Category thumbnail is nullable in the raw API; unwrapped to string | null. */
@@ -56,16 +57,17 @@ export interface LeaderboardUser {
 	discordName?: string | null;
 }
 
-export interface GuildPb {
-	run_id: number;
-	time: number;
+export interface GuildRecord {
+	record_id: number;
+	value: number;
 	boss_name: string;
 	date: string;
 	guild_id: string;
+	position: number;
 }
 
 export interface GuildTeammate {
-	run_id: number;
+	record_id: number;
 	user_id: string;
 	guild_id: string;
 }
@@ -75,6 +77,7 @@ export interface GuildBoss {
 	display_name: string;
 	category: string;
 	solo: boolean;
+	value_type: string;
 }
 
 export interface GuildCategory {
@@ -86,7 +89,6 @@ export interface GuildCategory {
 export interface GuildBossEntry {
 	boss: string;
 	guild_id: string;
-	pb_id: number | null;
 	category: string;
 }
 
@@ -106,13 +108,14 @@ export interface GetGuildCombatAchievementsRow {
 export interface DetailedGuild {
 	guild_id: string;
 	pb_channel_id: string | null;
+	position_count: number;
 	teammates: GuildTeammate[];
-	pbs: GuildPb[];
+	records: GuildRecord[];
 	bosses: GuildBoss[];
 	categories: GuildCategory[];
 	guild_bosses: GuildBossEntry[];
 	guild_categories: GuildCategoryEntry[];
-	time_count: number;
+	record_count: number;
 	user_count: number;
 }
 
@@ -136,20 +139,29 @@ export interface UserEvent {
 	solo: boolean;
 }
 
-export interface TimeTeammates {
+export interface RecordTeammate {
 	user_id: string;
 	guild_id: string;
 }
 
-export interface UserTime {
-	run_id: number;
+export interface UserRecord {
+	record_id: number;
 	boss_name: string;
 	display_name: string;
 	category: string;
 	solo: boolean;
+	value_type: string;
 	date: string;
-	time: number;
-	team: TimeTeammates[];
+	value: number;
+	team: RecordTeammate[];
+}
+
+export interface UserTier {
+	name: string;
+	icon: string | null;
+	role_id: string | null;
+	min_points: number;
+	display_order: number;
 }
 
 export interface DetailedUser {
@@ -157,15 +169,12 @@ export interface DetailedUser {
 	guild_id: string;
 	points: number;
 	rsns: UserRsn[];
-	times: UserTime[];
+	records: UserRecord[];
 	events: UserEvent[];
 	achievements: UserAchievement[];
 	combat_achievements: UserCombatAchievement[];
-	/**
-	 * Clan rank (#1 = highest points). Added by upcoming API change; tolerate
-	 * missing values by treating as undefined.
-	 */
-	rank?: number;
+	rank: number;
+	tier: UserTier | null;
 }
 
 export interface Event {
@@ -193,3 +202,8 @@ export interface ErrorModel {
 	detail?: string;
 	instance?: string;
 }
+
+// --- Legacy aliases for gradual migration ---
+export type GuildPb = GuildRecord;
+export type UserTime = UserRecord;
+export type TimeTeammates = RecordTeammate;

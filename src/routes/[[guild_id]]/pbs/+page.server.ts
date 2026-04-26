@@ -28,15 +28,15 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	for (const u of users) userMap.set(u.user_id, { rsn: u.rsns?.[0]?.rsn ?? u.user_id, points: u.points });
 
 	// Map PBs
-	const pbByBoss = new Map<string, (typeof guild.pbs)[number]>();
-	for (const pb of guild.pbs ?? []) pbByBoss.set(pb.boss_name, pb);
+	const pbByBoss = new Map<string, (typeof guild.records)[number]>();
+	for (const pb of guild.records ?? []) pbByBoss.set(pb.boss_name, pb);
 
 	// Build rows (one for every boss, even if no PB)
 	const rows = bosses.map((b) => {
 		const pb = pbByBoss.get(b.name);
 		const holders = pb
 			? (guild.teammates ?? [])
-					.filter((t) => t.run_id === pb.run_id)
+					.filter((t) => t.record_id === pb.record_id)
 					.map((t) => {
 						const u = userMap.get(t.user_id);
 						return {
@@ -54,7 +54,7 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 			category_order: cat?.order ?? 999,
 			category_thumbnail: cat?.thumbnail ?? null,
 			solo: b.solo,
-			time: pb?.time ?? null,
+			value: pb?.value ?? null,
 			date: pb?.date ?? null,
 			holders
 		};

@@ -6,12 +6,12 @@
 	import UserChip from '$lib/components/UserChip.svelte';
 
 	export interface PbRow {
-		run_id: number;
+		record_id: number;
 		boss_name: string;
 		display_name: string;
 		category: string;
 		solo: boolean;
-		time: number | null;
+		value: number | null;
 		date: string | null;
 		holders: { rsn: string; display?: string; points?: number }[];
 	}
@@ -54,7 +54,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each rows as pb (pb.run_id)}
+			{#each rows as pb (pb.record_id)}
 				<tr>
 					<td data-label="Boss" style="padding-left: var(--space-4);">
 						<div class="stack-sm" style="margin-top: 0;">
@@ -87,7 +87,7 @@
 					</td>
 					
 					<td data-label="Time" class="num nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); {!showDate && !showHolders ? 'padding-right: var(--space-4);' : ''}">
-						<TimeDisplay ticks={pb.time} />
+						<TimeDisplay ticks={pb.value} />
 					</td>
 					
 					{#if showHolders}
@@ -98,7 +98,7 @@
 										<UserChip rsn={holder.rsn} display={holder.display} points={holder.points} />
 									{/each}
 								</div>
-							{:else if pb.time != null}
+							{:else if pb.value != null}
 								<span class="badge">Solo</span>
 							{:else}
 								<span class="muted small">—</span>

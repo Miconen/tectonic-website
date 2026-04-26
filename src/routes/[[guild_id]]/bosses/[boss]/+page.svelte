@@ -42,7 +42,7 @@
 		{#if data.pb}
 			<div class="stack" style="margin-top: var(--space-2);">
 				<div class="num" style="font-size: 3rem; font-weight: 800; color: var(--color-accent); line-height: 1; text-align: left;">
-					<TimeDisplay ticks={data.pb.time} />
+					<TimeDisplay ticks={data.pb.value} />
 				</div>
 				<div class="cluster">
 					<span class="muted small">Set on {formatDate(data.pb.date)}</span>

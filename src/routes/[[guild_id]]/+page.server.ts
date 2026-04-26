@@ -27,16 +27,16 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 
 	const top5 = enrichedLeaderboard.slice(0, 5);
 
-	// Build RSN lookup for any user that appears as a PB holder or top-5
-	const pbs = (guild.pbs ?? [])
+	// Build RSN lookup for any user that appears as a record holder or top-5
+	const records = (guild.records ?? [])
 		.slice()
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 		.slice(0, 5);
 
 	const teammateIds = new Set<string>();
-	for (const pb of pbs) {
+	for (const record of records) {
 		for (const t of guild.teammates ?? []) {
-			if (t.run_id === pb.run_id) teammateIds.add(t.user_id);
+			if (t.record_id === record.record_id) teammateIds.add(t.user_id);
 		}
 	}
 
@@ -47,15 +47,15 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 		userMap.set(u.user_id, { rsn: u.rsns?.[0]?.rsn ?? u.user_id, points: u.points });
 	}
 
-	const latestPbs = pbs.map((pb) => {
-		const b = bossByName.get(pb.boss_name);
+	const latestPbs = records.map((record) => {
+		const b = bossByName.get(record.boss_name);
 		return {
-			...pb,
-			display_name: b?.display_name ?? pb.boss_name,
+			...record,
+			display_name: b?.display_name ?? record.boss_name,
 			category: b?.category ?? '',
 			solo: b?.solo ?? true,
 			holders: (guild.teammates ?? [])
-				.filter((t) => t.run_id === pb.run_id)
+				.filter((t) => t.record_id === record.record_id)
 				.map((t) => {
 					const u = userMap.get(t.user_id);
 					return {
@@ -73,6 +73,6 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 		top5,
 		latestPbs,
 		totalMembers: guild.user_count ?? leaderboard.length,
-		totalTimes: guild.time_count ?? 0
+		totalTimes: guild.record_count ?? 0
 	};
 };

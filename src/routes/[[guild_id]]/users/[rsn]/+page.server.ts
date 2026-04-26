@@ -29,15 +29,15 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const userRuns = new Set(
 		(guild.teammates ?? [])
 			.filter((t) => t.user_id === user.user_id)
-			.map((t) => t.run_id)
+			.map((t) => t.record_id)
 	);
-	const heldPbs = (guild.pbs ?? []).filter((pb) => userRuns.has(pb.run_id));
+	const heldPbs = (guild.records ?? []).filter((pb) => userRuns.has(pb.record_id));
 
 	// Resolve teammates on each held PB to RSN chips
 	const teammateIds = new Set<string>();
 	for (const pb of heldPbs) {
 		for (const t of guild.teammates ?? []) {
-			if (t.run_id === pb.run_id && t.user_id !== user.user_id) {
+			if (t.record_id === pb.record_id && t.user_id !== user.user_id) {
 				teammateIds.add(t.user_id);
 			}
 		}
@@ -60,8 +60,8 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 				display_name: b?.display_name ?? pb.boss_name,
 				category: b?.category ?? '',
 				solo: b?.solo ?? true,
-				holders: (guild.teammates ?? [])
-					.filter((t) => t.run_id === pb.run_id && t.user_id !== user.user_id)
+			holders: (guild.teammates ?? [])
+				.filter((t) => t.record_id === pb.record_id && t.user_id !== user.user_id)
 					.map((t) => {
 						const u = userMap.get(t.user_id);
 						return {

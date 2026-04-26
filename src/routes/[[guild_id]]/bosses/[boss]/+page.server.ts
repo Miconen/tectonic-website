@@ -21,12 +21,12 @@ export const load: PageServerLoad = async ({ params, fetch, setHeaders }) => {
 	const boss = bosses.find((b) => b.name === bossName);
 	if (!boss) throw error(404, `Unknown boss "${bossName}"`);
 
-	const pb = (guild.pbs ?? []).find((p) => p.boss_name === bossName) ?? null;
+	const pb = (guild.records ?? []).find((p) => p.boss_name === bossName) ?? null;
 
 	let holders: { rsn: string; display?: string; points?: number }[] = [];
 	if (pb) {
 		const holderIds = (guild.teammates ?? [])
-			.filter((t) => t.run_id === pb.run_id)
+			.filter((t) => t.record_id === pb.record_id)
 			.map((t) => t.user_id);
 		const users = holderIds.length
 			? await getUsersById(fetch, guildId, holderIds)
