@@ -65,7 +65,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each rows as pb (pb.record_id)}
+			{#each rows as pb, i (pb.record_id + '_' + i)}
 				<tr class={showPosition && pb.position <= 3 ? `row-rank-${pb.position}` : ''}>
 					{#if showPosition}
 						<td data-label="Rank" class="num mono {pb.position <= 3 ? rankClass(pb.position) : 'muted'}" style="padding-left: var(--space-4); text-align: left;">

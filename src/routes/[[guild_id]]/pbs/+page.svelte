@@ -121,7 +121,7 @@
 			
 			{#if viewMode === 'flat'}
 				<tbody>
-					{#each sorted as row (row.record_id)}
+					{#each sorted as row, i (row.record_id + '_' + i)}
 						<tr>
 							<td data-label="Category" class="muted small desktop-only" style="padding-left: var(--space-4);">{row.category}</td>
 							<td data-label="Boss">
@@ -167,7 +167,7 @@
 								</div>
 							</td>
 						</tr>
-						{#each rows as row (row.record_id)}
+						{#each rows as row, i (row.record_id + '_' + i)}
 							<tr>
 							<td style="padding-left: var(--space-4);">
 								<a href={guildPath(guildId, `/bosses/${encodeURIComponent(row.boss_name)}`)} style="font-weight: 500;">

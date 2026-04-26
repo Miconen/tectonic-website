@@ -49,13 +49,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.records as r (r.record_id)}
+						{#each data.records as r, i (r.record_id + '_' + i)}
 							<tr class={r.position <= 3 ? `row-rank-${r.position}` : ''}>
 								<td data-label="Rank" class="num mono {rankClass(r.position)}" style="padding-left: var(--space-4); text-align: left;">
 									#{r.position}
 								</td>
 								<td data-label="Value" class="num">
-									<ValueDisplay value={r.value} type={data.boss.value_type} />
+									<ValueDisplay value={r.value} type={data.boss.value_type} showBadge={true} />
 								</td>
 								<td data-label="Team" class="desktop-only">
 									{#if r.team.length > 0}
