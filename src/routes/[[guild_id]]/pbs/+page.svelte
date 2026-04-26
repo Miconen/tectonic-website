@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
-	import { formatBossName } from '$lib/format/boss';
+	import { formatBossName, formatBossNameParts } from '$lib/format/boss';
 	import { rankClass } from '$lib/format/points';
 	import ValueDisplay from '$lib/components/ValueDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
@@ -106,8 +106,7 @@
 		<table class="table table-collapse-mobile">
 			<thead>
 				<tr>
-					<th style="width: 4rem; padding-left: var(--space-4);">Rank</th>
-					<th style="cursor: pointer; padding-left: var(--space-2);" onclick={() => setSort('boss')}>Boss</th>
+					<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
 					<th class="num" style="cursor: pointer;" onclick={() => setSort('value')}>Value</th>
 					<th class="desktop-only">Holders</th>
 					<th class="desktop-only" style="cursor: pointer; padding-right: var(--space-4);" onclick={() => setSort('date')}>Date</th>
@@ -120,10 +119,10 @@
 				{@const stats = groupStats(bossEntries, catGroup.allRows)}
 				<tbody>
 					{#if index > 0}
-						<tr><td colspan="5" style="height: 2rem; padding: 0; border: none;"></td></tr>
+						<tr><td colspan="4" style="height: 2rem; padding: 0; border: none;"></td></tr>
 					{/if}
 					<tr style="background: transparent;">
-						<td colspan="5" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
+						<td colspan="4" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
 							<div class="cluster" style="gap: var(--space-3);">
 								{#if catGroup.allRows[0].category_thumbnail}
 									<img src={catGroup.allRows[0].category_thumbnail} alt="" style="width: 2rem; height: 2rem; object-fit: contain;" />
@@ -137,6 +136,7 @@
 							{@const topRecord = records[0]}
 							{@const isExpanded = expandedBosses[bossName]}
 							{@const hasMore = records.length > 1}
+							{@const parts = formatBossNameParts(topRecord.display_name, topRecord.category)}
 							<tr class={topRecord.position <= 3 ? `row-rank-${topRecord.position}` : ''} style="cursor: {hasMore ? 'pointer' : 'default'};" onclick={() => hasMore && toggleBoss(bossName)}>
 								<td data-label="Rank" class="num mono {rankClass(topRecord.position)}" style="padding-left: var(--space-4); text-align: left;">
 									{#if isExpanded}
@@ -145,9 +145,14 @@
 								</td>
 								<td data-label="Boss" style="padding-left: var(--space-2);">
 									<div class="row-between" style="gap: var(--space-2);">
-										<a href={guildPath(guildId, `/bosses/${encodeURIComponent(topRecord.boss_name)}`)} style="font-weight: 500;" onclick={(e) => e.stopPropagation()}>
-											{formatBossName(topRecord.display_name, topRecord.category)}
-										</a>
+										<div class="cluster cluster-sm">
+											<a href={guildPath(guildId, `/bosses/${encodeURIComponent(topRecord.boss_name)}`)} style="font-weight: 500; color: var(--color-text-muted);" onclick={(e) => e.stopPropagation()}>
+												{#if parts.categoryText}
+													<span class="muted">{parts.categoryText}</span>
+												{/if}
+												<span style="color: var(--color-text);">{parts.bossText}</span>
+											</a>
+										</div>
 										{#if hasMore}
 											<div class="muted chevron" class:expanded={isExpanded} style="display: flex; align-items: center;">
 												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -175,15 +180,21 @@
 							</tr>
 							{#if isExpanded}
 								{#each records.slice(1) as subRecord (subRecord.record_id)}
-									<tr class={subRecord.position <= 3 ? `row-rank-${subRecord.position}` : ''} style="background: color-mix(in srgb, var(--color-surface-2) 40%, transparent);">
+									{@const subParts = formatBossNameParts(subRecord.display_name, subRecord.category)}
+									<tr class="" style="background: color-mix(in srgb, var(--color-surface-2) 40%, transparent);">
 										<td data-label="Rank" class="num mono {rankClass(subRecord.position)}" style="padding-left: var(--space-4); text-align: left;">
 											#{subRecord.position}
 										</td>
 										<td data-label="Boss" style="padding-left: var(--space-2);">
-											<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
-											<a href={guildPath(guildId, `/bosses/${encodeURIComponent(subRecord.boss_name)}`)} class="desktop-hidden" style="font-weight: 500;">
-												{formatBossName(subRecord.display_name, subRecord.category)}
-											</a>
+											<div class="cluster cluster-sm">
+												<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
+												<a href={guildPath(guildId, `/bosses/${encodeURIComponent(subRecord.boss_name)}`)} class="desktop-hidden" style="font-weight: 500; color: var(--color-text-muted);">
+													{#if subParts.categoryText}
+														<span class="muted">{subParts.categoryText}</span>
+													{/if}
+													<span style="color: var(--color-text);">{subParts.bossText}</span>
+												</a>
+											</div>
 										</td>
 										<td data-label="Value" class="num">
 											<ValueDisplay value={subRecord.value} type={subRecord.value_type} showBadge={true} />

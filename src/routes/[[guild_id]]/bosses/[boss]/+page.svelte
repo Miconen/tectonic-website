@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
 	import { formatDate } from '$lib/format/time';
-	import { formatBossName } from '$lib/format/boss';
+	import { formatBossNameParts } from '$lib/format/boss';
 	import { rankClass } from '$lib/format/points';
 	import ValueDisplay from '$lib/components/ValueDisplay.svelte';
 	import UserChip from '$lib/components/UserChip.svelte';
@@ -10,6 +10,8 @@
 
 	let { data }: { data: PageData } = $props();
 	let guildId = $derived($page.params.guild_id as string | undefined);
+	
+	let bossParts = $derived(formatBossNameParts(data.boss.display_name, data.boss.category));
 </script>
 
 <svelte:head>
@@ -23,7 +25,12 @@
 		</nav>
 		<div class="row-between" style="align-items: flex-start;">
 			<div class="stack-sm" style="gap: var(--space-2); margin-top: 0;">
-				<h1 class="display" style="font-size: 2.5rem; margin: 0;">{data.boss.display_name}</h1>
+				<h1 class="display" style="font-size: 2.5rem; margin: 0;">
+					{#if bossParts.categoryText}
+						<span class="muted">{bossParts.categoryText}</span>
+					{/if}
+					{bossParts.bossText}
+				</h1>
 			</div>
 			<div class="cluster cluster-sm" style="margin-top: 8px;">
 				<span class="badge">{data.boss.category}</span>
