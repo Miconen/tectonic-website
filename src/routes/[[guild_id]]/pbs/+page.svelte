@@ -106,7 +106,8 @@
 		<table class="table table-collapse-mobile">
 			<thead>
 				<tr>
-					<th style="cursor: pointer; padding-left: var(--space-4);" onclick={() => setSort('boss')}>Boss</th>
+					<th style="width: 4rem; padding-left: var(--space-4);">Rank</th>
+					<th style="cursor: pointer; padding-left: var(--space-2);" onclick={() => setSort('boss')}>Boss</th>
 					<th class="num" style="cursor: pointer;" onclick={() => setSort('value')}>Value</th>
 					<th class="desktop-only">Holders</th>
 					<th class="desktop-only" style="cursor: pointer; padding-right: var(--space-4);" onclick={() => setSort('date')}>Date</th>
@@ -119,10 +120,10 @@
 				{@const stats = groupStats(bossEntries, catGroup.allRows)}
 				<tbody>
 					{#if index > 0}
-						<tr><td colspan="4" style="height: 2rem; padding: 0; border: none;"></td></tr>
+						<tr><td colspan="5" style="height: 2rem; padding: 0; border: none;"></td></tr>
 					{/if}
 					<tr style="background: transparent;">
-						<td colspan="4" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
+						<td colspan="5" style="padding: var(--space-2) var(--space-4); border-bottom: 2px solid var(--color-border); border-top: none;">
 							<div class="cluster" style="gap: var(--space-3);">
 								{#if catGroup.allRows[0].category_thumbnail}
 									<img src={catGroup.allRows[0].category_thumbnail} alt="" style="width: 2rem; height: 2rem; object-fit: contain;" />
