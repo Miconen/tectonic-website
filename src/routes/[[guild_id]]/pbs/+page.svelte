@@ -130,7 +130,7 @@
 								</a>
 							</td>
 							<td data-label="Value" class="num">
-								<ValueDisplay value={row.value} type={row.value_type} />
+								<ValueDisplay value={row.value} type={row.value_type} showBadge={true} />
 							</td>
 							<td data-label="Team" class="desktop-only">
 								{#if row.holders.length > 0}
@@ -175,7 +175,7 @@
 								</a>
 							</td>
 								<td data-label="Value" class="num">
-									<ValueDisplay value={row.value} type={row.value_type} />
+									<ValueDisplay value={row.value} type={row.value_type} showBadge={true} />
 								</td>
 							<td class="desktop-only">
 								{#if row.holders.length > 0}

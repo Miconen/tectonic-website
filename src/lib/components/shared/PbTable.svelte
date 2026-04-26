@@ -103,7 +103,7 @@
 					</td>
 					
 					<td data-label="Value" class="num nowrap" style="vertical-align: top; padding-top: calc(var(--space-2) + 2px); {!showDate && !showHolders ? 'padding-right: var(--space-4);' : ''}">
-						<ValueDisplay value={pb.value} type={pb.value_type} />
+						<ValueDisplay value={pb.value} type={pb.value_type} showBadge={true} />
 					</td>
 					
 					{#if showHolders}
