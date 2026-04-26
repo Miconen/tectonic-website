@@ -15,12 +15,12 @@
 
 <div class="stat-item">
 	<span class="tiny muted">{label}</span>
-	<div class="stat-val cluster cluster-sm" style="color: {color ?? 'var(--color-text)'};">
+	<div class="stat-val cluster cluster-sm" style="color: {color ?? 'var(--color-text)'}; flex-wrap: nowrap;">
 		{#if iconUrl}
-			<img src={iconUrl} alt="" style="width: 18px; height: 18px; image-rendering: pixelated;" />
+			<img src={iconUrl} alt="" style="width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0;" />
 		{/if}
 		{#if value !== undefined}
-			{value}
+			<span style="white-space: nowrap;">{value}</span>
 		{/if}
 		{@render children?.()}
 	</div>
