@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatRankIcon } from '$lib/format/points';
+	import { getRankIconUrl } from '$lib/format/points';
 
 	interface Props {
 		label: string;
@@ -9,13 +9,15 @@
 		children?: import('svelte').Snippet;
 	}
 	let { label, value, color, icon, children }: Props = $props();
+
+	let iconUrl = $derived(getRankIconUrl(icon));
 </script>
 
 <div class="stat-item">
 	<span class="tiny muted">{label}</span>
 	<div class="stat-val cluster cluster-sm" style="color: {color ?? 'var(--color-text)'};">
-		{#if icon}
-			<img src="/icons/Clan_icon_-_{formatRankIcon(icon)}.png" alt="" style="width: 18px; height: 18px; image-rendering: pixelated;" />
+		{#if iconUrl}
+			<img src={iconUrl} alt="" style="width: 18px; height: 18px; image-rendering: pixelated;" />
 		{/if}
 		{#if value !== undefined}
 			{value}

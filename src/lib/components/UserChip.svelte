@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { getTierForPoints, formatRankIcon } from '$lib/format/points';
+	import { getTierForPoints, getRankIconUrl } from '$lib/format/points';
 	import type { GuildRankResponse } from '$lib/api/types';
 
 	interface Props {
@@ -13,12 +13,12 @@
 
 	let guildId = $derived($page.params.guild_id as string | undefined);
 	let ranks = $derived(($page.data.ranks as GuildRankResponse[]) || []);
-	let iconName = $derived(formatRankIcon(getTierForPoints(points, ranks)?.icon));
+	let iconUrl = $derived(getRankIconUrl(getTierForPoints(points, ranks)?.icon));
 </script>
 
 <a class="chip" href={guildPath(guildId, `/users/${encodeURIComponent(rsn)}`)}>
-	{#if iconName}
-		<img src="/icons/Clan_icon_-_{iconName}.png" alt="" class="user-icon" />
+	{#if iconUrl}
+		<img src={iconUrl} alt="" class="user-icon" />
 	{/if}
 	{display ?? rsn}
 </a>

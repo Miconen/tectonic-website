@@ -199,7 +199,9 @@
 							{@const hasMore = records.length > 1}
 							<tr class={topRecord.position <= 3 ? `row-rank-${topRecord.position}` : ''} style="cursor: {hasMore ? 'pointer' : 'default'};" onclick={() => hasMore && toggleBoss(bossName)}>
 								<td data-label="Rank" class="num mono {rankClass(topRecord.position)}" style="padding-left: var(--space-4); text-align: left;">
-									#{topRecord.position}
+									{#if isExpanded}
+										#{topRecord.position}
+									{/if}
 								</td>
 								<td data-label="Boss" style="padding-left: var(--space-2);">
 									<div class="row-between" style="gap: var(--space-2);">

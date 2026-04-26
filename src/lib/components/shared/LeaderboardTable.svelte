@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, rankClass, getTierForPoints, formatRankIcon } from '$lib/format/points';
+	import { formatPoints, rankClass, getTierForPoints, getRankIconUrl } from '$lib/format/points';
 	import type { LeaderboardUser, GuildRankResponse } from '$lib/api/types';
 
 	interface Props {
@@ -80,13 +80,13 @@
 				{@const primary = u.rsns?.[0]?.rsn ?? u.user_id}
 				{@const display = u.discordName ?? primary}
 				{@const allRsns = (u.rsns ?? []).map(r => r.rsn)}
-				{@const iconName = formatRankIcon(getTierForPoints(u.points, ranks)?.icon)}
+				{@const iconUrl = getRankIconUrl(getTierForPoints(u.points, ranks)?.icon)}
 				<tr class={rank <= 3 ? `row-rank-${rank}` : ''}>
 					<td data-label="Rank" class={rankClass(rank)} style="padding-left: var(--space-4);">#{rank}</td>
 					<td data-label="Player">
 						<a href={guildPath(guildId, `/users/${encodeURIComponent(primary)}`)} style="font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-1);">
-							{#if iconName}
-								<img src="/icons/Clan_icon_-_{iconName}.png" alt="" style="width: 13px; height: 13px; image-rendering: pixelated;" />
+							{#if iconUrl}
+								<img src={iconUrl} alt="" style="width: 13px; height: 13px; image-rendering: pixelated;" />
 							{/if}
 							{display}
 						</a>

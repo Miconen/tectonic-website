@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { guildPath } from '$lib/api/paths';
-	import { formatPoints, formatRankIcon, formatRankText } from '$lib/format/points';
+	import { formatPoints, getRankIconUrl, formatRankText } from '$lib/format/points';
 	import StatStrip from '$lib/components/shared/StatStrip.svelte';
 	import StatItem from '$lib/components/shared/StatItem.svelte';
 	import type { PageData } from './$types';
@@ -40,12 +40,11 @@
 					</thead>
 					<tbody>
 						{#each data.ranks as rank (rank.name)}
+							{@const iconUrl = getRankIconUrl(rank.icon)}
 							<tr>
 								<td data-label="Icon" style="padding-left: var(--space-4); text-align: center;">
-									{#if rank.icon}
-										<!-- Assuming the rank.icon returned by API maps directly to our local files, 
-										     e.g., "Wrath" -> "/icons/Clan_icon_-_Wrath.png" -->
-										<img src="/icons/Clan_icon_-_{formatRankIcon(rank.icon)}.png" alt="" style="width: 24px; height: 24px; image-rendering: pixelated; display: block; margin: 0 auto;" />
+									{#if iconUrl}
+										<img src={iconUrl} alt="" style="width: 24px; height: 24px; image-rendering: pixelated; display: block; margin: 0 auto;" />
 									{:else}
 										<span class="muted">—</span>
 									{/if}
