@@ -138,14 +138,12 @@
 							{@const hasMore = records.length > 1}
 							{@const parts = formatBossNameParts(topRecord.display_name, topRecord.category)}
 							<tr class={topRecord.position <= 3 ? `row-rank-${topRecord.position}` : ''} style="cursor: {hasMore ? 'pointer' : 'default'};" onclick={() => hasMore && toggleBoss(bossName)}>
-								<td data-label="Rank" class="num mono {rankClass(topRecord.position)}" style="padding-left: var(--space-4); text-align: left;">
-									{#if isExpanded}
-										#{topRecord.position}
-									{/if}
-								</td>
-								<td data-label="Boss" style="padding-left: var(--space-2);">
+								<td data-label="Boss" style="padding-left: var(--space-4);">
 									<div class="row-between" style="gap: var(--space-2);">
 										<div class="cluster cluster-sm">
+											{#if isExpanded}
+												<span class="num mono {rankClass(topRecord.position)}">#{topRecord.position}</span>
+											{/if}
 											<a href={guildPath(guildId, `/bosses/${encodeURIComponent(topRecord.boss_name)}`)} style="font-weight: 500; color: var(--color-text-muted);" onclick={(e) => e.stopPropagation()}>
 												{#if parts.categoryText}
 													<span class="muted">{parts.categoryText}</span>
@@ -182,12 +180,10 @@
 								{#each records.slice(1) as subRecord (subRecord.record_id)}
 									{@const subParts = formatBossNameParts(subRecord.display_name, subRecord.category)}
 									<tr class="" style="background: color-mix(in srgb, var(--color-surface-2) 40%, transparent);">
-										<td data-label="Rank" class="num mono {rankClass(subRecord.position)}" style="padding-left: var(--space-4); text-align: left;">
-											#{subRecord.position}
-										</td>
-										<td data-label="Boss" style="padding-left: var(--space-2);">
+										<td data-label="Boss" style="padding-left: var(--space-4);">
 											<div class="cluster cluster-sm">
 												<span class="muted mobile-hidden" style="padding-left: 1rem;">↳</span>
+												<span class="num mono {rankClass(subRecord.position)}">#{subRecord.position}</span>
 												<a href={guildPath(guildId, `/bosses/${encodeURIComponent(subRecord.boss_name)}`)} class="desktop-hidden" style="font-weight: 500; color: var(--color-text-muted);">
 													{#if subParts.categoryText}
 														<span class="muted">{subParts.categoryText}</span>
