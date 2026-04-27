@@ -13,6 +13,7 @@ body {
 	margin: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	-webkit-tap-highlight-color: transparent;
 }
 
 h1, h2, h3, h4 {
@@ -209,7 +210,12 @@ a:hover {
 	font-weight: 500;
 	white-space: nowrap;
 }
-.table tbody tr:hover {
+@media (hover: hover) {
+	.table tbody tr:hover {
+		background: var(--color-surface-2);
+	}
+}
+.table tbody tr:active {
 	background: var(--color-surface-2);
 }
 .table tbody tr:last-child td {
@@ -241,7 +247,7 @@ a:hover {
 	}
 	.table-collapse-mobile tbody tr td {
 		border: none;
-		padding: 0;
+		padding: 0 !important;
 		text-align: left !important;
 		display: flex;
 		flex-direction: column;

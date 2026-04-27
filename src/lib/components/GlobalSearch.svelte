@@ -239,6 +239,9 @@
 	.result-item:hover {
 		background: var(--color-surface-2);
 	}
+	.result-item:active {
+		background: var(--color-surface-2);
+	}
 
 	.result-main {
 		display: flex;
