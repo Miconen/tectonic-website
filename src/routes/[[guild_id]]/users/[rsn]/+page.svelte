@@ -47,7 +47,7 @@
 				{#if data.user.rank != null}
 					<span class={rankClass(data.user.rank)} style="font-size: 1.25rem; line-height: 1;">#{data.user.rank}</span>
 				{/if}
-				<span style="line-height: 1;">{data.discordName ?? data.primaryRsn}</span>
+				<span style="line-height: 1;" title="Discord ID: {data.user.user_id}">{data.discordName ?? data.primaryRsn}</span>
 			</h1>
 			{#if (data.user.achievements ?? []).length > 0}
 				<div class="cluster cluster-sm" style="margin-left: var(--space-2);">
