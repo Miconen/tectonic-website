@@ -81,17 +81,23 @@
 			<StatItem label="Rank" value={formatRankText(userTier.name)} icon={userTier.icon} color="var(--color-text)" />
 		{/if}
 		<StatItem label="Points" value={formatPoints(data.user.points)} color="var(--color-accent)" />
+		
 		{#if recordFirsts > 0 || recordSeconds > 0 || recordThirds > 0}
 			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
 			{#if recordFirsts > 0}<StatItem label="Record #1s" value={recordFirsts} color="var(--color-gold)" />{/if}
 			{#if recordSeconds > 0}<StatItem label="Record #2s" value={recordSeconds} color="var(--color-silver)" />{/if}
 			{#if recordThirds > 0}<StatItem label="Record #3s" value={recordThirds} color="var(--color-bronze)" />{/if}
 		{/if}
+		
+		{#if eventWins > 0 || eventSeconds > 0 || eventThirds > 0}
+			<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
+			{#if eventWins > 0}<StatItem label="Event #1s" value={eventWins} color="var(--color-gold)" />{/if}
+			{#if eventSeconds > 0}<StatItem label="Event #2s" value={eventSeconds} color="var(--color-silver)" />{/if}
+			{#if eventThirds > 0}<StatItem label="Event #3s" value={eventThirds} color="var(--color-bronze)" />{/if}
+		{/if}
+
 		<div style="width: 1px; height: 2rem; background: var(--color-border); margin: auto var(--space-2);"></div>
 		<StatItem label="Bingo Wins" value={bingoWins} color={bingoWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
-		<StatItem label="Event #1s" value={eventWins} color={eventWins > 0 ? "var(--color-gold)" : "var(--color-text-muted)"} />
-		<StatItem label="Event #2s" value={eventSeconds} color={eventSeconds > 0 ? "var(--color-silver)" : "var(--color-text-muted)"} />
-		<StatItem label="Event #3s" value={eventThirds} color={eventThirds > 0 ? "var(--color-bronze)" : "var(--color-text-muted)"} />
 	</StatStrip>
 
 	<!-- PBs held (Full Width) -->
