@@ -210,14 +210,6 @@ a:hover {
 	font-weight: 500;
 	white-space: nowrap;
 }
-@media (hover: hover) {
-	.table tbody tr:hover {
-		background: var(--color-surface-2);
-	}
-}
-.table tbody tr:active {
-	background: var(--color-surface-2);
-}
 .table tbody tr:last-child td {
 	border-bottom: none;
 }
