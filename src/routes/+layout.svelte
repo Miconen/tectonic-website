@@ -34,6 +34,10 @@
 
 <TopProgress />
 
+<div class="wip-banner">
+	<strong>Work in progress</strong> &nbsp;—&nbsp; Features may break and the domain will change in the future.
+</div>
+
 <Header />
 <!-- Dim content while navigating -->
 <main class="container" class:navigating={!!$navigating}>
