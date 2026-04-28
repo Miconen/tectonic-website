@@ -407,17 +407,43 @@ input[type='text']:focus {
 
 /* ---------- misc ---------- */
 .wip-banner {
-	background: color-mix(in srgb, var(--color-warning) 20%, var(--color-bg));
+	background: color-mix(in srgb, var(--color-warning) 15%, var(--color-bg));
 	color: var(--color-text);
-	text-align: center;
-	padding: var(--space-2) var(--space-4);
 	font-size: 0.8125rem;
 	font-weight: 500;
 	border-bottom: 1px solid color-mix(in srgb, var(--color-warning) 30%, var(--color-border));
 }
+.wip-banner-inner {
+	max-width: 80rem;
+	margin-inline: auto;
+	padding: var(--space-2) var(--space-4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	text-align: center;
+}
 .wip-banner strong {
 	color: var(--color-warning);
 	font-weight: 600;
+}
+.wip-close {
+	position: absolute;
+	right: var(--space-2);
+	background: transparent;
+	border: none;
+	color: var(--color-text-muted);
+	padding: var(--space-2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border-radius: var(--radius-sm);
+	transition: background 120ms, color 120ms;
+}
+.wip-close:hover {
+	background: color-mix(in srgb, var(--color-text) 10%, transparent);
+	color: var(--color-text);
 }
 
 .empty-state {
