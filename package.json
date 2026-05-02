@@ -10,7 +10,7 @@
     "start": "node build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "types:api": "openapi-typescript ./openapi.json -o ./src/lib/api/types.gen.ts",
+    "types:api": "node scripts/update-api.js",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write ."
   },
