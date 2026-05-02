@@ -63,7 +63,7 @@
 					<PbTable 
 						rows={data.latestPbs} 
 						{guildId} 
-						contextualBossName={false} 
+						contextualBossName={true} 
 						bossWrap="single-line" 
 					/>
 				{/if}
